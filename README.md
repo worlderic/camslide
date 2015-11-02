@@ -1,5 +1,5 @@
 # CamSlide
-CamSlide is an Arduino based embedded system to slide a camera seideways on a guide rail for time-lapse shots.
+CamSlide is an Arduino based embedded system to slide a camera sideways on a guide rail for time-lapse shots.
 There are several settings, which are set via a display and a 4-button user interface.
 
 #####Please note:

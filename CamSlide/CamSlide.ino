@@ -1,15 +1,17 @@
 // #####################################################################################################################
-// ######################################### CAM SLIDE 1.0.0 ###########################################################
+// ######################################### CAM SLIDE #################################################################
 // #####################################################################################################################
 /*
     DELOARTS RESEARCH INC.
-    CAM SLIDE 1.0.0
+    CAM SLIDE 1.0.1
 	02.11.2015
 	
 	DESCRIPTION
 
 		CamSlide is an Arduino based embedded system to slide a camera sideways on a guide rail for time-lapse shots.
 		There are several settings, which are set via a display and a 4-button user interface.
+
+		This project was compiled with the Arduino IDE 1.6.6
 
 	MICROCONTROLLER
 		- Arduino UNO Rev3

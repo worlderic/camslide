@@ -2,29 +2,29 @@
 // ######################################### LANGUAGE ##################################################################
 // #####################################################################################################################
 // MENU
-PROGMEM const prog_char LCD_Menu_Header[] 			= "- MENU -";
-PROGMEM const prog_char LCD_Menu_Start[] 			= "Start Process";
-PROGMEM const prog_char LCD_Menu_Way[] 				= "Way";
-PROGMEM const prog_char LCD_Menu_Delay[] 			= "Del";
-PROGMEM const prog_char LCD_Menu_Repeats[] 			= "Rep";
-PROGMEM const prog_char LCD_Menu_Shutter_Speed[] 	= "Shu";
-PROGMEM const prog_char LCD_Menu_Auto_Focus[] 		= "Autofocus";
-PROGMEM const prog_char LCD_Menu_Mirror_Lockup[] 	= "Mirror L.";
+const char LCD_Menu_Header[] PROGMEM			= "- MENU -";
+const char LCD_Menu_Start[] PROGMEM 			= "Start Process";
+const char LCD_Menu_Way[] PROGMEM				= "Way";
+const char LCD_Menu_Delay[] PROGMEM				= "Del";
+const char LCD_Menu_Repeats[] PROGMEM			= "Rep";
+const char LCD_Menu_Shutter_Speed[] PROGMEM		= "Shu";
+const char LCD_Menu_Auto_Focus[] PROGMEM		= "Autofocus";
+const char LCD_Menu_Mirror_Lockup[] PROGMEM		= "Mirror L.";
 // NUMBERS
-PROGMEM const prog_char LCD_Numbers_Way[] 			= "- SET WAY -";
-PROGMEM const prog_char LCD_Numbers_Delay[]	 		= "- SET DELAY -";
-PROGMEM const prog_char LCD_Numbers_Repeats[] 		= "- SET REPEATS -";
-PROGMEM const prog_char LCD_Numbers_Shutter_Speed[] = "- SHUTTER SP. -";
+const char LCD_Numbers_Way[] PROGMEM			= "- SET WAY -";
+const char LCD_Numbers_Delay[]	PROGMEM 		= "- SET DELAY -";
+const char LCD_Numbers_Repeats[] PROGMEM		= "- SET REPEATS -";
+const char LCD_Numbers_Shutter_Speed[] PROGMEM 	= "- SHUTTER SP. -";
 // STATES
-PROGMEM const prog_char LCD_State_On[] 				= " On";
-PROGMEM const prog_char LCD_State_Off[] 			= "Off";
+const char LCD_State_On[] PROGMEM				= " On";
+const char LCD_State_Off[] PROGMEM				= "Off";
 // UNITS
-PROGMEM const prog_char LCD_Unit_Millimeter[]       = "millimeter";
-PROGMEM const prog_char LCD_Unit_mm[] 		  		= "mm";
-PROGMEM const prog_char LCD_Unit_Hours[] 		  	= " hours ";
-PROGMEM const prog_char LCD_Unit_Minutes[] 		  	= "minutes";
-PROGMEM const prog_char LCD_Unit_Seconds[] 		  	= "seconds";
-PROGMEM const prog_char LCD_Unit_sec[] 		  		= "sec";
+const char LCD_Unit_Millimeter[] PROGMEM      	= "millimeter";
+const char LCD_Unit_mm[] PROGMEM		  		= "mm";
+const char LCD_Unit_Hours[] PROGMEM		  		= " hours ";
+const char LCD_Unit_Minutes[] PROGMEM		  	= "minutes";
+const char LCD_Unit_Seconds[] PROGMEM		  	= "seconds";
+const char LCD_Unit_sec[] PROGMEM		  		= "sec";
 // ##################################################################################################################### 
 // ######################################### BITMAPS ###################################################################
 // #####################################################################################################################

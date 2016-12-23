@@ -17,24 +17,97 @@
 
 		There is no need to change the pin occupancy, when the UNO is replaced with the Nano, and vice versa.
 		Just be careful, that you change the board in the settings!
-*/
+
+	PINOUT
+
+		Arduino |	Driver 		|	Display 	| 	Interface 	| 	Sensor 	| 	Controller 	| 	Camera
+		  D0 	|	  			|				|				|			|				|	  
+		  D1 	|	  			|				|				|			|				|	  
+		  D2 	|	  Enable 	|				|				|			|				|	  
+		  D3 	|	  DIR 		|				|				|			|				|	  
+		  D4 	|	  STEP 		|				|				|			|				|	  
+		  D5 	|	  M0 		|				|				|			|				|	  
+		  D6 	|	  M1 		|				|				|			|				|	  
+		  D7 	|	  M2 		|				|				|			|				|	  
+		  D8 	|	  			|				|				|	  S1	|				|	  
+		  D9 	|	  			|				|				|			|	  S2		|	  
+		  D10 	|	  			|				|				|			|	  S3		|	  
+		  D11 	|	  			|				|				|			|	  S4		|	  
+		  D12 	|	  			|				|				|			|				|	  Focus	  
+		  D13 	|	  			|				|				|			|				|	  Trigger
+		  A1 	|	  			|				|				|			|				|	  
+		  A2 	|	  			|				|				|			|				|	  
+		  A3	|	  			|				|				|			|				|	  
+		  A4	|	  			|	  SDA		|	  SDA		|			|				|	  
+		  A5	|	  			|	  SCL		|	  SCL		|			|				|	  
+		  A6	|	  			|				|				|			|	  X			|	  
+		  A7	|	  			|				|				|			|	  Y			|	  
+
+	EEPROM
+		- 0: Calibrated X-axis minimum
+		- 1: Calibrated X-axis maximum
+		- 2: Calibrated Y-axis minimum
+		- 3: Calibrated Y-axis maximum
+
+*/	
 // #####################################################################################################################
 // ######################################### VARIABLES #################################################################
 // #####################################################################################################################
+#include <EEPROM.h>
 
+#define DRV8825_ENBL	2
+#define DRV8825_DIR		3
+#define DRV8825_STEP	4
+#define DRV8825_M0		5
+#define DRV8825_M1		6
+#define DRV8825_M2		7
+
+#define Sensor 			8
+
+#define Controller_A	9
+#define Controller_B	10
+#define Controller_X	A6
+#define Controller_Y	A7
+#define Controller_Z	11
+
+#define Camera_Focus	12
+#define Camera_Trigger	13
+
+struct inputData
+{
+	int X, Y, XMin, XMax, YMin, YMax;
+	boolean A, B, Z;
+} controller;
 // #####################################################################################################################  
 // ######################################### SETUP #####################################################################
 // #####################################################################################################################
 void setup()
 {
+	pinMode(DRV8825_ENBL,   OUTPUT);
+	pinMode(DRV8825_DIR,    OUTPUT);
+	pinMode(DRV8825_STEP,   OUTPUT);
+	pinMode(DRV8825_M0,     OUTPUT);
+	pinMode(DRV8825_M1,     OUTPUT);
+	pinMode(DRV8825_M2,     OUTPUT);
+	pinMode(Sensor,         INPUT);
+	pinMode(Controller_A,   INPUT);
+	pinMode(Controller_B,   INPUT);
+	pinMode(Controller_Z,   INPUT);
+	pinMode(Camera_Focus,   OUTPUT);
+	pinMode(Camera_Trigger, OUTPUT);
 
+	controller.A = controller.B = controller.X = controller.Y = controller.Z = 0;
+	controller.XMin = EEPROM.read(0);
+	controller.XMax = EEPROM.read(1);
+	controller.YMin = EEPROM.read(2);
+	controller.YMax = EEPROM.read(3);
 }
 // #####################################################################################################################
 // ######################################### LOOP ######################################################################
 // #####################################################################################################################
 void loop()
 {
-
+	getControllerData(true); // true for the calibration
 }
 // #####################################################################################################################  
 // ######################################### END OF CODE ###############################################################

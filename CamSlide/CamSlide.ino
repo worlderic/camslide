@@ -53,6 +53,8 @@
 // #####################################################################################################################
 // ######################################### VARIABLES #################################################################
 // #####################################################################################################################
+#define D3BUG
+
 #include <EEPROM.h>
 
 #define DRV8825_ENBL	2
@@ -83,6 +85,10 @@ struct inputData
 // #####################################################################################################################
 void setup()
 {
+	#ifdef D3BUG
+	Serial.begin(9600);
+	#endif
+
 	pinMode(DRV8825_ENBL,   OUTPUT);
 	pinMode(DRV8825_DIR,    OUTPUT);
 	pinMode(DRV8825_STEP,   OUTPUT);
@@ -97,6 +103,7 @@ void setup()
 	pinMode(Camera_Trigger, OUTPUT);
 
 	controller.A = controller.B = controller.X = controller.Y = controller.Z = 0;
+
 	controller.XMin = EEPROM.read(0);
 	controller.XMax = EEPROM.read(1);
 	controller.YMin = EEPROM.read(2);

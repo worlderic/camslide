@@ -43,6 +43,18 @@ void calibrateController()
 	controller.XMax = bufferXMax;
 	controller.YMin = bufferYMin;
 	controller.YMax = bufferYMax;
+
+	EEPROM.write(0, controller.XMin);
+	EEPROM.write(1, controller.XMax);
+	EEPROM.write(2, controller.YMin);
+	EEPROM.write(3, controller.YMax);
+
+	#ifdef D3BUG
+	Serial.print(F("\nCalibrated data:"));
+	Serial.print(F("\n  X: ") + controller.XMin + F(" | ") + controller.XMax);
+	Serial.print(F("\n  Y: ") + controller.YMin + F(" | ") + controller.YMax);
+	delay(1000);
+	#endif
 }
 // #####################################################################################################################  
 // ######################################### END OF CODE ###############################################################

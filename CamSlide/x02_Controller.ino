@@ -22,6 +22,14 @@ void getControllerData(boolean mapData)
 
 void calibrateController()
 {
+	lcd.clearDisplay();
+	printString(lcdCalibrateDisplay01, 0, 0);
+	printString(lcdCalibrateDisplay02, 0, 1);
+	printString(lcdCalibrateDisplay03, 0, 2);
+	printString(lcdCalibrateDisplay04, 0, 3);
+	printString(lcdCalibrateDisplay05, 0, 5);
+	printString(lcdCalibrateDisplay06, 0, 6);
+
 	int bufferXMin = 1023;
 	int bufferXMax = 0;
 	int bufferYMin = 1023;
@@ -49,10 +57,16 @@ void calibrateController()
 	EEPROM.write(2, controller.YMin);
 	EEPROM.write(3, controller.YMax);
 
+	lcd.clearDisplay();
+	printString(lcdCalibrateDisplay07, 0, 0);
+	printString(lcdCalibrateDisplay08, 0, 1);
+	printString(lcdCalibrateDisplay09, 0, 2);
+	printString(lcdCalibrateDisplay10, 0, 3);
+
 	#ifdef D3BUG
 	Serial.print(F("\nCalibrated data:"));
-	Serial.print(F("\n  X: ") + controller.XMin + F(" | ") + controller.XMax);
-	Serial.print(F("\n  Y: ") + controller.YMin + F(" | ") + controller.YMax);
+	Serial.print("\n  X: " + controller.XMin + controller.XMax);
+	Serial.print("\n  Y: " + controller.YMin + controller.YMax);
 	delay(1000);
 	#endif
 }

@@ -3,6 +3,13 @@
 // #####################################################################################################################
 void getControllerData(boolean mapData)
 {
+	controllerPrev.A = contrller.A;
+	controllerPrev.B = contrller.B;
+	controllerPrev.Z = contrller.Z;
+
+	controllerPrev.X = controller.X;
+	controllerPrev.Y = controller.Y;
+
 	controller.A = digitalRead(Controller_A);
 	controller.B = digitalRead(Controller_B);
 	controller.Z = digitalRead(Controller_Z);

@@ -35,6 +35,14 @@ void boot()
 	controller.XMax = EEPROM.read(1);
 	controller.YMin = EEPROM.read(2);
 	controller.YMax = EEPROM.read(3);
+
+	mainMenu.index = photoMenu.index = videoMenu.index = manualMenu.index = settingsMenu.index = 0;
+	mainMenu.maxIndex = 2;
+	photoMenu.maxIndex = 1;
+	videoMenu.maxIndex = 1;
+	settingsMenu.maxIndex = 1;
+	mainMenu.active = true;
+	photoMenu.active = videoMenu.active = manualMenu = settingsMenu.active = false;
 }
 // #####################################################################################################################  
 // ######################################### END OF CODE ###############################################################

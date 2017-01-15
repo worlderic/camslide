@@ -52,6 +52,7 @@
 	MENU
 		- Photo
 		- Video
+		- Manual
 		- Settings
 
 */	
@@ -87,8 +88,9 @@ struct inputData
 
 struct menu 
 {
-	byte index;
-} mainMenu, settingsMenu, 
+	int index, maxIndex;
+	boolean active;
+} mainMenu, photoMenu, videoMenu, manualMenu, settingsMenu, 
 
 void setup()
 {
@@ -101,7 +103,7 @@ void setup()
 void loop()
 {
 	getControllerData(true); // true for the calibration
-	setMenu();
+	if (setMenu()) printMenu();
 }
 // #####################################################################################################################  
 // ######################################### END OF CODE ###############################################################

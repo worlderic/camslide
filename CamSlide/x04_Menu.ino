@@ -16,14 +16,14 @@
 boolean setMenu()
 {
 	// X & Y are in a range where they can vary.
-	boolean left, right;
+	boolean left = false, right = false;
 	if (controller.X < -75)
 		left = true;
 	else if (controller.X > 75)
 		right = true;
-	else 
-		left = right = false;
-	// Now set the menu
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	// MAIN MENU
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 	if (mainMenu.active)
 	{
 		if (left)
@@ -48,6 +48,9 @@ boolean setMenu()
 					videoMenu.active = true;
 					break;
 				case 2:
+					manualMenu.active = true;
+					break;
+				case 3:
 					settingsMenu.active = true;
 					break;
 				default:
@@ -55,21 +58,56 @@ boolean setMenu()
 			}
 		}
 	}
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	// PHOTO MENU
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 	else if (photoMenu.active)
 	{
 
 	}
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	// VIDEO MENU
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 	else if (videoMenu.active)
 	{
 
 	}
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	// MANUAL MENU
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	else if (manualMenu.active)
+	{
+
+	}
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	// SETTINGS MENU
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 	else if (settingsMenu.active)
 	{
 
 	}
 
-	// only print the menu when any value has been changed
-	left || right || controller.X || controller.A || controller.B ? return true : return false;
+	// Hold when a button is pressed
+	unsigned long buttonBHoldingTime = millis() + 1000;
+	while (controller.X < -75 || controller.X > 75 || controller.Y < -75 || controller.Y > 75 || controller.Z || controller.A || controller.B)
+	{
+		getControllerData(true);
+		if (!(controller.X < -75 || controller.X > 75 || controller.Y < -75 || controller.Y > 75 || controller.Z || controller.A || controller.B))
+		{
+			delay(50);
+			return true;
+		}
+		// Holding the B button for 1 sec will lead to a jump back to the main menu
+		else if (controller.B && millis() > buttonBHoldingTime)
+		{
+			mainMenu.active = true;
+			photoMenu.active = false;
+			videoMenu.active = false;
+			manualMenu.active = false;
+			settingsMenu.active = false;
+		}
+	}
+	return false;
 }
 // #####################################################################################################################
 // ######################################### END OF CODE ###############################################################

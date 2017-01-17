@@ -14,9 +14,9 @@ void boot()
 	pinMode(DRV8825_M1, OUTPUT);
 	pinMode(DRV8825_M2, OUTPUT);
 	pinMode(Sensor, INPUT);
-	pinMode(Controller_A, INPUT);
-	pinMode(Controller_B, INPUT);
-	pinMode(Controller_Z, INPUT);
+	pinMode(Controller_A, INPUT_PULLUP);
+	pinMode(Controller_B, INPUT_PULLUP);
+	pinMode(Controller_Z, INPUT_PULLUP);
 	pinMode(Camera_Focus, OUTPUT);
 	pinMode(Camera_Trigger, OUTPUT);
 
@@ -31,18 +31,20 @@ void boot()
 			calibrateController();
 	}
 
-	controller.XMin = EEPROM.read(0);
-	controller.XMax = EEPROM.read(1);
-	controller.YMin = EEPROM.read(2);
-	controller.YMax = EEPROM.read(3);
+	controller.XMin = (EEPROM.read(0) << 8) | EEPROM.read(1);
+	controller.XMax = (EEPROM.read(2) << 8) | EEPROM.read(3);
+	controller.YMin = (EEPROM.read(4) << 8) | EEPROM.read(5);
+	controller.YMax = (EEPROM.read(6) << 8) | EEPROM.read(7);
 
-	mainMenu.index = photoMenu.index = videoMenu.index = manualMenu.index = settingsMenu.index = 0;
-	mainMenu.maxIndex = 2;
+	mainMenu.index = photoMenu.index = videoMenu.index = settingsMenu.index = 0;
+	mainMenu.maxIndex = 3;
 	photoMenu.maxIndex = 1;
 	videoMenu.maxIndex = 1;
 	settingsMenu.maxIndex = 1;
 	mainMenu.active = true;
-	photoMenu.active = videoMenu.active = manualMenu = settingsMenu.active = false;
+	photoMenu.active = videoMenu.active = manualMenu.active = settingsMenu.active = false;
+
+	printMenu();
 }
 // #####################################################################################################################  
 // ######################################### END OF CODE ###############################################################

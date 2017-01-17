@@ -44,10 +44,10 @@
 		  A7	|	  			|				|				|			|	  Y			|	  
 
 	EEPROM
-		- 0: Calibrated X-axis minimum
-		- 1: Calibrated X-axis maximum
-		- 2: Calibrated Y-axis minimum
-		- 3: Calibrated Y-axis maximum
+		- 0, 1: Calibrated X-axis minimum
+		- 2, 3: Calibrated X-axis maximum
+		- 4, 5: Calibrated Y-axis minimum
+		- 6, 7: Calibrated Y-axis maximum
 
 	MENU
 		- Photo
@@ -90,7 +90,7 @@ struct menu
 {
 	int index, maxIndex;
 	boolean active;
-} mainMenu, photoMenu, videoMenu, manualMenu, settingsMenu, 
+} mainMenu, photoMenu, videoMenu, manualMenu, settingsMenu;
 
 void setup()
 {

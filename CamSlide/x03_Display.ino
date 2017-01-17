@@ -16,7 +16,57 @@ void printString(const char data[], byte column, byte row)
 
 void printMenu()
 {
-	
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	// MAIN MENU
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	if (mainMenu.active)
+	{
+		switch (mainMenu.index)
+		{
+			case 0:
+				lcd.drawBitmap(photoMenuBitmap, 0, 0, 16, 8);
+				break;
+			case 1:
+				lcd.drawBitmap(videoMenuBitmap, 0, 0, 16, 8);
+				break;
+			case 2:
+				lcd.drawBitmap(manualMenuBitmap, 0, 0, 16, 8);
+				break;
+			case 3:
+				lcd.drawBitmap(settingsMenuBitmap, 0, 0, 16, 8);
+				break;
+			default:
+				break;
+		}
+	}
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	// PHOTO MENU
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	else if (photoMenu.active)
+	{
+
+	}
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	// VIDEO MENU
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	else if (videoMenu.active)
+	{
+
+	}
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	// MANUAL MENU
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	else if (manualMenu.active)
+	{
+
+	}
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	// SETTINGS MENU
+	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+	else if (settingsMenu.active)
+	{
+
+	}
 }
 // #####################################################################################################################
 // ######################################### END OF CODE ###############################################################

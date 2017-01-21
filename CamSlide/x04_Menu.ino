@@ -16,19 +16,23 @@
 boolean setMenu()
 {
 	// X & Y are in a range where they can vary.
-	boolean left = false, right = false;
+	boolean left = false, right = false, up = false, down = false;
 	if (controller.X < -75)
 		left = true;
 	else if (controller.X > 75)
 		right = true;
+	if (controller.Y < -75)
+		down = true;
+	else if (controller.Y > 75)
+		up = true;
 	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 	// MAIN MENU
 	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-	if (mainMenu.active)
+	if (!mainMenu.indexActive)
 	{
-		if (left)
+		if (left) 
 			mainMenu.index--;
-		if (right)
+		if (right) 
 			mainMenu.index++;
 
 		if (mainMenu.index < 0)
@@ -38,53 +42,130 @@ boolean setMenu()
 
 		if (controller.A)
 		{
-			mainMenu.active = false;
-			switch (mainMenu.index)
-			{
-				case 0:
-					photoMenu.active = true;
-					break;
-				case 1:
-					videoMenu.active = true;
-					break;
-				case 2:
-					manualMenu.active = true;
-					break;
-				case 3:
-					settingsMenu.active = true;
-					break;
-				default:
-					mainMenu.active = true;
-			}
+			mainMenu.indexActive = true;
+			lcd.clearDisplay();
 		}
 	}
-	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-	// PHOTO MENU
-	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-	else if (photoMenu.active)
+	else 
 	{
+		switch(mainMenu.index)
+		{
+			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+			// PHOTO MENU
+			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+			case 0:
+				if (!photoMenu.indexActive)
+				{
+					if (up)
+						photoMenu.index--;
+					if (down)
+						photoMenu.index++;
 
-	}
-	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-	// VIDEO MENU
-	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-	else if (videoMenu.active)
-	{
+					if (photoMenu.index < 0)
+						photoMenu.index = photoMenu.maxIndex;
+					else if (photoMenu.index > photoMenu.maxIndex)
+						photoMenu.index = 0;
 
-	}
-	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-	// MANUAL MENU
-	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-	else if (manualMenu.active)
-	{
+					if (controller.A)
+					{
+						for (int i = 0; i < 4; i++)
+						{
+							switch (photoMenu.index)
+							{
+								case 0:
+									workingPrev.distance[i] = working.distance[i];
+									break;
+								case 1:
+									workingPrev.repeats[i] = working.repeats[i];
+									break;	
+								case 2:
+									workingPrev.shutter[i] = working.shutter[i];
+									break;
+								case 3:
+									workingPrev.delay[i] = working.delay[i];
+									break;
+							}
+						}
+						lcd.clearDisplay();
+						photoMenu.indexActive = true;
+						selector.index = 0;
+					}
+					if (controller.B)
+					{
+						mainMenu.indexActive = false;
+						lcd.clearDisplay();
+					}
+				}
+				else 
+				{
+					if (right)
+						selector.index + 1 > 3 ? selector.index = 0 : selector.index++;
+					if (left)
+						selector.index - 1 < 0 ? selector.index = 3 : selector.index--;
+					switch (photoMenu.index)
+					{
+						case 0:
+							if (up)
+								working.distance[selector.index] + 1 > 9 ? working.distance[selector.index] = 0 : working.distance[selector.index] ++;
+							if (down)
+								working.distance[selector.index] - 1 < 0 ? working.distance[selector.index] = 9 : working.distance[selector.index] --;
+							if (controller.B)
+								for (int i = 0; i < 4; i++)
+									working.distance[i] = workingPrev.distance[i];
+							break;
+						case 1:
+							if (up)
+								working.repeats[selector.index] + 1 > 9 ? working.repeats[selector.index] = 0 : working.repeats[selector.index] ++;
+							if (down)
+								working.repeats[selector.index] - 1 < 0 ? working.repeats[selector.index] = 9 : working.repeats[selector.index] --;
+							if (controller.B)
+								for (int i = 0; i < 4; i++)
+									working.repeats[i] = workingPrev.repeats[i];
+							break;
+						case 2:
+							if (up)
+								working.shutter[selector.index] + 1 > 9 ? working.shutter[selector.index] = 0 : working.shutter[selector.index] ++;
+							if (down)
+								working.shutter[selector.index] - 1 < 0 ? working.shutter[selector.index] = 9 : working.shutter[selector.index] --;
+							if (controller.B)
+								for (int i = 0; i < 4; i++)
+									working.shutter[i] = workingPrev.shutter[i];
+							break;
+						case 3:
+							if (up)
+								working.delay[selector.index] + 1 > 9 ? working.delay[selector.index] = 0 : working.delay[selector.index] ++;
+							if (down)
+								working.delay[selector.index] - 1 < 0 ? working.delay[selector.index] = 9 : working.delay[selector.index] --;
+							if (controller.B)
+								for (int i = 0; i < 4; i++)
+									working.delay[i] = workingPrev.delay[i];
+							break;
+						case 4: 
+							run();
+							controller.B = true;
+							break;
+					}
 
-	}
-	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-	// SETTINGS MENU
-	// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-	else if (settingsMenu.active)
-	{
+					if (controller.A || controller.B)
+					{
+						photoMenu.indexActive = false;
+						lcd.clearDisplay();
+					}
+				}
+				break;
+			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+			// MANUAL MENU
+			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+			case 1:
 
+				break;
+			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+			// SETTINGS MENU
+			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+			case 2:
+
+				break;
+		}
 	}
 
 	// Hold when a button is pressed
@@ -97,17 +178,29 @@ boolean setMenu()
 			delay(50);
 			return true;
 		}
-		// Holding the B button for 1 sec will lead to a jump back to the main menu
-		else if (controller.B && millis() > buttonBHoldingTime)
-		{
-			mainMenu.active = true;
-			photoMenu.active = false;
-			videoMenu.active = false;
-			manualMenu.active = false;
-			settingsMenu.active = false;
-		}
 	}
 	return false;
+}
+
+void unactiveAll()
+{
+	mainMenu.indexActive = false;
+	photoMenu.indexActive = false;
+	manualMenu.indexActive = false;
+	settingsMenu.indexActive = false;
+}
+
+void zeroAll()
+{
+	for (byte i = 0; i < 4; i++)
+	{
+		working.distance[i] = 0;
+		working.repeats[i] = 0;
+		working.shutter[i] = 0;
+		working.delay[i] = 0;
+	}
+	working.mirrorLockup = false;
+	working.autoFocus = false;
 }
 // #####################################################################################################################
 // ######################################### END OF CODE ###############################################################

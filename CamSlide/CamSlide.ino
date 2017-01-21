@@ -43,17 +43,20 @@
 		  A6	|	  			|				|				|			|	  X			|	  
 		  A7	|	  			|				|				|			|	  Y			|	  
 
-	EEPROM
-		- 0, 1: Calibrated X-axis minimum
-		- 2, 3: Calibrated X-axis maximum
-		- 4, 5: Calibrated Y-axis minimum
-		- 6, 7: Calibrated Y-axis maximum
-
 	MENU
 		- Photo
-		- Video
+			+ Distance
+			+ Repeats
+			+ Shutter Speed
+			+ Delay
+			+ Start
 		- Manual
 		- Settings
+			+ Length
+			+ Speed
+			+ Acceleration
+			+ Mirror Lockup
+			+ Auto Focus
 
 */	
 #define D3BUG
@@ -62,6 +65,7 @@
 #include <OLED_I2C_128x64_Monochrome.h>
 #include <Wire.h>
 
+// DEFINE HARDWARE
 #define DRV8825_ENBL	2
 #define DRV8825_DIR		3
 #define DRV8825_STEP	4
@@ -80,17 +84,47 @@
 #define Camera_Focus	12
 #define Camera_Trigger	13
 
+// DEFINE EEPROM
+#define EEPROM_fail				0x00
+
+#define EEPROM_MSB_curPos		0x01
+#define EEPROM_LSB_curPos		0x02
+
+#define EEPROM_MSB_ctrlMinX		0x0A
+#define EEPROM_LSB_ctrlMinX		0x0B
+#define EEPROM_MSB_ctrlMaxX		0x0C
+#define EEPROM_LSB_ctrlMaxX		0x0D
+#define EEPROM_MSB_ctrlMinY 	0x0E
+#define EEPROM_LSB_ctrlMinY		0x0F
+#define EEPROM_MSB_ctrlMaxY 	0x10
+#define EEPROM_LSB_ctrlMaxY		0x11
+
+#define EEPROM_MSB_maxLength	0x14
+#define EEPROM_LSB_maxLength	0x15
+
+
 struct inputData
 {
 	int X, Y, XMin, XMax, YMin, YMax;
 	boolean A, B, Z;
 } controller, controllerPrev;
 
-struct menu 
+struct menuData
 {
 	int index, maxIndex;
-	boolean active;
-} mainMenu, photoMenu, videoMenu, manualMenu, settingsMenu;
+	boolean indexActive;
+} mainMenu, photoMenu, manualMenu, settingsMenu, selector;
+
+struct sliderData
+{
+	int length, speed, accel, position;
+} slider;
+
+struct workingData
+{
+	int distance[4], repeats[4], shutter[4], delay[4];
+	boolean mirrorLockup, autoFocus;
+} working, workingPrev;
 
 void setup()
 {

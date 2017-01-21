@@ -59,14 +59,14 @@ void calibrateController()
 	controller.YMin = bufferYMin;
 	controller.YMax = bufferYMax;
 
-	EEPROM.write(0, (controller.XMin >> 8) & 0xFF);
-	EEPROM.write(1, controller.XMin & 0xFF);
-	EEPROM.write(2, (controller.XMax >> 8) & 0xFF);
-	EEPROM.write(3, controller.XMax & 0xFF);
-	EEPROM.write(4, (controller.YMin >> 8) & 0xFF);
-	EEPROM.write(5, controller.YMin & 0xFF);
-	EEPROM.write(6, (controller.YMax >> 8) & 0xFF);
-	EEPROM.write(7, controller.YMax & 0xFF);
+	EEPROM.write(EEPROM_MSB_ctrlMinX, (controller.XMin >> 8) & 0xFF);
+	EEPROM.write(EEPROM_LSB_ctrlMinX, controller.XMin & 0xFF);
+	EEPROM.write(EEPROM_MSB_ctrlMaxX, (controller.XMax >> 8) & 0xFF);
+	EEPROM.write(EEPROM_LSB_ctrlMaxX, controller.XMax & 0xFF);
+	EEPROM.write(EEPROM_MSB_ctrlMinY, (controller.YMin >> 8) & 0xFF);
+	EEPROM.write(EEPROM_LSB_ctrlMinY, controller.YMin & 0xFF);
+	EEPROM.write(EEPROM_MSB_ctrlMaxY, (controller.YMax >> 8) & 0xFF);
+	EEPROM.write(EEPROM_LSB_ctrlMaxY, controller.YMax & 0xFF);
 
 	lcd.clearDisplay();
 	printString(lcdCalibrateDisplay07, 0, 0);

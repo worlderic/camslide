@@ -31,19 +31,18 @@ void boot()
 			calibrateController();
 	}
 
-	controller.XMin = (EEPROM.read(0) << 8) | EEPROM.read(1);
-	controller.XMax = (EEPROM.read(2) << 8) | EEPROM.read(3);
-	controller.YMin = (EEPROM.read(4) << 8) | EEPROM.read(5);
-	controller.YMax = (EEPROM.read(6) << 8) | EEPROM.read(7);
+	controller.XMin = (EEPROM.read(EEPROM_MSB_ctrlMinX) << 8) | EEPROM.read(EEPROM_LSB_ctrlMinX);
+	controller.XMax = (EEPROM.read(EEPROM_MSB_ctrlMaxX) << 8) | EEPROM.read(EEPROM_LSB_ctrlMaxX);
+	controller.YMin = (EEPROM.read(EEPROM_MSB_ctrlMinY) << 8) | EEPROM.read(EEPROM_LSB_ctrlMinY);
+	controller.YMax = (EEPROM.read(EEPROM_MSB_ctrlMaxY) << 8) | EEPROM.read(EEPROM_LSB_ctrlMaxY);
 
-	mainMenu.index = photoMenu.index = videoMenu.index = settingsMenu.index = 0;
-	mainMenu.maxIndex = 3;
-	photoMenu.maxIndex = 1;
-	videoMenu.maxIndex = 1;
+	slider.length = (EEPROM.read(EEPROM_MSB_maxLength) << 8) | EEPROM.read(EEPROM_LSB_maxLength);
+
+	mainMenu.maxIndex = 2;
+	photoMenu.maxIndex = 4;
 	settingsMenu.maxIndex = 1;
-	mainMenu.active = true;
-	photoMenu.active = videoMenu.active = manualMenu.active = settingsMenu.active = false;
 
+	unactiveAll();
 	printMenu();
 }
 // #####################################################################################################################  

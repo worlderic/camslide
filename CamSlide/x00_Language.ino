@@ -22,19 +22,20 @@ PROGMEM const char lcdCalibrateDisplay09[] = "calibrated";
 PROGMEM const char lcdCalibrateDisplay10[] = "successfully.";
 
 PROGMEM const char lcdPhotoMenu00[] = "PHOTO MENU";
-PROGMEM const char lcdPhotoMenu01[] = "Dist.";
-PROGMEM const char lcdPhotoMenu02[] = "Repeats";
-PROGMEM const char lcdPhotoMenu03[] = "Shutter";
-PROGMEM const char lcdPhotoMenu04[] = "Delay";
-PROGMEM const char lcdPhotoMenu05[] = "Start";
-
+PROGMEM const char lcdPhotoMenu01[] = " Dist.";
+PROGMEM const char lcdPhotoMenu02[] = " Repeats";
+PROGMEM const char lcdPhotoMenu03[] = " Shutter";
+PROGMEM const char lcdPhotoMenu04[] = " Delay";
+PROGMEM const char lcdPhotoMenu05[] = " Start";
 PROGMEM const char lcdPhotoMenuDistance[] = "DISTANCE";
-
 PROGMEM const char lcdPhotoMenuRepeats[] = "REPEATS";
-
 PROGMEM const char lcdPhotoMenuShutter[] = "SHUTTER SPEED";
-
 PROGMEM const char lcdPhotoMenuDelay[] = "DELAY";
+
+PROGMEM const char lcdRun01[] = "Estimated run";
+PROGMEM const char lcdRun02[] = "time:";
+PROGMEM const char lcdRun03[] = "Press the B-";
+PROGMEM const char lcdRun04[] = "button to exit.";
 
 // #####################################################################################################################
 // ######################################### BITMAP ####################################################################

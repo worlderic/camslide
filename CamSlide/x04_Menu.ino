@@ -4,11 +4,11 @@
 /*	Menu index:
 		- Main menu
 			0: Photo
-			1: Video
+			1: Manual
 			2: Settings
 		- Photo menu
 
-		- Video menu
+		- Manual menu
 
 		- Settings menu
 

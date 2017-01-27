@@ -49,28 +49,28 @@ void printMenu()
 				{
 					printString(lcdPhotoMenu00, 3, 0);
 
-					printString(lcdPhotoMenu01, 1, 2);
-					buffer = working.distance[0] * 1000 + working.distance[1] * 100 + working.distance[2] * 10 + working.distance[3];
+					printString(lcdPhotoMenu01, 0, 2);
+					buffer = arrayToInt(working.distance);
 					printBuffer(buffer, 9, 2);
 					printString(lcdUnitMillimeter, 13, 2);
 
-					printString(lcdPhotoMenu02, 1, 3);
-					buffer = working.repeats[0] * 1000 + working.repeats[1] * 100 + working.repeats[2] * 10 + working.repeats[3];
+					printString(lcdPhotoMenu02, 0, 3);
+					buffer = arrayToInt(working.repeats);
 					printBuffer(buffer, 9, 3);
 
-					printString(lcdPhotoMenu03, 1, 4);
-					buffer = working.shutter[0] * 1000 + working.shutter[1] * 100 + working.shutter[2] * 10 + working.shutter[3];
+					printString(lcdPhotoMenu03, 0, 4);
+					buffer = arrayToInt(working.shutter);
 					printBuffer(buffer, 9, 4);
 					printString(lcdUnitSecond, 13, 4);
 
-					printString(lcdPhotoMenu04, 1, 5);
-					buffer = working.delay[0] * 1000 + working.delay[1] * 100 + working.delay[2] * 10 + working.delay[3];
+					printString(lcdPhotoMenu04, 0, 5);
+					buffer = arrayToInt(working.delay);
 					printBuffer(buffer, 9, 5);
 					printString(lcdUnitSecond, 13, 5);
 
-					printString(lcdPhotoMenu05, 1, 7);
+					printString(lcdPhotoMenu05, 0, 7);
 
-					printVerticalSelector(photoMenu.index, photoMenu.maxIndex, 0);
+					printVerticalSelector(photoMenu.index, 0, 2, 4);
 				}
 				else 
 				{
@@ -126,15 +126,9 @@ void printHorizontalSelector(int value[], int index, int max, int lcdX, int lcdY
 	}
 }
 
-void printVerticalSelector(int index, int max, int lcdX)
-{
-	for (int i = 0; i < max + 1; i++)
-	{
-		if (index == i)
-			lcd.printChar('>', lcdX, i + 2);
-		else 
-			lcd.printChar(' ', lcdX, i + 2);
-	}
+void printVerticalSelector(int index, int lcdX, int lcdY, int blank) // default for blank: 99
+{	
+	index == blank ? lcd.printChar('>', lcdX, lcdY + index + 1) : lcd.printChar('>', lcdX, lcdY + index);
 }
 
 void printBuffer(int buffer, int lcdX, int lcdY)
@@ -150,6 +144,11 @@ void printBuffer(int buffer, int lcdX, int lcdY)
 		counter = 0;
 	for (int i = 0; i < counter; i++);
 		lcd.printNumber(long(buffer), lcdX + counter, lcdY);
+}
+
+int arrayToInt(int buffer[])
+{
+	return buffer[0] * 1000 + buffer[1] * 100 + buffer[2] * 10 + buffer[3];
 }
 // #####################################################################################################################
 // ######################################### END OF CODE ###############################################################

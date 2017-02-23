@@ -168,8 +168,12 @@ boolean setMenu()
 		}
 	}
 
-	// Hold when a button is pressed
-	unsigned long buttonBHoldingTime = millis() + 1000;
+	// Check if all data are valid:
+	if (arrayToInt(working.distance) > arrayToInt(slider.length))
+		for (byte i = 0; i < 4; i++)
+			working.distance[i] = slider.length[i];
+
+	// Print menu only when something has been changed
 	while (controller.X < -75 || controller.X > 75 || controller.Y < -75 || controller.Y > 75 || controller.Z || controller.A || controller.B)
 	{
 		getControllerData(true);

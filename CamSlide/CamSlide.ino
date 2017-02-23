@@ -58,6 +58,14 @@
 			+ Mirror Lockup
 			+ Auto Focus
 
+	EEPROM
+		Fail				bit 	0
+		Position			bit 	1, 2, 3, 4
+		Slider length 		bit 	5, 6, 7, 8
+		Controller min X 	int 	10, 11
+		Controller max X 	int 	12, 13
+		Controller min Y 	int 	14, 15
+		Controller max Y 	int 	16, 17
 */	
 #define D3BUG
 
@@ -86,10 +94,8 @@
 
 // DEFINE EEPROM
 #define EEPROM_fail				0x00
-
-#define EEPROM_MSB_curPos		0x01
-#define EEPROM_LSB_curPos		0x02
-
+#define EEPROM_pos 				1
+#define EEPROM_length 			5
 #define EEPROM_MSB_ctrlMinX		0x0A
 #define EEPROM_LSB_ctrlMinX		0x0B
 #define EEPROM_MSB_ctrlMaxX		0x0C
@@ -98,10 +104,6 @@
 #define EEPROM_LSB_ctrlMinY		0x0F
 #define EEPROM_MSB_ctrlMaxY 	0x10
 #define EEPROM_LSB_ctrlMaxY		0x11
-
-#define EEPROM_MSB_maxLength	0x14
-#define EEPROM_LSB_maxLength	0x15
-
 
 struct inputData
 {
@@ -117,7 +119,7 @@ struct menuData
 
 struct sliderData
 {
-	int length, speed, accel, position;
+	int length[4], position[4];
 } slider;
 
 struct workingData

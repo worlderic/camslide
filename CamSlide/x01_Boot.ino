@@ -36,13 +36,18 @@ void boot()
 	controller.YMin = (EEPROM.read(EEPROM_MSB_ctrlMinY) << 8) | EEPROM.read(EEPROM_LSB_ctrlMinY);
 	controller.YMax = (EEPROM.read(EEPROM_MSB_ctrlMaxY) << 8) | EEPROM.read(EEPROM_LSB_ctrlMaxY);
 
-	slider.length = (EEPROM.read(EEPROM_MSB_maxLength) << 8) | EEPROM.read(EEPROM_LSB_maxLength);
+	for (byte i = 0; i < 4; i++)
+	{
+		slider.position[i] = EEPROM.read(i + EEPROM_pos);
+		slider.length[i] = EEPROM.read(i + EEPROM_length);
+	}
 
 	mainMenu.maxIndex = 2;
 	photoMenu.maxIndex = 4;
 	settingsMenu.maxIndex = 1;
 
 	unactiveAll();
+	gotoZero();
 	printMenu();
 }
 // #####################################################################################################################  

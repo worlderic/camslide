@@ -108,7 +108,34 @@ void printMenu()
 			// SETTINGS MENU
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			case 2:
-				lcd.printString("Settings Menu", 0, 0);
+				if (!settingsMenu.indexActive)
+				{
+					printString(lcdSettingsMenu00, 3, 0);
+
+					printString(lcdSettingsMenu01, 0, 2);
+					buffer = arrayToInt(slider.length);
+					printBuffer(buffer, 9, 2);
+					printString(lcdUnitMillimeter, 13, 2);
+
+					printString(lcdSettingsMenu02, 0, 3);
+				}
+				else 
+				{
+					switch (settingsMenu.index)
+					{
+						case 0:
+							printString(lcdSettingsMenuLength, 4, 0);
+							printHorizontalSelector(slider.length, selector.index, 3, 2, 3);
+							printString(lcdUnitMillimeter, 11, 3);
+							break;
+						case 1:
+							printString(lcdSettingsMenuReset00, 4, 0);
+							printString(lcdSettingsMenuReset01, 0, 2);
+							printString(lcdSettingsMenuReset02, 0, 3);
+							printString(lcdSettingsMenuReset03, 0, 4);
+							printString(lcdSettingsMenuReset04, 4, 5);
+					}
+				}
 				break;
 		}
 	}

@@ -102,7 +102,8 @@ void printMenu()
 			// MANUAL MENU
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			case 1:
-				lcd.printString("Manual Menu", 0, 0);
+				// Nothing to do here
+				// Everything will be set & shown @x05_Working
 				break;
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			// SETTINGS MENU
@@ -111,13 +112,14 @@ void printMenu()
 				if (!settingsMenu.indexActive)
 				{
 					printString(lcdSettingsMenu00, 3, 0);
-
 					printString(lcdSettingsMenu01, 0, 2);
-					buffer = arrayToInt(slider.length);
-					printBuffer(buffer, 9, 2);
-					printString(lcdUnitMillimeter, 13, 2);
-
+					slider.enabled ? printString(lcdMenuOn, 12, 2) : printString(lcdMenuOff, 12, 2);
 					printString(lcdSettingsMenu02, 0, 3);
+					buffer = arrayToInt(slider.length);
+					printBuffer(buffer, 9, 3);
+					printString(lcdUnitMillimeter, 13, 3);
+
+					printString(lcdSettingsMenu03, 0, 4);
 
 					printVerticalSelector(settingsMenu.index, 0, 2, 4);
 				}
@@ -126,16 +128,20 @@ void printMenu()
 					switch (settingsMenu.index)
 					{
 						case 0:
+							// Nothing to do here
+							break;
+						case 1:
 							printString(lcdSettingsMenuLength, 4, 0);
 							printHorizontalSelector(slider.length, selector.index, 3, 2, 3);
 							printString(lcdUnitMillimeter, 11, 3);
 							break;
-						case 1:
+						case 2:
 							printString(lcdSettingsMenuReset00, 4, 0);
 							printString(lcdSettingsMenuReset01, 0, 2);
 							printString(lcdSettingsMenuReset02, 0, 3);
 							printString(lcdSettingsMenuReset03, 0, 4);
 							printString(lcdSettingsMenuReset04, 4, 5);
+							break;
 					}
 				}
 				break;

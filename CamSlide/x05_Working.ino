@@ -42,9 +42,6 @@ void run()
 	{
 		PORTD &= ~_BV(PORTD3); // Direction LOW
 
-
-
-		PORTD |= _BV(PORTD2); // Enable HIGH
 		for(int i = 0; i < 5000; i++) 
 		{
 		    if (digitalRead(Sensor))
@@ -55,7 +52,6 @@ void run()
 			    delayMicroseconds(750);
 			}
 		}
-		PORTD &= ~_BV(PORTD2); // Enable LOW
 
 		break;
 	}
@@ -64,9 +60,28 @@ void run()
 	lcd.setDisplayOn();
 }
 
+void manualRun()
+{
+	enableAll();
+	while (!controller.B)
+	{
+		getControllerData(true);
+
+		controller.X > 0 ? PORTD |= _BV(PORTD3) : PORTD &= ~_BV(PORTD3);
+
+		if (abs(controller.X) > 5 && digitalRead(Sensor))
+		{
+			PORTD |= _BV(PORTD4); // HIGH
+		    delayMicroseconds(500);
+		    PORTD &= ~_BV(PORTD4); // LOW
+		    delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 200));
+		}
+	}
+}
+
 void gotoZero()
 {
-	PORTD |= _BV(PORTD2); // Enable HIGH
+	enableAll();
 	PORTD |= _BV(PORTD3); // Direction HIGH
 	while (digitalRead(Sensor))
 	{
@@ -85,7 +100,22 @@ void gotoZero()
 	    delayMicroseconds(2500);
 	}
 	delay(100);
-	PORTD &= ~_BV(PORTD2); // Enable LOW
+	for (byte i = 0; i < 4; i++)
+		slider.position[i] = 0;
+}
+
+void enableAll()
+{
+	PORTD |= _BV(PORTD2);
+	PORTD |= _BV(PORTD5);
+	slider.enabled = true;
+}
+
+void disableAll()
+{
+	PORTD &= ~_BV(PORTD2);
+	PORTD &= ~_BV(PORTD5);
+	slider.enabled = false;
 }
 // #####################################################################################################################
 // ######################################### END OF CODE################################################################

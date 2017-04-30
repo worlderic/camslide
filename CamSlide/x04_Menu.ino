@@ -157,7 +157,10 @@ boolean setMenu()
 			// MANUAL MENU
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			case 1:
-
+				lcd.setDisplayOff();
+				manualRun();
+				mainMenu.indexActive = false;;
+				lcd.setDisplayOn();
 				break;
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			// SETTINGS MENU
@@ -182,9 +185,14 @@ boolean setMenu()
 							switch (settingsMenu.index)
 							{
 								case 0:
+									slider.enabled ? slider.enabled = false : slider.enabled = true;
+									slider.enabled ? enableAll() : disableAll();
+									delay(200);
+									return(true);
+								case 1:
 									sliderPrev.length[i] = slider.length[i];
 									break;
-								case 1:
+								case 2:
 									// Nothing to do here
 									break;	
 							}
@@ -208,6 +216,9 @@ boolean setMenu()
 					switch (settingsMenu.index)
 					{
 						case 0:
+							// Nothing to do here
+							break;
+						case 1:
 								if (up)
 									slider.length[selector.index] + 1 > 9 ? slider.length[selector.index] = 0 : slider.length[selector.index] ++;
 								if (down)
@@ -219,7 +230,7 @@ boolean setMenu()
 									for (int i = 0; i < 4; i++)
 										slider.length[i] = sliderPrev.length[i];
 							break;
-						case 1:
+						case 2:
 							if (controller.A)
 							{
 								EEPROM.write(EEPROM_fail, 0);

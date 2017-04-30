@@ -121,6 +121,7 @@ struct menuData
 struct sliderData
 {
 	int length[4], position[4];
+	boolean enabled;
 } slider, sliderPrev;
 
 struct workingData

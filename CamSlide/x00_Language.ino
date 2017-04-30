@@ -33,8 +33,8 @@ PROGMEM const char lcdPhotoMenuShutter[] = "SHUTTER SPEED";
 PROGMEM const char lcdPhotoMenuDelay[] = "DELAY";
 
 PROGMEM const char lcdSettingsMenu00[] = "SETTINGS";
-PROGMEM const char lcdSettingsMenu01[] = "Length";
-PROGMEM const char lcdSettingsMenu02[] = "Reset";
+PROGMEM const char lcdSettingsMenu01[] = " Length";
+PROGMEM const char lcdSettingsMenu02[] = " Reset";
 PROGMEM const char lcdSettingsMenuLength[] = "LENGTH";
 PROGMEM const char lcdSettingsMenuReset00[] = "RESET";
 PROGMEM const char lcdSettingsMenuReset01[] = "Press A to";

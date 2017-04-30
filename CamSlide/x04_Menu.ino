@@ -212,6 +212,9 @@ boolean setMenu()
 									slider.length[selector.index] + 1 > 9 ? slider.length[selector.index] = 0 : slider.length[selector.index] ++;
 								if (down)
 									slider.length[selector.index] - 1 < 0 ? slider.length[selector.index] = 9 : slider.length[selector.index] --;
+								if (controller.A)
+									for (int i = 0; i < 4; i++)
+										EEPROM.write(i + EEPROM_length, slider.length[i]);
 								if (controller.B)
 									for (int i = 0; i < 4; i++)
 										slider.length[i] = sliderPrev.length[i];
@@ -219,10 +222,12 @@ boolean setMenu()
 						case 1:
 							if (controller.A)
 							{
-								// RESET ALL
-								// !!!!!!!!!!!!!!!!!!!!!!!
-								// !!!!!!!!!!!!!!!!!!!!!!!
-								// STILL WORK TO DO HERE
+								EEPROM.write(EEPROM_fail, 0);
+								for (int i = 0; i < 4; i++)
+								{
+									EEPROM.write(i + EEPROM_pos, 0);
+									EEPROM.write(i + EEPROM_length, 0);
+								}
 							}
 							break;
 					}

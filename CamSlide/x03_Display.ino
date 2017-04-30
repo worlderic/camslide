@@ -118,6 +118,8 @@ void printMenu()
 					printString(lcdUnitMillimeter, 13, 2);
 
 					printString(lcdSettingsMenu02, 0, 3);
+
+					printVerticalSelector(settingsMenu.index, 0, 2, 4);
 				}
 				else 
 				{

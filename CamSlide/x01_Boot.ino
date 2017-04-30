@@ -7,12 +7,12 @@ void boot()
 	lcd.rotateDisplay180();
 	lcd.drawBitmap(bootscreen, 0, 0, 16, 8);
 
-	pinMode(DRV8825_ENBL, OUTPUT);
-	pinMode(DRV8825_DIR, OUTPUT);
-	pinMode(DRV8825_STEP, OUTPUT);
-	pinMode(DRV8825_M0, OUTPUT);
-	pinMode(DRV8825_M1, OUTPUT);
-	pinMode(DRV8825_M2, OUTPUT);
+	pinMode(DRV8825_A_ENBL, OUTPUT);
+	pinMode(DRV8825_A_DIR, OUTPUT);
+	pinMode(DRV8825_A_STEP, OUTPUT);
+	pinMode(DRV8825_B_ENBL, OUTPUT);
+	pinMode(DRV8825_B_DIR, OUTPUT);
+	pinMode(DRV8825_B_STEP, OUTPUT);
 	pinMode(Sensor, INPUT);
 	pinMode(Controller_A, INPUT_PULLUP);
 	pinMode(Controller_B, INPUT_PULLUP);
@@ -47,7 +47,6 @@ void boot()
 	settingsMenu.maxIndex = 1;
 
 	unactiveAll();
-	gotoZero();
 	printMenu();
 }
 // #####################################################################################################################  

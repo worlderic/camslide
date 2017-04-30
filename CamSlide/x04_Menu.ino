@@ -163,7 +163,76 @@ boolean setMenu()
 			// SETTINGS MENU
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			case 2:
+				if (!settingsMenu.indexActive)
+				{
+					if (up)
+						settingsMenu.index--;
+					if (down)
+						settingsMenu.index++;
 
+					if (settingsMenu.index < 0)
+						settingsMenu.index = settingsMenu.maxIndex;
+					else if (settingsMenu.index > settingsMenu.maxIndex)
+						settingsMenu.index = 0;
+
+					if (controller.A)
+					{
+						for (int i = 0; i < 4; i++)
+						{
+							switch (settingsMenu.index)
+							{
+								case 0:
+									sliderPrev.length[i] = slider.length[i];
+									break;
+								case 1:
+									// Nothing to do here
+									break;	
+							}
+						}
+						lcd.clearDisplay();
+						settingsMenu.indexActive = true;
+						selector.index = 0;
+					}
+					if (controller.B)
+					{
+						mainMenu.indexActive = false;
+						lcd.clearDisplay();
+					}
+				}
+				else 
+				{
+					if (right)
+						selector.index + 1 > 3 ? selector.index = 0 : selector.index++;
+					if (left)
+						selector.index - 1 < 0 ? selector.index = 3 : selector.index--;
+					switch (settingsMenu.index)
+					{
+						case 0:
+								if (up)
+									slider.length[selector.index] + 1 > 9 ? slider.length[selector.index] = 0 : slider.length[selector.index] ++;
+								if (down)
+									slider.length[selector.index] - 1 < 0 ? slider.length[selector.index] = 9 : slider.length[selector.index] --;
+								if (controller.B)
+									for (int i = 0; i < 4; i++)
+										slider.length[i] = sliderPrev.length[i];
+							break;
+						case 1:
+							if (controller.A)
+							{
+								// RESET ALL
+								// !!!!!!!!!!!!!!!!!!!!!!!
+								// !!!!!!!!!!!!!!!!!!!!!!!
+								// STILL WORK TO DO HERE
+							}
+							break;
+					}
+
+					if (controller.A || controller.B)
+					{
+						settingsMenu.indexActive = false;
+						lcd.clearDisplay();
+					}
+				}
 				break;
 		}
 	}

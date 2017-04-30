@@ -23,18 +23,19 @@
 		Arduino |	Driver 		|	Display 	| 	Interface 	| 	Sensor 	| 	Controller 	| 	Camera
 		  D0 	|	  			|				|				|			|				|	  
 		  D1 	|	  			|				|				|			|				|	  
-		  D2 	|	  Enable 	|				|				|			|				|	  
-		  D3 	|	  DIR 		|				|				|			|				|	  
-		  D4 	|	  STEP 		|				|				|			|				|	  
-		  D5 	|	  M0 		|				|				|			|				|	  
-		  D6 	|	  M1 		|				|				|			|				|	  
-		  D7 	|	  M2 		|				|				|			|				|	  
+		  D2 	|	  Enable A 	|				|				|			|				|	  
+		  D3 	|	  DIR A 	|				|				|			|				|	  
+		  D4 	|	  STEP A	|				|				|			|				|	  
+		  D5 	|	  Enable B	|				|				|			|				|	  
+		  D6 	|	  DIR B		|				|				|			|				|	  
+		  D7 	|	  STEP B	|				|				|			|				|	  
 		  D8 	|	  			|				|				|	  S1	|				|	  
 		  D9 	|	  			|				|				|			|	  S2		|	  
 		  D10 	|	  			|				|				|			|	  S3		|	  
 		  D11 	|	  			|				|				|			|	  S4		|	  
 		  D12 	|	  			|				|				|			|				|	  Focus	  
 		  D13 	|	  			|				|				|			|				|	  Trigger
+		  A0	|				|				|				|			|				|
 		  A1 	|	  			|				|				|			|				|	  
 		  A2 	|	  			|				|				|			|				|	  
 		  A3	|	  			|				|				|			|				|	  
@@ -74,12 +75,12 @@
 #include <Wire.h>
 
 // DEFINE HARDWARE
-#define DRV8825_ENBL	2
-#define DRV8825_DIR		3
-#define DRV8825_STEP	4
-#define DRV8825_M0		5
-#define DRV8825_M1		6
-#define DRV8825_M2		7
+#define DRV8825_A_ENBL	2
+#define DRV8825_A_DIR	3
+#define DRV8825_A_STEP	4
+#define DRV8825_B_ENBL	5
+#define DRV8825_B_DIR	6
+#define DRV8825_B_STEP	7
 
 #define Sensor 			8
 
@@ -120,7 +121,7 @@ struct menuData
 struct sliderData
 {
 	int length[4], position[4];
-} slider;
+} slider, sliderPrev;
 
 struct workingData
 {
@@ -132,6 +133,7 @@ void setup()
 {
 	#ifdef D3BUG
 	Serial.begin(9600);
+	Serial.println("D3BUG MODE");
 	#endif
 	boot();
 }

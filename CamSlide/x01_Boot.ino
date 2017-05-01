@@ -39,10 +39,13 @@ void boot()
 	for (byte i = 0; i < 4; i++)
 	{
 		//slider.position[i] = EEPROM.read(i + EEPROM_pos); // No need to remember the position ...
-		slider.position[i] = -1; // -1 means the position is unclear
+		slider.position1 = -1; // -1 means the position is unclear
 		slider.length[i] = EEPROM.read(i + EEPROM_length);
 	}
-	slider.enabled = false;
+	slider.zeroIsLeft = true;
+
+	motor.enabled = false;
+	motor.delay = 500;
 
 	mainMenu.maxIndex = 2;
 	photoMenu.maxIndex = 4;

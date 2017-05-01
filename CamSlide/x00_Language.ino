@@ -21,6 +21,42 @@ PROGMEM const char lcdCalibrateDisplay08[] = "has been";
 PROGMEM const char lcdCalibrateDisplay09[] = "calibrated";
 PROGMEM const char lcdCalibrateDisplay10[] = "successfully.";
 
+PROGMEM const char lcdPhotoMenuZero00[] = "SELECT ZERO";
+PROGMEM const char lcdPhotoMenuZero01[] = "Select the zero";
+PROGMEM const char lcdPhotoMenuZero02[] = "position by";
+PROGMEM const char lcdPhotoMenuZero03[] = "tilting the stick";
+PROGMEM const char lcdPhotoMenuZero04[] = "either to the";
+PROGMEM const char lcdPhotoMenuZero05[] = "left or to the";
+PROGMEM const char lcdPhotoMenuZero06[] = "right side.";
+
+PROGMEM const char lcdPhotoMenuZero10[] = "GOING TO ZERO";
+PROGMEM const char lcdPhotoMenuZero11[] = "Please wait";
+PROGMEM const char lcdPhotoMenuZero12[] = "while the slider";
+PROGMEM const char lcdPhotoMenuZero13[] = "is going to the";
+PROGMEM const char lcdPhotoMenuZero14[] = "start position.";
+
+PROGMEM const char lcdPhotoMenuAngle00[] = "SELECT ANGLE 1";
+PROGMEM const char lcdPhotoMenuAngle01[] = "Select angle 1";
+PROGMEM const char lcdPhotoMenuAngle02[] = "by tilting the";
+PROGMEM const char lcdPhotoMenuAngle03[] = "stick either to";
+PROGMEM const char lcdPhotoMenuAngle04[] = "the left or to";
+PROGMEM const char lcdPhotoMenuAngle05[] = "the right side.";
+
+PROGMEM const char lcdPhotoMenuLength00[] = "SELECT LENGTH";
+PROGMEM const char lcdPhotoMenuLength01[] = "Select length";
+PROGMEM const char lcdPhotoMenuLength02[] = "by tilting the";
+PROGMEM const char lcdPhotoMenuLength03[] = "stick either to";
+PROGMEM const char lcdPhotoMenuLength04[] = "the left or to";
+PROGMEM const char lcdPhotoMenuLength05[] = "the right side.";
+
+PROGMEM const char lcdPhotoMenuAngle10[] = "SELECT ANGLE 2";
+PROGMEM const char lcdPhotoMenuAngle11[] = "Select angle 2";
+PROGMEM const char lcdPhotoMenuAngle12[] = "by tilting the";
+PROGMEM const char lcdPhotoMenuAngle13[] = "stick either to";
+PROGMEM const char lcdPhotoMenuAngle14[] = "the left or to";
+PROGMEM const char lcdPhotoMenuAngle15[] = "the right side.";
+
+/*
 PROGMEM const char lcdPhotoMenu00[] = "PHOTO MENU";
 PROGMEM const char lcdPhotoMenu01[] = " Dist.";
 PROGMEM const char lcdPhotoMenu02[] = " Repeats";
@@ -31,6 +67,7 @@ PROGMEM const char lcdPhotoMenuDistance[] = "DISTANCE";
 PROGMEM const char lcdPhotoMenuRepeats[] = "REPEATS";
 PROGMEM const char lcdPhotoMenuShutter[] = "SHUTTER SPEED";
 PROGMEM const char lcdPhotoMenuDelay[] = "DELAY";
+*/
 
 PROGMEM const char lcdManualMessage00[] = "MANUAL MODE";
 PROGMEM const char lcdManualMessage01[] = "'A': Shutter";

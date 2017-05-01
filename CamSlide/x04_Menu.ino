@@ -43,6 +43,7 @@ boolean setMenu()
 		if (controller.A)
 		{
 			mainMenu.indexActive = true;
+			photoMenu.index = 0;
 			lcd.clearDisplay();
 		}
 	}
@@ -54,6 +55,129 @@ boolean setMenu()
 			// PHOTO MENU
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			case 0:
+				switch (photoMenu.index)
+				{
+					case 0: // Set zero
+						if (controller.B)
+							mainMenu.indexActive = false;
+						if (left)
+							slider.zeroIsLeft = true;
+						else if (right)
+							slider.zeroIsLeft = false;
+						if (left || right)
+						{
+							photoMenu.index++;
+							lcd.clearDisplay();
+						}
+						break;
+					case 1: // Goto zero
+						gotoZero();
+						photoMenu.index++;
+						lcd.clearDisplay();
+						printMenu();
+						break;
+					case 2: // Set angle 1
+						while (!controller.A && !controller.B)
+						{
+							getControllerData(true);
+							if (abs(controller.X) > 5)
+							{
+								if (controller.X > 0)
+								{
+									PORTD |= _BV(PORTD6);
+									turner.position1++;
+								}
+								else 
+								{
+									PORTD &= ~_BV(PORTD6);
+									turner.position1--;	
+								}
+								PORTD |= _BV(PORTD7); // HIGH
+							    delayMicroseconds(motor.delay);
+							    PORTD &= ~_BV(PORTD7); // LOW
+							    delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 1500));
+							}
+						}
+						if (controller.A)
+							photoMenu.index++;
+						else if (controller.B)
+							photoMenu.index = 0;
+						lcd.clearDisplay();
+						break;
+					case 3: // Set length
+						while (!controller.A && !controller.B)
+						{
+							getControllerData(true);
+							if (abs(controller.X) > 5)
+							{
+								if (controller.X > 0)
+								{
+									PORTD &= ~_BV(PORTD3);									
+									slider.zeroIsLeft ? slider.position2++ : slider.position2--;
+								}
+								else 
+								{
+									PORTD |= _BV(PORTD3);
+									slider.zeroIsLeft ? slider.position2-- : slider.position2++;	
+								}
+								PORTD |= _BV(PORTD4); // HIGH
+							    delayMicroseconds(motor.delay);
+							    PORTD &= ~_BV(PORTD4); // LOW
+							    delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 1500));
+							}
+						}
+						if (controller.A)
+							photoMenu.index++;
+						else if (controller.B)
+							photoMenu.index--;
+						lcd.clearDisplay();
+						break;
+					case 4: // Set angle 2
+						while (!controller.A && !controller.B)
+						{
+							getControllerData(true);
+							if (abs(controller.X) > 5)
+							{
+								if (controller.X > 0)
+								{
+									PORTD |= _BV(PORTD6);
+									turner.position2++;
+								}
+								else 
+								{
+									PORTD &= ~_BV(PORTD6);
+									turner.position2--;	
+								}
+								PORTD |= _BV(PORTD7); // HIGH
+							    delayMicroseconds(motor.delay);
+							    PORTD &= ~_BV(PORTD7); // LOW
+							    delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 1500));
+							}
+						}
+						if (controller.A)
+							photoMenu.index++;
+						else if (controller.B)
+							photoMenu.index--;
+						lcd.clearDisplay();
+						break;
+					case 5: // Set amount of shots
+						if (right)
+							selector.index + 1 > 3 ? selector.index = 0 : selector.index++;
+						if (left)
+							selector.index - 1 < 0 ? selector.index = 3 : selector.index--;
+						if (up)
+							working.amount[selector.index] + 1 > 9 ? working.amount[selector.index] = 0 : working.amount[selector.index] ++;
+						if (down)
+							working.amount[selector.index] - 1 < 0 ? working.amount[selector.index] = 9 : working.amount[selector.index] --;
+						break;
+					default:
+						run();
+						photoMenu.index = 0;
+						mainMenu.indexActive = false;
+						printMenu();
+						lcd.setDisplayOn();
+				}
+				/*
 				if (!photoMenu.indexActive)
 				{
 					if (up)
@@ -152,6 +276,7 @@ boolean setMenu()
 						lcd.clearDisplay();
 					}
 				}
+				*/
 				break;
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			// MANUAL MENU
@@ -185,8 +310,8 @@ boolean setMenu()
 							switch (settingsMenu.index)
 							{
 								case 0:
-									slider.enabled ? slider.enabled = false : slider.enabled = true;
-									slider.enabled ? enableAll() : disableAll();
+									motor.enabled = !motor.enabled;
+									motor.enabled ? enableMotors() : disableMotors();
 									delay(200);
 									return(true);
 								case 1:
@@ -219,16 +344,16 @@ boolean setMenu()
 							// Nothing to do here
 							break;
 						case 1:
-								if (up)
-									slider.length[selector.index] + 1 > 9 ? slider.length[selector.index] = 0 : slider.length[selector.index] ++;
-								if (down)
-									slider.length[selector.index] - 1 < 0 ? slider.length[selector.index] = 9 : slider.length[selector.index] --;
-								if (controller.A)
-									for (int i = 0; i < 4; i++)
-										EEPROM.write(i + EEPROM_length, slider.length[i]);
-								if (controller.B)
-									for (int i = 0; i < 4; i++)
-										slider.length[i] = sliderPrev.length[i];
+							if (up)
+								slider.length[selector.index] + 1 > 9 ? slider.length[selector.index] = 0 : slider.length[selector.index] ++;
+							if (down)
+								slider.length[selector.index] - 1 < 0 ? slider.length[selector.index] = 9 : slider.length[selector.index] --;
+							if (controller.A)
+								for (int i = 0; i < 4; i++)
+									EEPROM.write(i + EEPROM_length, slider.length[i]);
+							if (controller.B)
+								for (int i = 0; i < 4; i++)
+									slider.length[i] = sliderPrev.length[i];
 							break;
 						case 2:
 							if (controller.A)
@@ -236,7 +361,7 @@ boolean setMenu()
 								EEPROM.write(EEPROM_fail, 0);
 								for (int i = 0; i < 4; i++)
 								{
-									EEPROM.write(i + EEPROM_pos, 0);
+									//EEPROM.write(i + EEPROM_pos, 0);
 									EEPROM.write(i + EEPROM_length, 0);
 								}
 							}

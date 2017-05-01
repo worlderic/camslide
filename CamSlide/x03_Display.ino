@@ -45,6 +45,48 @@ void printMenu()
 			// PHOTO MENU
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			case 0:
+				switch (photoMenu.index)
+				{
+					case 0: // Select zero
+						printString(lcdPhotoMenuZero00, 2, 0);
+						printString(lcdPhotoMenuZero01, 0, 2);
+						printString(lcdPhotoMenuZero02, 0, 3);
+						printString(lcdPhotoMenuZero03, 0, 4);
+						printString(lcdPhotoMenuZero04, 0, 5);
+						printString(lcdPhotoMenuZero05, 0, 6);
+						break;
+					case 1: // Goto zero
+						printString(lcdPhotoMenuZero10, 1, 0);
+						printString(lcdPhotoMenuZero11, 0, 2);
+						printString(lcdPhotoMenuZero12, 0, 3);
+						printString(lcdPhotoMenuZero13, 0, 4);
+						printString(lcdPhotoMenuZero14, 0, 5);
+						break;
+					case 2: // Select start angle
+						printString(lcdPhotoMenuAngle00, 1, 0);
+						printString(lcdPhotoMenuAngle01, 0, 2);
+						printString(lcdPhotoMenuAngle02, 0, 3);
+						printString(lcdPhotoMenuAngle03, 0, 4);
+						printString(lcdPhotoMenuAngle04, 0, 5);
+						printString(lcdPhotoMenuAngle05, 0, 6);
+						break;
+					case 3: // Select length
+						printString(lcdPhotoMenuLength00, 1, 0);
+						printString(lcdPhotoMenuLength01, 0, 2);
+						printString(lcdPhotoMenuLength02, 0, 3);
+						printString(lcdPhotoMenuLength03, 0, 4);
+						printString(lcdPhotoMenuLength04, 0, 5);
+						printString(lcdPhotoMenuLength05, 0, 6);
+					case 4: // Select end angle
+						printString(lcdPhotoMenuAngle10, 1, 0);
+						printString(lcdPhotoMenuAngle11, 0, 2);
+						printString(lcdPhotoMenuAngle12, 0, 3);
+						printString(lcdPhotoMenuAngle13, 0, 4);
+						printString(lcdPhotoMenuAngle14, 0, 5);
+						printString(lcdPhotoMenuAngle15, 0, 6);
+						break;
+				}
+				/*
 				if (!photoMenu.indexActive)
 				{
 					printString(lcdPhotoMenu00, 3, 0);
@@ -97,6 +139,7 @@ void printMenu()
 							break;
 					}
 				}
+				*/
 				break;
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			// MANUAL MENU
@@ -113,7 +156,7 @@ void printMenu()
 				{
 					printString(lcdSettingsMenu00, 3, 0);
 					printString(lcdSettingsMenu01, 0, 2);
-					slider.enabled ? printString(lcdMenuOn, 12, 2) : printString(lcdMenuOff, 12, 2);
+					motor.enabled ? printString(lcdMenuOn, 12, 2) : printString(lcdMenuOff, 12, 2);
 					printString(lcdSettingsMenu02, 0, 3);
 					buffer = arrayToInt(slider.length);
 					printBuffer(buffer, 9, 3);

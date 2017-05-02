@@ -120,7 +120,8 @@ struct menuData
 
 struct sliderData
 {
-	int length[4], position1, position2, steps1, steps2;
+	int length[4], position1, position2;
+	float transmission;
 	boolean zeroIsLeft;
 } slider, sliderPrev, turner;
 
@@ -130,11 +131,12 @@ struct motorData
 	int delay;
 } motor;
 
-struct workingData
+struct cameraData
 {
-	int amount[4], distance[4], repeats[4], shutter[4], delay[4];
+	int amount[4], repeats[4], shutter[4], delay[4];
+	float travelDistance, distancePerShot;
 	boolean mirrorLockup, autoFocus;
-} working, workingPrev;
+} camera;
 
 void setup()
 {

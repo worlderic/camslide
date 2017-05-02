@@ -16,7 +16,7 @@ void run()
 	lcd.clearDisplay();
 	printString(lcdRun01, 0, 0);
 	printString(lcdRun02, 0, 1);
-	printBuffer(runtime, 3, 4);
+	printBuffer(runtime, 3, 4, false);
 	printString(lcdUnitSecond, 8, 4);
 	printString(lcdRun03, 0, 6);
 	printString(lcdRun04, 0, 7);
@@ -29,10 +29,9 @@ void run()
 	// Prepare for working routine
 	length = arrayToInt(slider.length);
 	position = arrayToInt(slider.length);
-	distance = arrayToInt(working.distance);
-	repeats = arrayToInt(working.repeats);
-	shutter = arrayToInt(working.shutter);
-	d3lay = arrayToInt(working.delay);
+	repeats = arrayToInt(camera.repeats);
+	shutter = arrayToInt(camera.shutter);
+	d3lay = arrayToInt(camera.delay);
 
 	// Calculate steps per shot
 	stepsPerShot = 100;
@@ -98,6 +97,17 @@ void gotoZero()
 	}
 	delay(100);
 	slider.position1 = 0;
+	slider.position2 = 0;
+}
+
+float stepsToMillimeter(int steps)
+{
+	return (steps * slider.transmission);
+}
+
+float stepsToDegrees(int steps)
+{
+	return (steps * turner.transmission);
 }
 
 void enableMotors()

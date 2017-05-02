@@ -3,6 +3,9 @@
 // #####################################################################################################################
 void boot()
 {
+	slider.transmission = 0.005;
+	turner.transmission = 0.0225;
+
 	lcd.initialize();
 	lcd.rotateDisplay180();
 	lcd.drawBitmap(bootscreen, 0, 0, 16, 8);
@@ -38,14 +41,29 @@ void boot()
 
 	for (byte i = 0; i < 4; i++)
 	{
-		//slider.position[i] = EEPROM.read(i + EEPROM_pos); // No need to remember the position ...
-		slider.position1 = -1; // -1 means the position is unclear
 		slider.length[i] = EEPROM.read(i + EEPROM_length);
+		
+		camera.amount[i] = 0;
+		camera.repeats[i] = 0;
+		camera.shutter[i] = 0;
+		camera.delay[i] = 0;
 	}
+	slider.position1 = -1; // -1 means the position is unclear
+	slider.position2 = 0;
 	slider.zeroIsLeft = true;
 
+	turner.position1 = 0;
+	turner.position2 = 0;
+
+	camera.amount[3] = 1;
+	camera.repeats[3] = 1;
+	camera.travelDistance = 0;
+	camera.distancePerShot = 0;
+	camera.mirrorLockup = false;
+	camera.autoFocus = false;
+
 	motor.enabled = false;
-	motor.delay = 500;
+	motor.delay = 250;
 
 	mainMenu.maxIndex = 2;
 	photoMenu.maxIndex = 4;

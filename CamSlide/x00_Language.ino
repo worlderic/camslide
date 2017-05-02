@@ -5,10 +5,14 @@ PROGMEM const char lcdBlank[] = "                ";
 PROGMEM const char lcdHyphen[] = "----------------";
 
 PROGMEM const char lcdUnitMillimeter[] = "mm";
+PROGMEM const char lcdUnitMillimeterPerShot[] = "mm/sh";
 PROGMEM const char lcdUnitSecond[] = "sec";
+PROGMEM const char lcdUnitDegree[] = "deg";
 
 PROGMEM const char lcdMenuOn[] = " On";
 PROGMEM const char lcdMenuOff[] = "Off";
+
+PROGMEM const char lcdTextCurrentPosition[] = "Current pos.:";
 
 PROGMEM const char lcdCalibrateDisplay01[] = "Calibrate the";
 PROGMEM const char lcdCalibrateDisplay02[] = "controller by";
@@ -36,26 +40,10 @@ PROGMEM const char lcdPhotoMenuZero13[] = "is going to the";
 PROGMEM const char lcdPhotoMenuZero14[] = "start position.";
 
 PROGMEM const char lcdPhotoMenuAngle00[] = "SELECT ANGLE 1";
-PROGMEM const char lcdPhotoMenuAngle01[] = "Select angle 1";
-PROGMEM const char lcdPhotoMenuAngle02[] = "by tilting the";
-PROGMEM const char lcdPhotoMenuAngle03[] = "stick either to";
-PROGMEM const char lcdPhotoMenuAngle04[] = "the left or to";
-PROGMEM const char lcdPhotoMenuAngle05[] = "the right side.";
-
 PROGMEM const char lcdPhotoMenuLength00[] = "SELECT LENGTH";
-PROGMEM const char lcdPhotoMenuLength01[] = "Select length";
-PROGMEM const char lcdPhotoMenuLength02[] = "by tilting the";
-PROGMEM const char lcdPhotoMenuLength03[] = "stick either to";
-PROGMEM const char lcdPhotoMenuLength04[] = "the left or to";
-PROGMEM const char lcdPhotoMenuLength05[] = "the right side.";
-
 PROGMEM const char lcdPhotoMenuAngle10[] = "SELECT ANGLE 2";
-PROGMEM const char lcdPhotoMenuAngle11[] = "Select angle 2";
-PROGMEM const char lcdPhotoMenuAngle12[] = "by tilting the";
-PROGMEM const char lcdPhotoMenuAngle13[] = "stick either to";
-PROGMEM const char lcdPhotoMenuAngle14[] = "the left or to";
-PROGMEM const char lcdPhotoMenuAngle15[] = "the right side.";
-
+PROGMEM const char lcdPhotoMenuAmount00[] = "SET AMOUNT";
+PROGMEM const char lcdPhotoMenuRepeats00[] = "SET REPEATS";
 /*
 PROGMEM const char lcdPhotoMenu00[] = "PHOTO MENU";
 PROGMEM const char lcdPhotoMenu01[] = " Dist.";

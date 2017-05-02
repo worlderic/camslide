@@ -64,26 +64,28 @@ void printMenu()
 						break;
 					case 2: // Select start angle
 						printString(lcdPhotoMenuAngle00, 1, 0);
-						printString(lcdPhotoMenuAngle01, 0, 2);
-						printString(lcdPhotoMenuAngle02, 0, 3);
-						printString(lcdPhotoMenuAngle03, 0, 4);
-						printString(lcdPhotoMenuAngle04, 0, 5);
-						printString(lcdPhotoMenuAngle05, 0, 6);
+						printString(lcdTextCurrentPosition, 0, 2);
+						printString(lcdUnitDegree, 10, 5);
 						break;
 					case 3: // Select length
 						printString(lcdPhotoMenuLength00, 1, 0);
-						printString(lcdPhotoMenuLength01, 0, 2);
-						printString(lcdPhotoMenuLength02, 0, 3);
-						printString(lcdPhotoMenuLength03, 0, 4);
-						printString(lcdPhotoMenuLength04, 0, 5);
-						printString(lcdPhotoMenuLength05, 0, 6);
+						printString(lcdTextCurrentPosition, 0, 2);
+						printString(lcdUnitMillimeter, 10, 5);
+						break;
 					case 4: // Select end angle
 						printString(lcdPhotoMenuAngle10, 1, 0);
-						printString(lcdPhotoMenuAngle11, 0, 2);
-						printString(lcdPhotoMenuAngle12, 0, 3);
-						printString(lcdPhotoMenuAngle13, 0, 4);
-						printString(lcdPhotoMenuAngle14, 0, 5);
-						printString(lcdPhotoMenuAngle15, 0, 6);
+						printString(lcdTextCurrentPosition, 0, 2);
+						printString(lcdUnitDegree, 10, 5);
+						break;
+					case 5: // Amount of shots
+						printString(lcdPhotoMenuAmount00, 3, 0);
+						printHorizontalSelector(camera.amount, selector.index, 3, 4, 3);
+						printBuffer((int)camera.distancePerShot, 5, 7, true);
+						printString(lcdUnitMillimeterPerShot, 10, 7);
+						break;
+					case 6: // Repeats of capture
+						printString(lcdPhotoMenuRepeats00, 2, 0);
+						printHorizontalSelector(camera.repeats, selector.index, 3, 4, 3);
 						break;
 				}
 				/*
@@ -92,21 +94,21 @@ void printMenu()
 					printString(lcdPhotoMenu00, 3, 0);
 
 					printString(lcdPhotoMenu01, 0, 2);
-					buffer = arrayToInt(working.distance);
+					buffer = arrayToInt(camera.distance);
 					printBuffer(buffer, 9, 2);
 					printString(lcdUnitMillimeter, 13, 2);
 
 					printString(lcdPhotoMenu02, 0, 3);
-					buffer = arrayToInt(working.repeats);
+					buffer = arrayToInt(camera.repeats);
 					printBuffer(buffer, 9, 3);
 
 					printString(lcdPhotoMenu03, 0, 4);
-					buffer = arrayToInt(working.shutter);
+					buffer = arrayToInt(camera.shutter);
 					printBuffer(buffer, 9, 4);
 					printString(lcdUnitSecond, 13, 4);
 
 					printString(lcdPhotoMenu04, 0, 5);
-					buffer = arrayToInt(working.delay);
+					buffer = arrayToInt(camera.delay);
 					printBuffer(buffer, 9, 5);
 					printString(lcdUnitSecond, 13, 5);
 
@@ -120,21 +122,21 @@ void printMenu()
 					{
 						case 0:
 							printString(lcdPhotoMenuDistance, 4, 0);
-							printHorizontalSelector(working.distance, selector.index, 3, 2, 3);
+							printHorizontalSelector(camera.distance, selector.index, 3, 2, 3);
 							printString(lcdUnitMillimeter, 11, 3);
 							break;
 						case 1:
 							printString(lcdPhotoMenuRepeats, 4, 0);
-							printHorizontalSelector(working.repeats, selector.index, 3, 4, 3);
+							printHorizontalSelector(camera.repeats, selector.index, 3, 4, 3);
 							break;
 						case 2:
 							printString(lcdPhotoMenuShutter, 1, 0);
-							printHorizontalSelector(working.shutter, selector.index, 3, 2, 3);
+							printHorizontalSelector(camera.shutter, selector.index, 3, 2, 3);
 							printString(lcdUnitSecond, 11, 3);
 							break;
 						case 3:
 							printString(lcdPhotoMenuDelay, 5, 0);
-							printHorizontalSelector(working.delay, selector.index, 3, 2, 3);
+							printHorizontalSelector(camera.delay, selector.index, 3, 2, 3);
 							printString(lcdUnitSecond, 11, 3);
 							break;
 					}
@@ -159,7 +161,7 @@ void printMenu()
 					motor.enabled ? printString(lcdMenuOn, 12, 2) : printString(lcdMenuOff, 12, 2);
 					printString(lcdSettingsMenu02, 0, 3);
 					buffer = arrayToInt(slider.length);
-					printBuffer(buffer, 9, 3);
+					printBuffer(buffer, 9, 3, false);
 					printString(lcdUnitMillimeter, 13, 3);
 
 					printString(lcdSettingsMenu03, 0, 4);
@@ -209,7 +211,7 @@ void printVerticalSelector(int index, int lcdX, int lcdY, int blank) // default 
 	index == blank ? lcd.printChar('>', lcdX, lcdY + index + 1) : lcd.printChar('>', lcdX, lcdY + index);
 }
 
-void printBuffer(int buffer, int lcdX, int lcdY)
+void printBuffer(int buffer, int lcdX, int lcdY, boolean blanc)
 {
 	int counter = 0;
 	if (buffer < 10)
@@ -220,6 +222,9 @@ void printBuffer(int buffer, int lcdX, int lcdY)
 		counter = 1;
 	else 
 		counter = 0;
+	if (blanc)
+		for (int i = 0; i < counter; i++)
+			lcd.printChar(' ', lcdX + i, lcdY);
 	for (int i = 0; i < counter; i++);
 		lcd.printNumber(long(buffer), lcdX + counter, lcdY);
 }

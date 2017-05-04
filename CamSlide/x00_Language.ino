@@ -73,10 +73,10 @@ PROGMEM const char lcdSettingsMenuReset02[] = "reset all.";
 PROGMEM const char lcdSettingsMenuReset03[] = "Press B to";
 PROGMEM const char lcdSettingsMenuReset04[] = "cancel.";
 
-PROGMEM const char lcdRun01[] = "Estimated run";
-PROGMEM const char lcdRun02[] = "time:";
-PROGMEM const char lcdRun03[] = "Press the B-";
-PROGMEM const char lcdRun04[] = "button to exit.";
+PROGMEM const char lcdRun00[] = "LAST CHECK";
+PROGMEM const char lcdRun01[] = "Est. run time:";
+PROGMEM const char lcdRun02[] = "Press A to";
+PROGMEM const char lcdRun03[] = "start.";
 
 // #####################################################################################################################
 // ######################################### BITMAP ####################################################################

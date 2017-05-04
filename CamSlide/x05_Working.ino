@@ -3,27 +3,10 @@
 // #####################################################################################################################
 void run()
 {
-	int runtime, length, position, distance, repeats, shutter, d3lay;
-	unsigned long stepsPerShot;
-
-	// Calculate runtime
-	runtime = 200;
-	// ???
-	
-	// Print message on display for at least 5 secs.
-	unsigned long messageTime = millis() + 5000;
-
-	lcd.clearDisplay();
-	printString(lcdRun01, 0, 0);
-	printString(lcdRun02, 0, 1);
-	printBuffer(runtime, 3, 4, false);
-	printString(lcdUnitSecond, 8, 4);
-	printString(lcdRun03, 0, 6);
-	printString(lcdRun04, 0, 7);
+	int length, position, distance, repeats, shutter, d3lay;
 
 	gotoZero();
 
-	while (messageTime > millis()) {} // Do nothing
 	lcd.setDisplayOff();
 
 	// Prepare for working routine
@@ -32,9 +15,6 @@ void run()
 	repeats = arrayToInt(camera.repeats);
 	shutter = arrayToInt(camera.shutter);
 	d3lay = arrayToInt(camera.delay);
-
-	// Calculate steps per shot
-	stepsPerShot = 100;
 
 	// And finally start
 	while (true)

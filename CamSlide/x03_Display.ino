@@ -80,13 +80,20 @@ void printMenu()
 					case 5: // Amount of shots
 						printString(lcdPhotoMenuAmount00, 3, 0);
 						printHorizontalSelector(camera.amount, selector.index, 3, 4, 3);
-						printBuffer((int)camera.distancePerShot, 5, 7, true);
+						printBuffer((int)camera.distancePerShot, 4, 7, true);
 						printString(lcdUnitMillimeterPerShot, 10, 7);
 						break;
 					case 6: // Repeats of capture
 						printString(lcdPhotoMenuRepeats00, 2, 0);
 						printHorizontalSelector(camera.repeats, selector.index, 3, 4, 3);
 						break;
+					default:
+						printString(lcdRun00, 3, 0);
+						printString(lcdRun01, 0, 2);
+						printBuffer(slider.runtime, 2, 4, false);
+						printString(lcdUnitSecond, 8, 4);
+						printString(lcdRun02, 0, 6);
+						printString(lcdRun03, 0, 7);
 				}
 				/*
 				if (!photoMenu.indexActive)
@@ -161,7 +168,7 @@ void printMenu()
 					motor.enabled ? printString(lcdMenuOn, 12, 2) : printString(lcdMenuOff, 12, 2);
 					printString(lcdSettingsMenu02, 0, 3);
 					buffer = arrayToInt(slider.length);
-					printBuffer(buffer, 9, 3, false);
+					printBuffer(buffer, 8, 3, false);
 					printString(lcdUnitMillimeter, 13, 3);
 
 					printString(lcdSettingsMenu03, 0, 4);
@@ -213,20 +220,23 @@ void printVerticalSelector(int index, int lcdX, int lcdY, int blank) // default 
 
 void printBuffer(int buffer, int lcdX, int lcdY, boolean blanc)
 {
-	int counter = 0;
-	if (buffer < 10)
+	int counter = 0, absBuffer = abs(buffer);
+	if (absBuffer < 10)
+		counter = 4;
+	else if (absBuffer < 100)
 		counter = 3;
-	else if (buffer < 100)
+	else if (absBuffer < 1000)
 		counter = 2;
-	else if (buffer < 1000)
-		counter = 1;
 	else 
-		counter = 0;
+		counter = 1;
+
 	if (blanc)
 		for (int i = 0; i < counter; i++)
 			lcd.printChar(' ', lcdX + i, lcdY);
-	for (int i = 0; i < counter; i++);
-		lcd.printNumber(long(buffer), lcdX + counter, lcdY);
+	//for (int i = 0; i < counter; i++);
+	if (buffer < 0)
+		lcd.printChar('-', lcdX + counter - 1, lcdY);
+	lcd.printNumber(long(absBuffer), lcdX + counter, lcdY);
 }
 
 int arrayToInt(int buffer[])

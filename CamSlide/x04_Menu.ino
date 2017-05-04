@@ -97,6 +97,10 @@ boolean setMenu()
 							    PORTD &= ~_BV(PORTD7); // LOW
 							    delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 1500));
 							}
+							else
+							{
+								printBuffer((int)stepsToDegrees(turner.position1), 4, 5, true);
+							}
 						}
 						if (controller.A)
 							photoMenu.index++;
@@ -125,7 +129,13 @@ boolean setMenu()
 							    PORTD &= ~_BV(PORTD4); // LOW
 							    delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 1500));
 							}
+							else
+							{
+								printBuffer((int)stepsToMillimeter(slider.position2), 4, 5, true);
+							}
 						}
+						camera.travelDistance = stepsToMillimeter(abs(slider.position2 - slider.position1));
+						camera.distancePerShot = (camera.travelDistance / arrayToInt(camera.amount));
 						if (controller.A)
 							photoMenu.index++;
 						else if (controller.B)
@@ -153,6 +163,10 @@ boolean setMenu()
 							    PORTD &= ~_BV(PORTD7); // LOW
 							    delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 1500));
 							}
+							else
+							{
+								printBuffer((int)stepsToDegrees(turner.position2), 4, 5, true);
+							}
 						}
 						if (controller.A)
 							photoMenu.index++;
@@ -163,19 +177,66 @@ boolean setMenu()
 					case 5: // Set amount of shots
 						if (right)
 							selector.index + 1 > 3 ? selector.index = 0 : selector.index++;
-						if (left)
+						else if (left)
 							selector.index - 1 < 0 ? selector.index = 3 : selector.index--;
 						if (up)
-							working.amount[selector.index] + 1 > 9 ? working.amount[selector.index] = 0 : working.amount[selector.index] ++;
-						if (down)
-							working.amount[selector.index] - 1 < 0 ? working.amount[selector.index] = 9 : working.amount[selector.index] --;
+							camera.amount[selector.index] + 1 > 9 ? camera.amount[selector.index] = 0 : camera.amount[selector.index] ++;
+						else if (down)
+							camera.amount[selector.index] - 1 < 0 ? camera.amount[selector.index] = 9 : camera.amount[selector.index] --;
+						if (camera.amount[0] < 1 && camera.amount[1] < 1 && camera.amount[2] < 1 && camera.amount[3] < 1)
+							camera.amount[3] = 1;
+						camera.distancePerShot = (camera.travelDistance / arrayToInt(camera.amount));
+						if (controller.A)
+						{
+							photoMenu.index++;
+							lcd.clearDisplay();
+						}
+						else if (controller.B)
+						{
+							photoMenu.index--;
+							lcd.clearDisplay();
+						}
+						break;
+					case 6:
+						if (right)
+							selector.index + 1 > 3 ? selector.index = 0 : selector.index++;
+						else if (left)
+							selector.index - 1 < 0 ? selector.index = 3 : selector.index--;
+						if (up)
+							camera.repeats[selector.index] + 1 > 9 ? camera.repeats[selector.index] = 0 : camera.repeats[selector.index] ++;
+						else if (down)
+							camera.repeats[selector.index] - 1 < 0 ? camera.repeats[selector.index] = 9 : camera.repeats[selector.index] --;
+						if (camera.repeats[0] < 1 && camera.repeats[1] < 1 && camera.repeats[2] < 1 && camera.repeats[3] < 1)
+							camera.repeats[3] = 1;
+						if (controller.A)
+						{
+							photoMenu.index++;
+							lcd.clearDisplay();
+						}
+						else if (controller.B)
+						{
+							photoMenu.index--;
+							lcd.clearDisplay();
+						}
 						break;
 					default:
-						run();
-						photoMenu.index = 0;
-						mainMenu.indexActive = false;
-						printMenu();
-						lcd.setDisplayOn();
+						//
+						slider.runtime = 200;
+						//				
+						if (controller.A)
+						{
+							run();
+							mainMenu.indexActive = false;
+							photoMenu.index = 0;
+							lcd.clearDisplay();
+							printMenu();
+							lcd.setDisplayOn();
+						}
+						else if (controller.B)
+						{
+							photoMenu.index--;
+							lcd.clearDisplay();
+						}
 				}
 				/*
 				if (!photoMenu.indexActive)
@@ -197,16 +258,16 @@ boolean setMenu()
 							switch (photoMenu.index)
 							{
 								case 0:
-									workingPrev.distance[i] = working.distance[i];
+									workingPrev.distance[i] = camera.distance[i];
 									break;
 								case 1:
-									workingPrev.repeats[i] = working.repeats[i];
+									workingPrev.repeats[i] = camera.repeats[i];
 									break;	
 								case 2:
-									workingPrev.shutter[i] = working.shutter[i];
+									workingPrev.shutter[i] = camera.shutter[i];
 									break;
 								case 3:
-									workingPrev.delay[i] = working.delay[i];
+									workingPrev.delay[i] = camera.delay[i];
 									break;
 							}
 						}
@@ -230,39 +291,39 @@ boolean setMenu()
 					{
 						case 0:
 							if (up)
-								working.distance[selector.index] + 1 > 9 ? working.distance[selector.index] = 0 : working.distance[selector.index] ++;
+								camera.distance[selector.index] + 1 > 9 ? camera.distance[selector.index] = 0 : camera.distance[selector.index] ++;
 							if (down)
-								working.distance[selector.index] - 1 < 0 ? working.distance[selector.index] = 9 : working.distance[selector.index] --;
+								camera.distance[selector.index] - 1 < 0 ? camera.distance[selector.index] = 9 : camera.distance[selector.index] --;
 							if (controller.B)
 								for (int i = 0; i < 4; i++)
-									working.distance[i] = workingPrev.distance[i];
+									camera.distance[i] = workingPrev.distance[i];
 							break;
 						case 1:
 							if (up)
-								working.repeats[selector.index] + 1 > 9 ? working.repeats[selector.index] = 0 : working.repeats[selector.index] ++;
+								camera.repeats[selector.index] + 1 > 9 ? camera.repeats[selector.index] = 0 : camera.repeats[selector.index] ++;
 							if (down)
-								working.repeats[selector.index] - 1 < 0 ? working.repeats[selector.index] = 9 : working.repeats[selector.index] --;
+								camera.repeats[selector.index] - 1 < 0 ? camera.repeats[selector.index] = 9 : camera.repeats[selector.index] --;
 							if (controller.B)
 								for (int i = 0; i < 4; i++)
-									working.repeats[i] = workingPrev.repeats[i];
+									camera.repeats[i] = workingPrev.repeats[i];
 							break;
 						case 2:
 							if (up)
-								working.shutter[selector.index] + 1 > 9 ? working.shutter[selector.index] = 0 : working.shutter[selector.index] ++;
+								camera.shutter[selector.index] + 1 > 9 ? camera.shutter[selector.index] = 0 : camera.shutter[selector.index] ++;
 							if (down)
-								working.shutter[selector.index] - 1 < 0 ? working.shutter[selector.index] = 9 : working.shutter[selector.index] --;
+								camera.shutter[selector.index] - 1 < 0 ? camera.shutter[selector.index] = 9 : camera.shutter[selector.index] --;
 							if (controller.B)
 								for (int i = 0; i < 4; i++)
-									working.shutter[i] = workingPrev.shutter[i];
+									camera.shutter[i] = workingPrev.shutter[i];
 							break;
 						case 3:
 							if (up)
-								working.delay[selector.index] + 1 > 9 ? working.delay[selector.index] = 0 : working.delay[selector.index] ++;
+								camera.delay[selector.index] + 1 > 9 ? camera.delay[selector.index] = 0 : camera.delay[selector.index] ++;
 							if (down)
-								working.delay[selector.index] - 1 < 0 ? working.delay[selector.index] = 9 : working.delay[selector.index] --;
+								camera.delay[selector.index] - 1 < 0 ? camera.delay[selector.index] = 9 : camera.delay[selector.index] --;
 							if (controller.B)
 								for (int i = 0; i < 4; i++)
-									working.delay[i] = workingPrev.delay[i];
+									camera.delay[i] = workingPrev.delay[i];
 							break;
 						case 4: 
 							run();
@@ -379,9 +440,11 @@ boolean setMenu()
 	}
 
 	// Check if all data are valid:
-	if (arrayToInt(working.distance) > arrayToInt(slider.length))
+	/*
+	if (arrayToInt(camera.distance) > arrayToInt(slider.length))
 		for (byte i = 0; i < 4; i++)
-			working.distance[i] = slider.length[i];
+			camera.distance[i] = slider.length[i];
+	*/
 
 	// Print menu only when something has been changed
 	while (controller.X < -75 || controller.X > 75 || controller.Y < -75 || controller.Y > 75 || controller.Z || controller.A || controller.B)
@@ -408,13 +471,13 @@ void zeroAll()
 {
 	for (byte i = 0; i < 4; i++)
 	{
-		working.distance[i] = 0;
-		working.repeats[i] = 0;
-		working.shutter[i] = 0;
-		working.delay[i] = 0;
+		//camera.distance[i] = 0;
+		camera.repeats[i] = 0;
+		camera.shutter[i] = 0;
+		camera.delay[i] = 0;
 	}
-	working.mirrorLockup = false;
-	working.autoFocus = false;
+	camera.mirrorLockup = false;
+	camera.autoFocus = false;
 }
 // #####################################################################################################################
 // ######################################### END OF CODE ###############################################################

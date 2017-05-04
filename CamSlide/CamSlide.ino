@@ -120,7 +120,7 @@ struct menuData
 
 struct sliderData
 {
-	int length[4], position1, position2;
+	int length[4], position1, position2, runtime;
 	float transmission;
 	boolean zeroIsLeft;
 } slider, sliderPrev, turner;

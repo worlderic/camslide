@@ -90,9 +90,11 @@ void printMenu()
 					case 7: // Set shutter speed
 						printString(lcdPhotoMenuShutterSpeed00, 2, 0);
 						printHorizontalSelector(camera.shutter, selector.index, 3, 4, 3);
+						break;
 					case 8: // Set delay
 						printString(lcdPhotoMenuDelay00, 2, 0);
 						printHorizontalSelector(camera.delay, selector.index, 3, 4, 3);						
+						break;
 					default:
 						printString(lcdRun00, 3, 0);
 						printString(lcdRun01, 0, 2);
@@ -172,13 +174,13 @@ void printMenu()
 					printString(lcdSettingsMenu00, 3, 0);
 
 					printString(lcdSettingsMenu01, 0, 2);
-					camera.mirrorLockup ? printString(lcdMenuOn, 12, 4) : printString(lcdMenuOff, 12, 4);
+					motor.enabled ? printString(lcdMenuOn, 12, 2) : printString(lcdMenuOff, 12, 2);
 
 					printString(lcdSettingsMenu02, 0, 3);
-					camera.autoFocus ? printString(lcdMenuOn, 12, 4) : printString(lcdMenuOff, 12, 4);
+					camera.mirrorLockup ? printString(lcdMenuOn, 12, 3) : printString(lcdMenuOff, 12, 3);
 
 					printString(lcdSettingsMenu03, 0, 4);
-					motor.enabled ? printString(lcdMenuOn, 12, 4) : printString(lcdMenuOff, 12, 4);
+					camera.autoFocus ? printString(lcdMenuOn, 12, 4) : printString(lcdMenuOff, 12, 4);
 
 					printString(lcdSettingsMenu04, 0, 5);
 					buffer = arrayToInt(slider.length);

@@ -10,8 +10,8 @@ void boot()
 	lcd.rotateDisplay180();
 	//lcd.drawBitmap(bootscreen, 0, 0, 16, 8);
 	printString(lcdStartup00, 7, 2);
-	printString(lcdStartup00, 5, 3);
-	printString(lcdStartup00, 6, 6);
+	printString(lcdStartup01, 6, 3);
+	printString(lcdStartup02, 8, 6);
 
 	pinMode(DRV8825_A_ENBL, OUTPUT);
 	pinMode(DRV8825_A_DIR, OUTPUT);

@@ -29,7 +29,7 @@ void run()
 			shutter == 0 ? delay(100) : delay(shutter);
 			PORTB &= ~_BV(PORTB5);
 			shutter == 0 ? delay(900) : delay(shutter + 1000);
-			delay(d3lay - driveTimeBetweenShots);
+			//delay(d3lay - driveTimeBetweenShots);
 		}
 		// Drive
 		if (j < amount)
@@ -43,9 +43,10 @@ void run()
 			}
 			delay(stabD3lay);
 		}
-
-		break;
 	}
+	disableMotors();
+	delay(50);
+	enableMotors();
 }
 
 void manualRun()

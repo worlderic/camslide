@@ -161,23 +161,23 @@ boolean setMenu()
 						standardOnControllerAB();
 						break;
 					case 5: // Set amount of shots
-						setSelector(0, 3, left, right);
+						setSelector(0, 3, right, left);
 						setSelectorIndex(camera.amount, 0, 9, up, down, zeroNotAllowed);
 						camera.distancePerShot = (camera.travelDistance / arrayToInt(camera.amount));
 						standardOnControllerAB();
 						break;
 					case 6: // Set repeats of shots
-						setSelector(0, 3, left, right);
+						setSelector(0, 3, right, left);
 						setSelectorIndex(camera.repeats, 0, 9, up, down, zeroNotAllowed);
 						standardOnControllerAB();
 						break;
 					case 7: // Set shutter speed
-						setSelector(0, 3, left, right);
+						setSelector(0, 3, right, left);
 						setSelectorIndex(camera.shutter, 0, 9, up, down, zeroIsAllowed);
 						standardOnControllerAB();
 						break;
 					case 8: // Set delay
-						setSelector(0, 3, left, right);
+						setSelector(0, 3, right, left);
 						setSelectorIndex(camera.delay, 0, 9, up, down, zeroIsAllowed);
 						standardOnControllerAB();
 						break;
@@ -339,9 +339,13 @@ boolean setMenu()
 									return(true);
 								case 1: // Mirror lockup
 									camera.mirrorLockup = !camera.mirrorLockup;
+									delay(200);
+									return(true);
 									break;
 								case 2: // Autofocus
 									camera.autoFocus = !camera.autoFocus;
+									delay(200);
+									return(true);
 									break;
 								case 3: // Set length
 									sliderPrev.length[i] = slider.length[i];

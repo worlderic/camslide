@@ -8,7 +8,10 @@ void boot()
 
 	lcd.initialize();
 	lcd.rotateDisplay180();
-	lcd.drawBitmap(bootscreen, 0, 0, 16, 8);
+	//lcd.drawBitmap(bootscreen, 0, 0, 16, 8);
+	printString(lcdStartup00, 7, 2);
+	printString(lcdStartup00, 5, 3);
+	printString(lcdStartup00, 6, 6);
 
 	pinMode(DRV8825_A_ENBL, OUTPUT);
 	pinMode(DRV8825_A_DIR, OUTPUT);
@@ -66,8 +69,8 @@ void boot()
 	motor.delay = 250;
 
 	mainMenu.maxIndex = 2;
-	photoMenu.maxIndex = 4;
-	settingsMenu.maxIndex = 2;
+	photoMenu.maxIndex = 0; // Irellevant
+	settingsMenu.maxIndex = 4;
 
 	unactiveAll();
 	printMenu();

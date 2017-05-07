@@ -12,6 +12,10 @@ PROGMEM const char lcdUnitDegree[] = "deg";
 PROGMEM const char lcdMenuOn[] = " On";
 PROGMEM const char lcdMenuOff[] = "Off";
 
+PROGMEM const char lcdStartup00[] = "CAM";
+PROGMEM const char lcdStartup01[] = "SLIDE";
+PROGMEM const char lcdStartup02[] = "V2";
+
 PROGMEM const char lcdTextCurrentPosition[] = "Current pos.:";
 
 PROGMEM const char lcdCalibrateDisplay01[] = "Calibrate the";
@@ -44,6 +48,8 @@ PROGMEM const char lcdPhotoMenuLength00[] = "SELECT LENGTH";
 PROGMEM const char lcdPhotoMenuAngle10[] = "SELECT ANGLE 2";
 PROGMEM const char lcdPhotoMenuAmount00[] = "SET AMOUNT";
 PROGMEM const char lcdPhotoMenuRepeats00[] = "SET REPEATS";
+PROGMEM const char lcdPhotoMenuShutterSpeed00[] = "SET SHUTTER";
+PROGMEM const char lcdPhotoMenuDelay00[] = "SET DELAY";
 /*
 PROGMEM const char lcdPhotoMenu00[] = "PHOTO MENU";
 PROGMEM const char lcdPhotoMenu01[] = " Dist.";
@@ -64,8 +70,10 @@ PROGMEM const char lcdManualMessage03[] = "'Z': Switch";
 
 PROGMEM const char lcdSettingsMenu00[] = "SETTINGS";
 PROGMEM const char lcdSettingsMenu01[] = " Enable";
-PROGMEM const char lcdSettingsMenu02[] = " Length";
-PROGMEM const char lcdSettingsMenu03[] = " Reset";
+PROGMEM const char lcdSettingsMenu02[] = " Mir. Loc.";
+PROGMEM const char lcdSettingsMenu03[] = " Autofocus";
+PROGMEM const char lcdSettingsMenu04[] = " Length";
+PROGMEM const char lcdSettingsMenu05[] = " Reset";
 PROGMEM const char lcdSettingsMenuLength[] = "LENGTH";
 PROGMEM const char lcdSettingsMenuReset00[] = "RESET";
 PROGMEM const char lcdSettingsMenuReset01[] = "Press A to";

@@ -60,12 +60,9 @@ boolean setMenu()
 					case 0: // Set zero
 						if (controller.B)
 							mainMenu.indexActive = false;
-						if (left)
-							slider.zeroIsLeft = true;
-						else if (right)
-							slider.zeroIsLeft = false;
-						if (left || right)
+						else if (left || right)
 						{
+							left ? slider.zeroIsLeft = true : slider.zeroIsLeft = false;
 							photoMenu.index++;
 							lcd.clearDisplay();
 						}
@@ -102,11 +99,7 @@ boolean setMenu()
 								printBuffer((int)stepsToDegrees(turner.position1), 4, 5, true);
 							}
 						}
-						if (controller.A)
-							photoMenu.index++;
-						else if (controller.B)
-							photoMenu.index = 0;
-						lcd.clearDisplay();
+						standardOnControllerAB();
 						break;
 					case 3: // Set length
 						while (!controller.A && !controller.B)
@@ -134,13 +127,10 @@ boolean setMenu()
 								printBuffer((int)stepsToMillimeter(slider.position2), 4, 5, true);
 							}
 						}
-						camera.travelDistance = stepsToMillimeter(abs(slider.position2 - slider.position1));
+						camera.totalSteps = abs(slider.position2 - slider.position1);
+						camera.travelDistance = stepsToMillimeter(camera.totalSteps);
 						camera.distancePerShot = (camera.travelDistance / arrayToInt(camera.amount));
-						if (controller.A)
-							photoMenu.index++;
-						else if (controller.B)
-							photoMenu.index--;
-						lcd.clearDisplay();
+						standardOnControllerAB();
 						break;
 					case 4: // Set angle 2
 						while (!controller.A && !controller.B)
@@ -168,56 +158,28 @@ boolean setMenu()
 								printBuffer((int)stepsToDegrees(turner.position2), 4, 5, true);
 							}
 						}
-						if (controller.A)
-							photoMenu.index++;
-						else if (controller.B)
-							photoMenu.index--;
-						lcd.clearDisplay();
+						standardOnControllerAB();
 						break;
 					case 5: // Set amount of shots
-						if (right)
-							selector.index + 1 > 3 ? selector.index = 0 : selector.index++;
-						else if (left)
-							selector.index - 1 < 0 ? selector.index = 3 : selector.index--;
-						if (up)
-							camera.amount[selector.index] + 1 > 9 ? camera.amount[selector.index] = 0 : camera.amount[selector.index] ++;
-						else if (down)
-							camera.amount[selector.index] - 1 < 0 ? camera.amount[selector.index] = 9 : camera.amount[selector.index] --;
-						if (camera.amount[0] < 1 && camera.amount[1] < 1 && camera.amount[2] < 1 && camera.amount[3] < 1)
-							camera.amount[3] = 1;
+						setSelector(0, 3, left, right);
+						setSelectorIndex(camera.amount, 0, 9, up, down, zeroNotAllowed);
 						camera.distancePerShot = (camera.travelDistance / arrayToInt(camera.amount));
-						if (controller.A)
-						{
-							photoMenu.index++;
-							lcd.clearDisplay();
-						}
-						else if (controller.B)
-						{
-							photoMenu.index--;
-							lcd.clearDisplay();
-						}
+						standardOnControllerAB();
 						break;
-					case 6:
-						if (right)
-							selector.index + 1 > 3 ? selector.index = 0 : selector.index++;
-						else if (left)
-							selector.index - 1 < 0 ? selector.index = 3 : selector.index--;
-						if (up)
-							camera.repeats[selector.index] + 1 > 9 ? camera.repeats[selector.index] = 0 : camera.repeats[selector.index] ++;
-						else if (down)
-							camera.repeats[selector.index] - 1 < 0 ? camera.repeats[selector.index] = 9 : camera.repeats[selector.index] --;
-						if (camera.repeats[0] < 1 && camera.repeats[1] < 1 && camera.repeats[2] < 1 && camera.repeats[3] < 1)
-							camera.repeats[3] = 1;
-						if (controller.A)
-						{
-							photoMenu.index++;
-							lcd.clearDisplay();
-						}
-						else if (controller.B)
-						{
-							photoMenu.index--;
-							lcd.clearDisplay();
-						}
+					case 6: // Set repeats of shots
+						setSelector(0, 3, left, right);
+						setSelectorIndex(camera.repeats, 0, 9, up, down, zeroNotAllowed);
+						standardOnControllerAB();
+						break;
+					case 7: // Set shutter speed
+						setSelector(0, 3, left, right);
+						setSelectorIndex(camera.shutter, 0, 9, up, down, zeroIsAllowed);
+						standardOnControllerAB();
+						break;
+					case 8: // Set delay
+						setSelector(0, 3, left, right);
+						setSelectorIndex(camera.delay, 0, 9, up, down, zeroIsAllowed);
+						standardOnControllerAB();
 						break;
 					default:
 						//
@@ -370,15 +332,21 @@ boolean setMenu()
 						{
 							switch (settingsMenu.index)
 							{
-								case 0:
+								case 0: // En/Disable motor
 									motor.enabled = !motor.enabled;
 									motor.enabled ? enableMotors() : disableMotors();
 									delay(200);
 									return(true);
-								case 1:
+								case 1: // Mirror lockup
+									camera.mirrorLockup = !camera.mirrorLockup;
+									break;
+								case 2: // Autofocus
+									camera.autoFocus = !camera.autoFocus;
+									break;
+								case 3: // Set length
 									sliderPrev.length[i] = slider.length[i];
 									break;
-								case 2:
+								case 4: // Reset
 									// Nothing to do here
 									break;	
 							}
@@ -401,10 +369,16 @@ boolean setMenu()
 						selector.index - 1 < 0 ? selector.index = 3 : selector.index--;
 					switch (settingsMenu.index)
 					{
-						case 0:
+						case 0: // En/Disable Stepper
 							// Nothing to do here
 							break;
-						case 1:
+						case 1: // Mirror lockup
+							// Nothing to do here
+							break;
+						case 2: // Autofocus
+							// Nothing to do here
+							break;
+						case 3: // Set length
 							if (up)
 								slider.length[selector.index] + 1 > 9 ? slider.length[selector.index] = 0 : slider.length[selector.index] ++;
 							if (down)
@@ -416,7 +390,7 @@ boolean setMenu()
 								for (int i = 0; i < 4; i++)
 									slider.length[i] = sliderPrev.length[i];
 							break;
-						case 2:
+						case 4: // Reset
 							if (controller.A)
 							{
 								EEPROM.write(EEPROM_fail, 0);
@@ -459,6 +433,33 @@ boolean setMenu()
 	return false;
 }
 
+void setSelector(int minVal, int maxVal, boolean right, boolean left)
+{
+	if (right)
+		selector.index + 1 > maxVal ? selector.index = minVal : selector.index++;
+	else if (left)
+		selector.index - 1 < minVal ? selector.index = maxVal : selector.index--;
+}
+
+void setSelectorIndex(int data[], int minVal, int maxVal, boolean up, boolean down, boolean zeroAllowence)
+{
+	if (up)
+		data[selector.index] + 1 > maxVal ? data[selector.index] = minVal : data[selector.index] ++;
+	else if (down)
+		data[selector.index] - 1 < minVal ? data[selector.index] = maxVal : data[selector.index] --;
+	if (zeroAllowence && (data[0] < 1 && data[1] < 1 && data[2] < 1 && data[3] < 1))
+		data[3] = 1;
+}
+
+void standardOnControllerAB()
+{
+	if (controller.A || controller.B)
+	{
+		lcd.clearDisplay();
+		controller.A ? photoMenu.index++ : photoMenu.index--;
+	}
+}
+
 void unactiveAll()
 {
 	mainMenu.indexActive = false;
@@ -472,7 +473,8 @@ void zeroAll()
 	for (byte i = 0; i < 4; i++)
 	{
 		//camera.distance[i] = 0;
-		camera.repeats[i] = 0;
+		camera.amount[i] = i == 0 ? 1 : 0;
+		camera.repeats[i] = i == 0 ? 1 : 0;
 		camera.shutter[i] = 0;
 		camera.delay[i] = 0;
 	}

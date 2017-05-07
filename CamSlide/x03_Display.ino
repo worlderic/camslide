@@ -83,10 +83,16 @@ void printMenu()
 						printBuffer((int)camera.distancePerShot, 4, 7, true);
 						printString(lcdUnitMillimeterPerShot, 10, 7);
 						break;
-					case 6: // Repeats of capture
+					case 6: // Repeats of shots
 						printString(lcdPhotoMenuRepeats00, 2, 0);
 						printHorizontalSelector(camera.repeats, selector.index, 3, 4, 3);
 						break;
+					case 7: // Set shutter speed
+						printString(lcdPhotoMenuShutterSpeed00, 2, 0);
+						printHorizontalSelector(camera.shutter, selector.index, 3, 4, 3);
+					case 8: // Set delay
+						printString(lcdPhotoMenuDelay00, 2, 0);
+						printHorizontalSelector(camera.delay, selector.index, 3, 4, 3);						
 					default:
 						printString(lcdRun00, 3, 0);
 						printString(lcdRun01, 0, 2);
@@ -164,16 +170,24 @@ void printMenu()
 				if (!settingsMenu.indexActive)
 				{
 					printString(lcdSettingsMenu00, 3, 0);
+
 					printString(lcdSettingsMenu01, 0, 2);
-					motor.enabled ? printString(lcdMenuOn, 12, 2) : printString(lcdMenuOff, 12, 2);
+					camera.mirrorLockup ? printString(lcdMenuOn, 12, 4) : printString(lcdMenuOff, 12, 4);
+
 					printString(lcdSettingsMenu02, 0, 3);
-					buffer = arrayToInt(slider.length);
-					printBuffer(buffer, 8, 3, false);
-					printString(lcdUnitMillimeter, 13, 3);
+					camera.autoFocus ? printString(lcdMenuOn, 12, 4) : printString(lcdMenuOff, 12, 4);
 
 					printString(lcdSettingsMenu03, 0, 4);
+					motor.enabled ? printString(lcdMenuOn, 12, 4) : printString(lcdMenuOff, 12, 4);
 
-					printVerticalSelector(settingsMenu.index, 0, 2, 4);
+					printString(lcdSettingsMenu04, 0, 5);
+					buffer = arrayToInt(slider.length);
+					printBuffer(buffer, 8, 5, false);
+					printString(lcdUnitMillimeter, 13, 5);
+
+					printString(lcdSettingsMenu05, 0, 6);
+
+					printVerticalSelector(settingsMenu.index, 0, 2, 6);
 				}
 				else 
 				{
@@ -183,11 +197,17 @@ void printMenu()
 							// Nothing to do here
 							break;
 						case 1:
+							// Nothing to do here
+							break;
+						case 2:
+							// Nothing to do here
+							break;
+						case 3:
 							printString(lcdSettingsMenuLength, 4, 0);
 							printHorizontalSelector(slider.length, selector.index, 3, 2, 3);
 							printString(lcdUnitMillimeter, 11, 3);
 							break;
-						case 2:
+						case 4:
 							printString(lcdSettingsMenuReset00, 4, 0);
 							printString(lcdSettingsMenuReset01, 0, 2);
 							printString(lcdSettingsMenuReset02, 0, 3);
@@ -213,9 +233,9 @@ void printHorizontalSelector(int value[], int index, int max, int lcdX, int lcdY
 	}
 }
 
-void printVerticalSelector(int index, int lcdX, int lcdY, int blank) // default for blank: 99
+void printVerticalSelector(int index, int lcdX, int lcdY, int blanc) // default for blanc: 99
 {	
-	index == blank ? lcd.printChar('>', lcdX, lcdY + index + 1) : lcd.printChar('>', lcdX, lcdY + index);
+	index == blanc ? lcd.printChar('>', lcdX, lcdY + index + 1) : lcd.printChar('>', lcdX, lcdY + index);
 }
 
 void printBuffer(int buffer, int lcdX, int lcdY, boolean blanc)

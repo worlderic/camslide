@@ -93,6 +93,10 @@
 #define Camera_Focus	12
 #define Camera_Trigger	13
 
+// Better reading
+#define zeroIsAllowed	false
+#define zeroNotAllowed	true
+
 // DEFINE EEPROM
 #define EEPROM_fail				0x00
 #define EEPROM_pos 				1
@@ -133,7 +137,7 @@ struct motorData
 
 struct cameraData
 {
-	int amount[4], repeats[4], shutter[4], delay[4];
+	int amount[4], repeats[4], shutter[4], delay[4], totalSteps;
 	float travelDistance, distancePerShot;
 	boolean mirrorLockup, autoFocus;
 } camera;

@@ -3,33 +3,45 @@
 // #####################################################################################################################
 void run()
 {
-	int length, position, distance, repeats, shutter, d3lay;
+	int amount, distance, repeats, shutter, d3lay, stepsBetweenShots, driveTimeBetweenShots, stabD3lay;
 
 	gotoZero();
 
 	lcd.setDisplayOff();
 
 	// Prepare for working routine
-	length = arrayToInt(slider.length);
-	position = arrayToInt(slider.length);
+	amount = arrayToInt(camera.amount);
 	repeats = arrayToInt(camera.repeats);
 	shutter = arrayToInt(camera.shutter);
 	d3lay = arrayToInt(camera.delay);
+	stepsBetweenShots = camera.totalSteps / amount;
+	driveTimeBetweenShots = 2000; // Needs to be calculated!
+	stabD3lay = 1500; // Delay for stabilisation
 
 	// And finally start
-	while (true)
+	slider.zeroIsLeft ? PORTD &= ~_BV(PORTD3) : PORTD |= _BV(PORTD3);
+	for (int j = 0; j < amount + 1; j++)
 	{
-		PORTD &= ~_BV(PORTD3); // Direction LOW
-
-		for(int i = 0; i < 5000; i++) 
+		// Trigger camera
+		for (int i = 0; i < repeats; i++)
 		{
-		    if (digitalRead(Sensor))
-		    {
+			PORTB |= _BV(PORTB5);
+			shutter == 0 ? delay(100) : delay(shutter);
+			PORTB &= ~_BV(PORTB5);
+			shutter == 0 ? delay(900) : delay(shutter + 1000);
+			delay(d3lay - driveTimeBetweenShots);
+		}
+		// Drive
+		if (j < amount)
+		{
+			for(int i = 0; i < stepsBetweenShots; i++) 
+			{
 			    PORTD |= _BV(PORTD4); // Step HIGH
 			    delayMicroseconds(motor.delay);
 			    PORTD &= ~_BV(PORTD4); // Step LOW
-			    delayMicroseconds(750);
+			    delayMicroseconds(1500);
 			}
+			delay(stabD3lay);
 		}
 
 		break;
@@ -38,6 +50,7 @@ void run()
 
 void manualRun()
 {
+	boolean linearSelected = true;
 	enableMotors();
 	while (!controller.B)
 	{
@@ -47,10 +60,30 @@ void manualRun()
 
 		if (abs(controller.X) > 5 && digitalRead(Sensor))
 		{
-			PORTD |= _BV(PORTD4); // HIGH
-		    delayMicroseconds(motor.delay);
-		    PORTD &= ~_BV(PORTD4); // LOW
-		    delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 200));
+			if (linearSelected)
+			{
+				PORTD |= _BV(PORTD4); // HIGH
+			    delayMicroseconds(motor.delay);
+			    PORTD &= ~_BV(PORTD4); // LOW
+			    delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 200));
+			}
+			else 
+			{
+		    	PORTD |= _BV(PORTD7); // HIGH
+		        delayMicroseconds(motor.delay);
+		        PORTD &= ~_BV(PORTD7); // LOW
+		        delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 1500));
+			}
+		}
+		else if (controller.Z)
+		{
+			linearSelected = !linearSelected;
+		}
+		else if (controller.A)
+		{
+			PORTB |= _BV(PORTB5);
+			delay(100);
+			PORTB &= ~_BV(PORTB5);
 		}
 	}
 }

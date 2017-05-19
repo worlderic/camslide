@@ -3,23 +3,46 @@
 // #####################################################################################################################
 void run()
 {
-	int amount, distance, repeats, shutter, d3lay, stepsBetweenShots, driveTimeBetweenShots, stabD3lay;
-
-	gotoZero();
-
 	lcd.setDisplayOff();
 
+	long amount, distance, repeats, shutter, d3lay, stepsBetweenShots, stepsBetweenShotsLinear, stepsBetweenShotsAngular, driveTimeBetweenShots;
+	motor.delay = 250; // µs
+	step.delay = 2000; // µs
+
+	gotoZero();
+	// Place turner at starting position
+	turner.position1 > 0 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
+	for (int i = 0; i < abs(turner.position1); i++)
+	{
+		PORTD |= _BV(PORTD7); // HIGH
+	    delayMicroseconds(motor.delay);
+	    PORTD &= ~_BV(PORTD7); // LOW
+	    delayMicroseconds(3000);
+	}
+
 	// Prepare for working routine
-	amount = arrayToInt(camera.amount);
-	repeats = arrayToInt(camera.repeats);
-	shutter = arrayToInt(camera.shutter);
-	d3lay = arrayToInt(camera.delay);
-	stepsBetweenShots = camera.totalSteps / amount;
-	driveTimeBetweenShots = 2000; // Needs to be calculated!
-	stabD3lay = 1500; // Delay for stabilisation
+	amount = arrayToInt(camera.amount); // 1
+	repeats = arrayToInt(camera.repeats); // 1
+	shutter = arrayToInt(camera.shutter) * 1000; // ms
+	d3lay = arrayToInt(camera.delay) + 1000; // ms
+	
+	// Calc. delay time
+	stepsBetweenShotsLinear = slider.totalSteps / amount;
+	driveTimeBetweenShots = ((1.25 * stepsBetweenShotsLinear) + 1000); // ms               Step-Constant not correct yet
+	
+	// ????????
+	if (shutter < driveTimeBetweenShots)
+		d3lay = 0;
+	else 
+		d3lay -= driveTimeBetweenShots;
+
+	// Calc steps on turner
+	stepsBetweenShotsAngular = turner.totalSteps / amount;
+	stepsBetweenShots = stepsBetweenShotsLinear > stepsBetweenShotsAngular ? stepsBetweenShotsLinear : stepsBetweenShotsAngular;
 
 	// And finally start
 	slider.zeroIsLeft ? PORTD &= ~_BV(PORTD3) : PORTD |= _BV(PORTD3);
+	turner.position1 > turner.position2 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
 	for (int j = 0; j < amount + 1; j++)
 	{
 		// Trigger camera
@@ -31,17 +54,21 @@ void run()
 			shutter == 0 ? delay(900) : delay(shutter + 1000);
 			//delay(d3lay - driveTimeBetweenShots);
 		}
-		// Drive
+		// Drive & turn
 		if (j < amount)
 		{
 			for(int i = 0; i < stepsBetweenShots; i++) 
 			{
-			    PORTD |= _BV(PORTD4); // Step HIGH
-			    delayMicroseconds(motor.delay);
+			    if (i < stepsBetweenShotsLinear)
+				    PORTD |= _BV(PORTD4); // Step HIGH
+				if (i < stepsBetweenShotsAngular)
+					PORTD |= _BV(PORTD7); // Step HIGH
+				delayMicroseconds(motor.delay);
 			    PORTD &= ~_BV(PORTD4); // Step LOW
-			    delayMicroseconds(1500);
+				PORTD &= ~_BV(PORTD7); // Step LOW
+				delayMicroseconds(step.delay);
 			}
-			delay(stabD3lay);
+			delay(d3lay);
 		}
 	}
 	disableMotors();
@@ -58,6 +85,7 @@ void manualRun()
 		getControllerData(true);
 
 		controller.X > 0 ? PORTD |= _BV(PORTD3) : PORTD &= ~_BV(PORTD3);
+		controller.X > 0 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
 
 		if (abs(controller.X) > 5 && digitalRead(Sensor))
 		{
@@ -73,7 +101,7 @@ void manualRun()
 		    	PORTD |= _BV(PORTD7); // HIGH
 		        delayMicroseconds(motor.delay);
 		        PORTD &= ~_BV(PORTD7); // LOW
-		        delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 1500));
+		        delayMicroseconds(map(abs(controller.X), 5, 100, 5000, 2000));
 			}
 		}
 		else if (controller.Z)
@@ -112,6 +140,21 @@ void gotoZero()
 	delay(100);
 	slider.position1 = 0;
 	slider.position2 = 0;
+	
+	if (turner.absPos == 0)
+		return;
+	else 
+	{
+		turner.absPos < 0 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
+		for (int i = 0; i < abs(turner.absPos); i++)
+		{
+			PORTD |= _BV(PORTD7); // HIGH
+		    delayMicroseconds(motor.delay);
+		    PORTD &= ~_BV(PORTD7); // LOW
+		    delayMicroseconds(3000);
+		}
+		turner.absPos = 0;
+	}
 }
 
 float stepsToMillimeter(int steps)
@@ -128,6 +171,8 @@ void enableMotors()
 {
 	PORTD |= _BV(PORTD2);
 	PORTD |= _BV(PORTD5);
+    PORTD &= ~_BV(PORTD4); // Step LOW
+	PORTD &= ~_BV(PORTD7); // Step LOW
 	motor.enabled = true;
 }
 

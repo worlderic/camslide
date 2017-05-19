@@ -57,6 +57,7 @@ void boot()
 
 	turner.position1 = 0;
 	turner.position2 = 0;
+	turner.absPos = 0;
 
 	camera.amount[3] = 1;
 	camera.repeats[3] = 1;

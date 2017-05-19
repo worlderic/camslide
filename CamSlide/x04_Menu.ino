@@ -74,6 +74,7 @@ boolean setMenu()
 						printMenu();
 						break;
 					case 2: // Set angle 1
+						turner.position1 = turner.absPos;
 						while (!controller.A && !controller.B)
 						{
 							getControllerData(true);
@@ -99,7 +100,12 @@ boolean setMenu()
 								printBuffer((int)stepsToDegrees(turner.position1), 4, 5, true);
 							}
 						}
-						standardOnControllerAB();
+						turner.absPos = turner.position1;
+						if (controller.A || controller.B)
+						{
+							lcd.clearDisplay();
+							controller.A ? photoMenu.index++ : photoMenu.index = 0;
+						}
 						break;
 					case 3: // Set length
 						while (!controller.A && !controller.B)
@@ -127,12 +133,13 @@ boolean setMenu()
 								printBuffer((int)stepsToMillimeter(slider.position2), 4, 5, true);
 							}
 						}
-						camera.totalSteps = abs(slider.position2 - slider.position1);
-						camera.travelDistance = stepsToMillimeter(camera.totalSteps);
+						slider.totalSteps = abs(slider.position2 - slider.position1);
+						camera.travelDistance = stepsToMillimeter(slider.totalSteps);
 						camera.distancePerShot = (camera.travelDistance / arrayToInt(camera.amount));
 						standardOnControllerAB();
 						break;
 					case 4: // Set angle 2
+						turner.position2 = turner.absPos;
 						while (!controller.A && !controller.B)
 						{
 							getControllerData(true);
@@ -158,6 +165,8 @@ boolean setMenu()
 								printBuffer((int)stepsToDegrees(turner.position2), 4, 5, true);
 							}
 						}
+						turner.absPos = turner.position2;
+						turner.totalSteps = abs(turner.position2 - turner.position1);
 						standardOnControllerAB();
 						break;
 					case 5: // Set amount of shots

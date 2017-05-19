@@ -69,6 +69,7 @@
 		Controller max Y 	int 	16, 17
 */	
 #define D3BUG
+#define MOTORTIME
 
 #include <EEPROM.h>
 #include <OLED_I2C_128x64_Monochrome.h>
@@ -124,7 +125,7 @@ struct menuData
 
 struct sliderData
 {
-	int length[4], position1, position2, runtime;
+	int length[4], position1, position2, runtime, totalSteps, absPos;
 	float transmission;
 	boolean zeroIsLeft;
 } slider, sliderPrev, turner;
@@ -133,11 +134,11 @@ struct motorData
 {
 	boolean enabled;
 	int delay;
-} motor;
+} motor, step;
 
 struct cameraData
 {
-	int amount[4], repeats[4], shutter[4], delay[4], totalSteps;
+	int amount[4], repeats[4], shutter[4], delay[4];
 	float travelDistance, distancePerShot;
 	boolean mirrorLockup, autoFocus;
 } camera;
@@ -147,6 +148,9 @@ void setup()
 	#ifdef D3BUG
 	Serial.begin(9600);
 	Serial.println("D3BUG MODE");
+	#endif
+	#ifdef MOTORTIME
+	
 	#endif
 	boot();
 }

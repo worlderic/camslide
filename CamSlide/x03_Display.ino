@@ -92,7 +92,7 @@ void printMenu()
 						printHorizontalSelector(camera.shutter, selector.index, 3, 4, 3);
 						break;
 					case 8: // Set delay
-						printString(lcdPhotoMenuDelay00, 2, 0);
+						printString(lcdPhotoMenuDelay00, 3, 0);
 						printHorizontalSelector(camera.delay, selector.index, 3, 4, 3);						
 						break;
 					default:

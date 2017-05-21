@@ -5,11 +5,13 @@ void run()
 {
 	lcd.setDisplayOff();
 
-	long amount, distance, repeats, shutter, d3lay, stepsBetweenShots, stepsBetweenShotsLinear, stepsBetweenShotsAngular, driveTimeBetweenShots;
+	long amount, distance, repeats, shutter, d3lay, stepsBetweenShots, stepsBetweenShotsLinear, stepsBetweenShotsAngular,
+		 driveTimeBetweenShots, turnTimeBetweenShots, timeInMovement;
 	motor.delay = 250; // µs
 	step.delay = 2000; // µs
 
-	gotoZero();
+	gotoZero(true);
+	/*
 	// Place turner at starting position
 	turner.position1 > 0 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
 	for (int i = 0; i < abs(turner.position1); i++)
@@ -19,22 +21,19 @@ void run()
 	    PORTD &= ~_BV(PORTD7); // LOW
 	    delayMicroseconds(3000);
 	}
+	*/
 
 	// Prepare for working routine
 	amount = arrayToInt(camera.amount); // 1
 	repeats = arrayToInt(camera.repeats); // 1
 	shutter = arrayToInt(camera.shutter) * 1000; // ms
-	d3lay = arrayToInt(camera.delay) + 1000; // ms
+	d3lay = arrayToInt(camera.delay); // ms
 	
 	// Calc. delay time
 	stepsBetweenShotsLinear = slider.totalSteps / amount;
-	driveTimeBetweenShots = ((1.25 * stepsBetweenShotsLinear) + 1000); // ms               Step-Constant not correct yet
-	
-	// ????????
-	if (shutter < driveTimeBetweenShots)
-		d3lay = 0;
-	else 
-		d3lay -= driveTimeBetweenShots;
+	driveTimeBetweenShots = 1.25 * stepsBetweenShotsLinear; // ms               Step-Constant not correct yet
+	turnTimeBetweenShots = 1.25 * stepsBetweenShotsAngular; // ms 				Step-Constant not correct yet
+	timeInMovement = driveTimeBetweenShots > turnTimeBetweenShots ? driveTimeBetweenShots : turnTimeBetweenShots; // ms
 
 	// Calc steps on turner
 	stepsBetweenShotsAngular = turner.totalSteps / amount;
@@ -51,8 +50,7 @@ void run()
 			PORTB |= _BV(PORTB5);
 			shutter == 0 ? delay(100) : delay(shutter);
 			PORTB &= ~_BV(PORTB5);
-			shutter == 0 ? delay(900) : delay(shutter + 1000);
-			//delay(d3lay - driveTimeBetweenShots);
+			delay(i + 1 == repeats ? 100 : d3lay);
 		}
 		// Drive & turn
 		if (j < amount)
@@ -68,7 +66,10 @@ void run()
 				PORTD &= ~_BV(PORTD7); // Step LOW
 				delayMicroseconds(step.delay);
 			}
-			delay(d3lay);
+			if (d3lay - timeInMovement > 500)
+				delay(d3lay - timeInMovement);
+			else 
+				delay(500);
 		}
 	}
 	disableMotors();
@@ -117,7 +118,7 @@ void manualRun()
 	}
 }
 
-void gotoZero()
+void gotoZero(boolean turnerToStartPos)
 {
 	enableMotors();
 	slider.zeroIsLeft ? PORTD |= _BV(PORTD3) : PORTD &= ~_BV(PORTD3);
@@ -141,19 +142,38 @@ void gotoZero()
 	slider.position1 = 0;
 	slider.position2 = 0;
 	
-	if (turner.absPos == 0)
-		return;
+	if (turnerToStartPos)
+	{
+		if (turner.absPos == turner.position1)
+			return;
+		else 
+		{
+			turner.absPos > turner.position1 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
+			for (int i = 0; i < abs(turner.absPos - turner.position1); i++)
+			{
+				PORTD |= _BV(PORTD7); // HIGH
+			    delayMicroseconds(motor.delay);
+			    PORTD &= ~_BV(PORTD7); // LOW
+			    delayMicroseconds(3000);
+			}
+		}
+	}
 	else 
 	{
-		turner.absPos < 0 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
-		for (int i = 0; i < abs(turner.absPos); i++)
+		if (turner.absPos == 0)
+			return;
+		else 
 		{
-			PORTD |= _BV(PORTD7); // HIGH
-		    delayMicroseconds(motor.delay);
-		    PORTD &= ~_BV(PORTD7); // LOW
-		    delayMicroseconds(3000);
+			turner.absPos < 0 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
+			for (int i = 0; i < abs(turner.absPos); i++)
+			{
+				PORTD |= _BV(PORTD7); // HIGH
+			    delayMicroseconds(motor.delay);
+			    PORTD &= ~_BV(PORTD7); // LOW
+			    delayMicroseconds(3000);
+			}
+			turner.absPos = 0;
 		}
-		turner.absPos = 0;
 	}
 }
 

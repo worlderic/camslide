@@ -68,7 +68,7 @@ boolean setMenu()
 						}
 						break;
 					case 1: // Goto zero
-						gotoZero();
+						gotoZero(false);
 						photoMenu.index++;
 						lcd.clearDisplay();
 						printMenu();

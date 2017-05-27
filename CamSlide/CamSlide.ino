@@ -30,19 +30,19 @@
 		  D6 	|	  DIR B		|				|				|			|				|	  
 		  D7 	|	  STEP B	|				|				|			|				|	  
 		  D8 	|	  			|				|				|	  S1	|				|	  
-		  D9 	|	  			|				|				|			|	  S2		|	  
-		  D10 	|	  			|				|				|			|	  S3		|	  
-		  D11 	|	  			|				|				|			|	  S4		|	  
-		  D12 	|	  			|				|				|			|				|	  Focus	  
-		  D13 	|	  			|				|				|			|				|	  Trigger
-		  A0	|				|				|				|			|				|
-		  A1 	|	  			|				|				|			|				|	  
+		  D9 	|	  			|				|				|			|	  A 		|	  
+		  D10 	|	  			|				|				|			|	  B 		|	  
+		  D11 	|	  			|				|				|			|	    		|	  Focus
+		  D12 	|	  			|				|				|			|				|	  Trigger
+		  D13 	|	  			|				|				|			|	  Z			|	  
+		  A0	|				|				|				|			|	  X			|
+		  A1 	|	  			|				|				|			|	  Y			|	  
 		  A2 	|	  			|				|				|			|				|	  
 		  A3	|	  			|				|				|			|				|	  
 		  A4	|	  			|	  SDA		|	  SDA		|			|				|	  
 		  A5	|	  			|	  SCL		|	  SCL		|			|				|	  
-		  A6	|	  			|				|				|			|	  X			|	  
-		  A7	|	  			|				|				|			|	  Y			|	  
+		  A6	|	  			|				|				|			|	  			|	  
+		  A7	|	  			|				|				|			|	  			|	  
 
 	MENU
 		- Photo
@@ -87,12 +87,12 @@
 
 #define Controller_A	9
 #define Controller_B	10
-#define Controller_X	A6
-#define Controller_Y	A7
-#define Controller_Z	11
+#define Controller_X	A0
+#define Controller_Y	A1
+#define Controller_Z	13
 
-#define Camera_Focus	12
-#define Camera_Trigger	13
+#define Camera_Focus	11
+#define Camera_Trigger	12
 
 // Better reading
 #define zeroIsAllowed	false

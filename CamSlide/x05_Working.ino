@@ -47,9 +47,9 @@ void run()
 		// Trigger camera
 		for (int i = 0; i < repeats; i++)
 		{
-			PORTB |= _BV(PORTB5);
+			PORTB |= _BV(PORTB4);
 			shutter == 0 ? delay(100) : delay(shutter);
-			PORTB &= ~_BV(PORTB5);
+			PORTB &= ~_BV(PORTB4);
 			delay(i + 1 == repeats ? 100 : d3lay);
 		}
 		// Drive & turn
@@ -111,9 +111,9 @@ void manualRun()
 		}
 		else if (controller.A)
 		{
-			PORTB |= _BV(PORTB5);
+			PORTB |= _BV(PORTB4);
 			delay(100);
-			PORTB &= ~_BV(PORTB5);
+			PORTB &= ~_BV(PORTB4);
 		}
 	}
 }

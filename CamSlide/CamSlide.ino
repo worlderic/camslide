@@ -44,21 +44,6 @@
 		  A6	|	  			|				|				|			|	  			|	  
 		  A7	|	  			|				|				|			|	  			|	  
 
-	MENU
-		- Photo
-			+ Distance
-			+ Repeats
-			+ Shutter Speed
-			+ Delay
-			+ Start
-		- Manual
-		- Settings
-			+ Length
-			+ Speed
-			+ Acceleration
-			+ Mirror Lockup
-			+ Auto Focus
-
 	EEPROM
 		Fail				bit 	0
 		Position			bit 	1, 2, 3, 4
@@ -75,7 +60,7 @@
 #include <OLED_I2C_128x64_Monochrome.h>
 #include <Wire.h>
 
-// DEFINE HARDWARE
+// Define hardware
 #define DRV8825_A_ENBL	2
 #define DRV8825_A_DIR	3
 #define DRV8825_A_STEP	4
@@ -160,6 +145,3 @@ void loop()
 	getControllerData(true); // true for the calibration
 	if (setMenu()) printMenu();
 }
-// #####################################################################################################################  
-// ######################################### END OF CODE ###############################################################
-// #####################################################################################################################

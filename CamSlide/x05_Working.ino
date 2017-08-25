@@ -120,14 +120,38 @@ void manualRun()
 
 void gotoZero(boolean turnerToStartPos)
 {
+	int turnerTicks = 0;
 	enableMotors();
 	slider.zeroIsLeft ? PORTD |= _BV(PORTD3) : PORTD &= ~_BV(PORTD3);
-	while (digitalRead(Sensor))
+	if (turnerToStartPos)
 	{
-		PORTD |= _BV(PORTD4); // HIGH
-	    delayMicroseconds(motor.delay);
-	    PORTD &= ~_BV(PORTD4); // LOW
-	    delayMicroseconds(1750);
+		turner.absPos > turner.position1 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
+		turnerTicks = abs(turner.absPos - turner.position1);
+		turner.absPos = turner.position1;
+	}
+	else 
+	{
+		turner.absPos < 0 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
+		turnerTicks = abs(turner.absPos);
+		turner.absPos = 0;
+	}
+	while (digitalRead(Sensor) || turnerTicks > 0)
+	{
+		if (digitalRead(Sensor))
+		{
+			PORTD |= _BV(PORTD4); // HIGH
+		    delayMicroseconds(motor.delay);
+		    PORTD &= ~_BV(PORTD4); // LOW
+		    delayMicroseconds(1750);
+		}
+		if (turnerTicks > 0)
+		{
+			PORTD |= _BV(PORTD7); // HIGH
+		    delayMicroseconds(motor.delay);
+		    PORTD &= ~_BV(PORTD7); // LOW
+		    delayMicroseconds(3000);
+		    turnerTicks--;
+		}
 	}
 	delay(100);
 	slider.zeroIsLeft ? PORTD &= ~_BV(PORTD3) : PORTD |= _BV(PORTD3);
@@ -141,40 +165,6 @@ void gotoZero(boolean turnerToStartPos)
 	delay(100);
 	slider.position1 = 0;
 	slider.position2 = 0;
-	
-	if (turnerToStartPos)
-	{
-		if (turner.absPos == turner.position1)
-			return;
-		else 
-		{
-			turner.absPos > turner.position1 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
-			for (int i = 0; i < abs(turner.absPos - turner.position1); i++)
-			{
-				PORTD |= _BV(PORTD7); // HIGH
-			    delayMicroseconds(motor.delay);
-			    PORTD &= ~_BV(PORTD7); // LOW
-			    delayMicroseconds(3000);
-			}
-		}
-	}
-	else 
-	{
-		if (turner.absPos == 0)
-			return;
-		else 
-		{
-			turner.absPos < 0 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
-			for (int i = 0; i < abs(turner.absPos); i++)
-			{
-				PORTD |= _BV(PORTD7); // HIGH
-			    delayMicroseconds(motor.delay);
-			    PORTD &= ~_BV(PORTD7); // LOW
-			    delayMicroseconds(3000);
-			}
-			turner.absPos = 0;
-		}
-	}
 }
 
 float stepsToMillimeter(int steps)

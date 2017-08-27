@@ -118,7 +118,7 @@ struct sliderData
 struct motorData
 {
 	boolean enabled;
-	int delay;
+	int delay, maxDelay, minDelay;
 } motor, step;
 
 struct cameraData

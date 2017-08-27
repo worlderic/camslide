@@ -67,7 +67,10 @@ void boot()
 	camera.autoFocus = false;
 
 	motor.enabled = false;
-	motor.delay = 250;
+	motor.delay = 250; // µs
+
+	step.minDelay = 2000; // µs
+	step.maxDelay = 5000; // µs
 
 	mainMenu.maxIndex = 2;
 	photoMenu.maxIndex = 0; // Irellevant

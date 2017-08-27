@@ -90,20 +90,11 @@ void manualRun()
 
 		if (abs(controller.X) > 5 && digitalRead(Sensor))
 		{
-			if (linearSelected)
-			{
-				PORTD |= _BV(PORTD4); // HIGH
-			    delayMicroseconds(motor.delay);
-			    PORTD &= ~_BV(PORTD4); // LOW
-			    delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 200));
-			}
-			else 
-			{
-		    	PORTD |= _BV(PORTD7); // HIGH
-		        delayMicroseconds(motor.delay);
-		        PORTD &= ~_BV(PORTD7); // LOW
-		        delayMicroseconds(map(abs(controller.X), 5, 100, 5000, 2000));
-			}
+			linearSelected ? PORTD |= _BV(PORTD4) : PORTD |= _BV(PORTD7);
+			delayMicroseconds(motor.delay);
+			PORTD &= ~_BV(PORTD4); // LOW
+			PORTD &= ~_BV(PORTD7); // LOW
+			delayMicroseconds(map(abs(controller.X), 5, 100, step.maxDelay, step.minDelay));
 		}
 		else if (controller.Z)
 		{
@@ -147,7 +138,7 @@ void gotoZero(boolean turnerToStartPos)
 		delayMicroseconds(motor.delay);
 		PORTD &= ~_BV(PORTD4); // LOW
 		PORTD &= ~_BV(PORTD7); // LOW
-		delayMicroseconds(2000);
+		delayMicroseconds(step.minDelay);
 	}
 	delay(100);
 	slider.zeroIsLeft ? PORTD &= ~_BV(PORTD3) : PORTD |= _BV(PORTD3);
@@ -156,7 +147,7 @@ void gotoZero(boolean turnerToStartPos)
 	    PORTD |= _BV(PORTD4); // HIGH
 	    delayMicroseconds(motor.delay);
 	    PORTD &= ~_BV(PORTD4); // LOW
-	    delayMicroseconds(2500);
+	    delayMicroseconds(step.maxDelay);
 	}
 	delay(100);
 	slider.position1 = 0;

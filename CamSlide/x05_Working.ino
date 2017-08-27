@@ -55,7 +55,7 @@ void run()
 		// Drive & turn
 		if (j < amount)
 		{
-			for(int i = 0; i < stepsBetweenShots; i++) 
+			for (int i = 0; i < stepsBetweenShots; i++) 
 			{
 			    if (i < stepsBetweenShotsLinear)
 				    PORTD |= _BV(PORTD4); // Step HIGH
@@ -138,20 +138,16 @@ void gotoZero(boolean turnerToStartPos)
 	while (digitalRead(Sensor) || turnerTicks > 0)
 	{
 		if (digitalRead(Sensor))
-		{
 			PORTD |= _BV(PORTD4); // HIGH
-		    delayMicroseconds(motor.delay);
-		    PORTD &= ~_BV(PORTD4); // LOW
-		    delayMicroseconds(1750);
-		}
 		if (turnerTicks > 0)
 		{
 			PORTD |= _BV(PORTD7); // HIGH
-		    delayMicroseconds(motor.delay);
-		    PORTD &= ~_BV(PORTD7); // LOW
-		    delayMicroseconds(3000);
 		    turnerTicks--;
 		}
+		delayMicroseconds(motor.delay);
+		PORTD &= ~_BV(PORTD4); // LOW
+		PORTD &= ~_BV(PORTD7); // LOW
+		delayMicroseconds(2000);
 	}
 	delay(100);
 	slider.zeroIsLeft ? PORTD &= ~_BV(PORTD3) : PORTD |= _BV(PORTD3);

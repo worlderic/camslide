@@ -5,18 +5,21 @@
     DELOARTS RESEARCH INC.
     CAM SLIDE 2.0.0
 	26.11.2016
+
+	LICENSE
+
+		This project is licensed under the GNU GPLv3 (https://www.gnu.org/licenses/gpl.html) open source license.
+		Thus anybody is allowed to copy and modify the source code, provided all changes are open source too and the author is in knowledge of all done changes.
+		This can happen either via eMail or directly on GitHub, in other words at this repository.
 	
 	DESCRIPTION
 
-		CamSlide is an Arduino based embedded system to slide a camera sideways on a guide rail for time-lapse shots.
-		This project was compiled with the Arduino IDE 1.6.6
+		English: http://deloarts.com/en/arduino/camslide/
+		German: http://deloarts.com/de/arduino/camslide/
+		Blog: http://deloarts.wordpress.com
 
 	MICROCONTROLLER
-		- Arduino UNO Rev3
 		- Arduino Nano v3
-
-		There is no need to change the pin occupancy, when the UNO is replaced with the Nano, and vice versa.
-		Just be careful, that you change the board in the settings!
 
 	PINOUT
 

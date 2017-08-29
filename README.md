@@ -1,5 +1,42 @@
 # CamSlide
-CamSlide is an Arduino based embedded system to slide a camera sideways on a guide rail for time-lapse shots.
-The project is written with Sublime Text 3 and Stino ( https://github.com/Robot-Will/Stino ) with the Arduino IDE 1.6.6.
+CamSlide is a full open source embedded system to slide a camera on a rail in order to create stunning movie efffects or for time-lapse.
 
-This project is not finished yet.
+## Status
+Current software version v0.0.0.
+**Not finished, not stable.**
+
+## Licence
+This project is licensed under the [GNU GPLv3](https://www.gnu.org/licenses/gpl.html) open source license.
+Thus anybody is allowed to copy and modify the source code, provided all changes are open source too and the author is in knowledge of all done changes.
+This can happen either via eMail or directly on GitHub, in other words at this repository.
+
+## Software
+CamSlide is wirtten in C++, using the [Arduino IDE v1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases) (gcc-compiler) via [Sublime Text 3](https://www.sublimetext.com/3) and [Robot-Will's Stino](https://github.com/Robot-Will/Stino).
+
+Further I refer to my previous work, in order to fully understand the source code.
+
++ [The LCD display library](http://deloarts.com/en/arduino/oled_display/)
++ [The idea behind the I2C bus](http://deloarts.com/en/arduino/i2c_and_bit_shifting/)
++ [The basic idea behind a stepper motor](http://deloarts.com/en/arduino/set_stepper/)
++ [How to trigger a camera](http://deloarts.com/en/arduino/trigger_camera/)
++ [And how to access the pins fast](http://deloarts.com/en/arduino/fast_digital_write/)
+
+## Description
+For a detailed description visit the projects web-page: 
+
++ [English](http://deloarts.com/en/arduino/camslide/)
++ [German](http://deloarts.com/de/arduino/camslide/)
++ [Blog](http://deloarts.wordpress.com)
+
+## Disclaimer
+I am not responsible for anything in conjunction with this project, including bugs, failure, fire, harm of equipment and harm of persons.
+Reasonably foreseeable misapplication:
+
++ Bug in the code
++ Failure of used parts due to a bug in the code or a wrong wiring diagram, including a wrong design.
++ Fire due to a wrong wiring diagram, including a wrong design.
++ Harm of equipment, meaning third party parts (cameras, flashes, etc.) due to a bug in the code or a wrong wiring diagram, including a wrong design.
++ Harm of persons due to any failure of the system, a wrong wiring diagram or a wrong behaviour.
+
+**It is your own responsibility to use these contents**.
+Be careful, this project includes lethal electrical voltage. Put yourself in knowledge about the risks before you start with this project.

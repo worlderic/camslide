@@ -316,7 +316,7 @@ boolean setMenu()
 			case 1:
 				lcd.setDisplayOff();
 				manualRun();
-				mainMenu.indexActive = false;;
+				mainMenu.indexActive = false;
 				lcd.setDisplayOn();
 				break;
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-

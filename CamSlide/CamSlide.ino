@@ -35,9 +35,9 @@
 		  D8 	|	  			|				|				|	  S1	|				|	  
 		  D9 	|	  			|				|				|			|	  A 		|	  
 		  D10 	|	  			|				|				|			|	  B 		|	  
-		  D11 	|	  			|				|				|			|	    		|	  Focus
-		  D12 	|	  			|				|				|			|				|	  Trigger
-		  D13 	|	  			|				|				|			|	  Z			|	  
+		  D11 	|	  			|				|				|			|	  Z 		|	       
+		  D12 	|	  			|				|				|			|				|	  Focus
+		  D13 	|	  			|				|				|			|	   			|	  Trigger
 		  A0	|				|				|				|			|	  X			|
 		  A1 	|	  			|				|				|			|	  Y			|	  
 		  A2 	|	  			|				|				|			|				|	  
@@ -63,6 +63,11 @@
 #include <OLED_I2C_128x64_Monochrome.h>
 #include <Wire.h>
 
+// Define software
+#define MOTOR_DELAY		250
+#define MOTOR_MIN_DELAY	1500
+#define MOTOR_MAX_DELAY	4000
+
 // Define hardware
 #define DRV8825_A_ENBL	2
 #define DRV8825_A_DIR	3
@@ -77,10 +82,10 @@
 #define Controller_B	10
 #define Controller_X	A0
 #define Controller_Y	A1
-#define Controller_Z	13
+#define Controller_Z	11
 
-#define Camera_Focus	11
-#define Camera_Trigger	12
+#define Camera_Focus	12
+#define Camera_Trigger	13
 
 // Better reading
 #define zeroIsAllowed	false

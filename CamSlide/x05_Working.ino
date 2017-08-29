@@ -58,12 +58,12 @@ void run()
 			for (int i = 0; i < stepsBetweenShots; i++) 
 			{
 			    if (i < stepsBetweenShotsLinear)
-				    PORTD |= _BV(PORTD4); // Step HIGH
+				    PORTD |= _BV(PORTD4); // Linear HIGH
 				if (i < stepsBetweenShotsAngular)
-					PORTD |= _BV(PORTD7); // Step HIGH
+					PORTD |= _BV(PORTD7); // Angular HIGH
 				delayMicroseconds(motor.delay);
-			    PORTD &= ~_BV(PORTD4); // Step LOW
-				PORTD &= ~_BV(PORTD7); // Step LOW
+			    PORTD &= ~_BV(PORTD4); // Linear LOW
+				PORTD &= ~_BV(PORTD7); // Angular LOW
 				delayMicroseconds(step.delay);
 			}
 			if (d3lay - timeInMovement > 500)
@@ -79,16 +79,39 @@ void run()
 
 void manualRun()
 {
-	boolean linearSelected = true;
+	boolean selDirR, linearSelected = true;
 	enableMotors();
 	while (!controller.B)
 	{
 		getControllerData(true);
+		if (controller.X > 0)
+		{
+			selDirR = true;
+			PORTD |= _BV(PORTD3);
+			PORTD |= _BV(PORTD6);
+		}
+		else 
+		{
+			selDirR = false;
+			PORTD &= ~_BV(PORTD3);
+			PORTD &= ~_BV(PORTD6);
+		}
 
-		controller.X > 0 ? PORTD |= _BV(PORTD3) : PORTD &= ~_BV(PORTD3);
-		controller.X > 0 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
-
-		if (abs(controller.X) > 5 && digitalRead(Sensor))
+		if (!digitalRead(Sensor))
+		{
+			PORTD &= ~_BV(PORTD4); // Linear LOW
+			delay(500);
+			selDirR ? PORTD &= ~_BV(PORTD3) : PORTD |= _BV(PORTD3);
+			while (!digitalRead(Sensor))
+			{
+				PORTD |= _BV(PORTD4); // HIGH
+				delayMicroseconds(motor.delay);
+				PORTD &= ~_BV(PORTD4); // LOW
+				delayMicroseconds(step.maxDelay);
+			}
+			delay(1000);
+		}
+		else if (abs(controller.X) > 5)
 		{
 			linearSelected ? PORTD |= _BV(PORTD4) : PORTD |= _BV(PORTD7);
 			delayMicroseconds(motor.delay);

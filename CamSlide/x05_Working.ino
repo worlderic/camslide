@@ -27,7 +27,7 @@ void run()
 	amount = arrayToInt(camera.amount); // 1
 	repeats = arrayToInt(camera.repeats); // 1
 	shutter = arrayToInt(camera.shutter) * 1000; // ms
-	d3lay = arrayToInt(camera.delay); // ms
+	d3lay = arrayToInt(camera.delay) * 1000; // ms
 	
 	// Calc. delay time
 	stepsBetweenShotsLinear = slider.totalSteps / amount;

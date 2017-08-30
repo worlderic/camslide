@@ -35,12 +35,12 @@
 		  D8 	|	  			|				|				|	  S1	|				|	  
 		  D9 	|	  			|				|				|			|	  A 		|	  
 		  D10 	|	  			|				|				|			|	  B 		|	  
-		  D11 	|	  			|				|				|			|	  Z 		|	       
-		  D12 	|	  			|				|				|			|				|	  Focus
-		  D13 	|	  			|				|				|			|	   			|	  Trigger
-		  A0	|				|				|				|			|	  X			|
-		  A1 	|	  			|				|				|			|	  Y			|	  
-		  A2 	|	  			|				|				|			|				|	  
+		  D11 	|	  			|				|				|			|	  			|	  Focus     
+		  D12 	|	  			|				|				|			|	  			|	  Trigger
+		  D13 	|	  			|				|				|			|	   			|	  
+		  A0	|				|				|				|			|	  Z			|
+		  A1 	|	  			|				|				|			|	  X			|	  
+		  A2 	|	  			|				|				|			|	  Y 		|	  
 		  A3	|	  			|				|				|			|				|	  
 		  A4	|	  			|	  SDA		|	  SDA		|			|				|	  
 		  A5	|	  			|	  SCL		|	  SCL		|			|				|	  
@@ -80,12 +80,12 @@
 
 #define Controller_A	9
 #define Controller_B	10
-#define Controller_X	A0
-#define Controller_Y	A1
-#define Controller_Z	11
+#define Controller_X	A1
+#define Controller_Y	A2
+#define Controller_Z	A0
 
-#define Camera_Focus	12
-#define Camera_Trigger	13
+#define Camera_Focus	11
+#define Camera_Trigger	12
 
 // Better reading
 #define zeroIsAllowed	false

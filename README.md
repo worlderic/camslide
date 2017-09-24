@@ -15,17 +15,17 @@ CamSlide is wirtten in C++, using the [Arduino IDE v1.6.6](https://www.arduino.c
 
 Further I refer to my previous work, in order to fully understand the source code.
 
-+ [The LCD display library](http://deloarts.com/en/arduino/oled_display/)
-+ [The idea behind the I2C bus](http://deloarts.com/en/arduino/i2c_and_bit_shifting/)
-+ [The basic idea behind a stepper motor](http://deloarts.com/en/arduino/set_stepper/)
-+ [How to trigger a camera](http://deloarts.com/en/arduino/trigger_camera/)
-+ [And how to access the pins fast](http://deloarts.com/en/arduino/fast_digital_write/)
++ [The LCD display library](http://deloarts.com/en/scripts/arduino/oled-display/)
++ [The idea behind the I2C bus](http://deloarts.com/en/scripts/arduino/i2c-bit-shifting/)
++ [The basic idea behind a stepper motor](http://deloarts.com/en/scripts/arduino/set-stepper/)
++ [How to trigger a camera](http://deloarts.com/en/scripts/arduino/trigger-camera/)
++ [And how to access the pins fast](http://deloarts.com/en/scripts/arduino/fast-digital-write/)
 
 ## Description
 For a detailed description visit the projects web-page: 
 
-+ [English](http://deloarts.com/en/arduino/camslide/)
-+ [German](http://deloarts.com/de/arduino/camslide/)
++ [English](http://deloarts.com/en/projects/camslide/)
++ [German](http://deloarts.com/de/projects/camslide/)
 + [Blog](http://deloarts.wordpress.com)
 
 ## Disclaimer

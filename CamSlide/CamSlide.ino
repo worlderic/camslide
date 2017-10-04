@@ -9,13 +9,13 @@
 	LICENSE
 
 		This project is licensed under the GNU GPLv3 (https://www.gnu.org/licenses/gpl.html) open source license.
-		Thus anybody is allowed to copy and modify the source code, provided all changes are open source too and the author is in knowledge of all done changes.
-		This can happen either via eMail or directly on GitHub, in other words at this repository.
+		Thus anybody is allowed to copy and modify the source code, provided all changes are open source too and the author is in knowledge of all changes.
+		This can happen either via eMail or directly on GitHub, in other words, on this repository.
 	
 	DESCRIPTION
 
-		English: http://deloarts.com/en/arduino/camslide/
-		German: http://deloarts.com/de/arduino/camslide/
+		English: http://deloarts.com/en/projects/camslide/
+		German: http://deloarts.com/de/projects/camslide/
 		Blog: http://deloarts.wordpress.com
 
 	MICROCONTROLLER
@@ -131,7 +131,7 @@ struct motorData
 
 struct cameraData
 {
-	int amount[4], repeats[4], shutter[4], delay[4];
+	int amount[4], repeats[4], shutter[4], delay[4], speed;
 	float travelDistance, distancePerShot;
 	boolean mirrorLockup, autoFocus;
 } camera;

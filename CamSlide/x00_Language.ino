@@ -50,6 +50,13 @@ PROGMEM const char lcdPhotoMenuAmount00[] = "SET AMOUNT";
 PROGMEM const char lcdPhotoMenuRepeats00[] = "SET REPEATS";
 PROGMEM const char lcdPhotoMenuShutterSpeed00[] = "SET SHUTTER";
 PROGMEM const char lcdPhotoMenuDelay00[] = "SET DELAY";
+PROGMEM const char lcdPhotoMenuSpeed00[] = "SET SPEED";
+PROGMEM const char lcdPhotoMenuSpeed01[] = "Minimal";
+PROGMEM const char lcdPhotoMenuSpeed02[] = " Slow  ";
+PROGMEM const char lcdPhotoMenuSpeed03[] = "Normal ";
+PROGMEM const char lcdPhotoMenuSpeed04[] = " Fast  ";
+PROGMEM const char lcdPhotoMenuSpeed05[] = "Maximal";
+
 /*
 PROGMEM const char lcdPhotoMenu00[] = "PHOTO MENU";
 PROGMEM const char lcdPhotoMenu01[] = " Dist.";

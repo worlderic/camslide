@@ -170,24 +170,28 @@ boolean setMenu()
 						standardOnControllerAB();
 						break;
 					case 5: // Set amount of shots
-						setSelector(0, 3, right, left);
-						setSelectorIndex(camera.amount, 0, 9, up, down, zeroNotAllowed);
+						setSelectorHorizontal(0, 3, right, left);
+						setSelectorHorizontalIndex(camera.amount, 0, 9, up, down, zeroNotAllowed);
 						camera.distancePerShot = (camera.travelDistance / arrayToInt(camera.amount));
 						standardOnControllerAB();
 						break;
 					case 6: // Set repeats of shots
-						setSelector(0, 3, right, left);
-						setSelectorIndex(camera.repeats, 0, 9, up, down, zeroNotAllowed);
+						setSelectorHorizontal(0, 3, right, left);
+						setSelectorHorizontalIndex(camera.repeats, 0, 9, up, down, zeroNotAllowed);
 						standardOnControllerAB();
 						break;
 					case 7: // Set shutter speed
-						setSelector(0, 3, right, left);
-						setSelectorIndex(camera.shutter, 0, 9, up, down, zeroIsAllowed);
+						setSelectorHorizontal(0, 3, right, left);
+						setSelectorHorizontalIndex(camera.shutter, 0, 9, up, down, zeroIsAllowed);
 						standardOnControllerAB();
 						break;
 					case 8: // Set delay
-						setSelector(0, 3, right, left);
-						setSelectorIndex(camera.delay, 0, 9, up, down, zeroIsAllowed);
+						setSelectorHorizontal(0, 3, right, left);
+						setSelectorHorizontalIndex(camera.delay, 0, 9, up, down, zeroIsAllowed);
+						standardOnControllerAB();
+						break;
+					case 9: // Set speed
+						setSelectorVertical(0, 4, up, down);
 						standardOnControllerAB();
 						break;
 					default:
@@ -337,32 +341,30 @@ boolean setMenu()
 
 					if (controller.A)
 					{
-						for (int i = 0; i < 4; i++)
+						switch (settingsMenu.index)
 						{
-							switch (settingsMenu.index)
-							{
-								case 0: // En/Disable motor
-									motor.enabled = !motor.enabled;
-									motor.enabled ? enableMotors() : disableMotors();
-									delay(200);
-									return(true);
-								case 1: // Mirror lockup
-									camera.mirrorLockup = !camera.mirrorLockup;
-									delay(200);
-									return(true);
-									break;
-								case 2: // Autofocus
-									camera.autoFocus = !camera.autoFocus;
-									delay(200);
-									return(true);
-									break;
-								case 3: // Set length
+							case 0: // En/Disable motor
+								motor.enabled = !motor.enabled;
+								motor.enabled ? enableMotors() : disableMotors();
+								delay(200);
+								return(true);
+							case 1: // Mirror lockup
+								camera.mirrorLockup = !camera.mirrorLockup;
+								delay(200);
+								return(true);
+								break;
+							case 2: // Autofocus
+								camera.autoFocus = !camera.autoFocus;
+								delay(200);
+								return(true);
+								break;
+							case 3: // Set length
+								for (int i = 0; i < 4; i++)
 									sliderPrev.length[i] = slider.length[i];
-									break;
-								case 4: // Reset
-									// Nothing to do here
-									break;	
-							}
+								break;
+							case 4: // Reset
+								// Nothing to do here
+								break;	
 						}
 						lcd.clearDisplay();
 						settingsMenu.indexActive = true;
@@ -446,7 +448,7 @@ boolean setMenu()
 	return false;
 }
 
-void setSelector(int minVal, int maxVal, boolean right, boolean left)
+void setSelectorHorizontal(int minVal, int maxVal, boolean right, boolean left)
 {
 	if (right)
 		selector.index + 1 > maxVal ? selector.index = minVal : selector.index++;
@@ -454,7 +456,12 @@ void setSelector(int minVal, int maxVal, boolean right, boolean left)
 		selector.index - 1 < minVal ? selector.index = maxVal : selector.index--;
 }
 
-void setSelectorIndex(int data[], int minVal, int maxVal, boolean up, boolean down, boolean zeroAllowence)
+void setSelectorVertical(int minVal, int maxVal, boolean up, boolean down)
+{
+	setSelectorHorizontal(minVal, maxVal, up, down);
+}
+
+void setSelectorHorizontalIndex(int data[], int minVal, int maxVal, boolean up, boolean down, boolean zeroAllowence)
 {
 	if (up)
 		data[selector.index] + 1 > maxVal ? data[selector.index] = minVal : data[selector.index] ++;

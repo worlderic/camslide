@@ -95,6 +95,10 @@ void printMenu()
 						printString(lcdPhotoMenuDelay00, 3, 0);
 						printHorizontalSelector(camera.delay, selector.index, 3, 4, 3);						
 						break;
+					case 9: // Set speed
+						printString(lcdPhotoMenuSpeed00, 3, 0);
+						camera.speed = printTextSelector(selector.index, 4, 4);
+						break;
 					default:
 						printString(lcdRun00, 3, 0);
 						printString(lcdRun01, 0, 2);
@@ -238,6 +242,29 @@ void printHorizontalSelector(int value[], int index, int max, int lcdX, int lcdY
 void printVerticalSelector(int index, int lcdX, int lcdY, int blanc) // default for blanc: 99
 {	
 	index == blanc ? lcd.printChar('>', lcdX, lcdY + index + 1) : lcd.printChar('>', lcdX, lcdY + index);
+}
+
+int printTextSelector(int index, int lcdX, int lcdY)
+{
+	switch (index) 
+	{
+	    case 0:
+	    	printString(lcdPhotoMenuSpeed01, lcdX, lcdY);
+	     	break;
+	    case 1:
+	    	printString(lcdPhotoMenuSpeed02, lcdX, lcdY);
+	     	break;
+	    case 2:
+	    	printString(lcdPhotoMenuSpeed03, lcdX, lcdY);
+	     	break;
+	    case 3:
+	    	printString(lcdPhotoMenuSpeed04, lcdX, lcdY);
+	     	break;
+	    case 4:
+	    	printString(lcdPhotoMenuSpeed05, lcdX, lcdY);
+	     	break;
+	}
+	return index;
 }
 
 void printBuffer(int buffer, int lcdX, int lcdY, boolean blanc)

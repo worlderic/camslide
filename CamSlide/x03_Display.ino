@@ -107,60 +107,6 @@ void printMenu()
 						printString(lcdRun02, 0, 6);
 						printString(lcdRun03, 0, 7);
 				}
-				/*
-				if (!photoMenu.indexActive)
-				{
-					printString(lcdPhotoMenu00, 3, 0);
-
-					printString(lcdPhotoMenu01, 0, 2);
-					buffer = arrayToInt(camera.distance);
-					printBuffer(buffer, 9, 2);
-					printString(lcdUnitMillimeter, 13, 2);
-
-					printString(lcdPhotoMenu02, 0, 3);
-					buffer = arrayToInt(camera.repeats);
-					printBuffer(buffer, 9, 3);
-
-					printString(lcdPhotoMenu03, 0, 4);
-					buffer = arrayToInt(camera.shutter);
-					printBuffer(buffer, 9, 4);
-					printString(lcdUnitSecond, 13, 4);
-
-					printString(lcdPhotoMenu04, 0, 5);
-					buffer = arrayToInt(camera.delay);
-					printBuffer(buffer, 9, 5);
-					printString(lcdUnitSecond, 13, 5);
-
-					printString(lcdPhotoMenu05, 0, 7);
-
-					printVerticalSelector(photoMenu.index, 0, 2, 4);
-				}
-				else 
-				{
-					switch (photoMenu.index)
-					{
-						case 0:
-							printString(lcdPhotoMenuDistance, 4, 0);
-							printHorizontalSelector(camera.distance, selector.index, 3, 2, 3);
-							printString(lcdUnitMillimeter, 11, 3);
-							break;
-						case 1:
-							printString(lcdPhotoMenuRepeats, 4, 0);
-							printHorizontalSelector(camera.repeats, selector.index, 3, 4, 3);
-							break;
-						case 2:
-							printString(lcdPhotoMenuShutter, 1, 0);
-							printHorizontalSelector(camera.shutter, selector.index, 3, 2, 3);
-							printString(lcdUnitSecond, 11, 3);
-							break;
-						case 3:
-							printString(lcdPhotoMenuDelay, 5, 0);
-							printHorizontalSelector(camera.delay, selector.index, 3, 2, 3);
-							printString(lcdUnitSecond, 11, 3);
-							break;
-					}
-				}
-				*/
 				break;
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			// MANUAL MENU

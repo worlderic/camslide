@@ -213,106 +213,6 @@ boolean setMenu()
 							lcd.clearDisplay();
 						}
 				}
-				/*
-				if (!photoMenu.indexActive)
-				{
-					if (up)
-						photoMenu.index--;
-					if (down)
-						photoMenu.index++;
-
-					if (photoMenu.index < 0)
-						photoMenu.index = photoMenu.maxIndex;
-					else if (photoMenu.index > photoMenu.maxIndex)
-						photoMenu.index = 0;
-
-					if (controller.A)
-					{
-						for (int i = 0; i < 4; i++)
-						{
-							switch (photoMenu.index)
-							{
-								case 0:
-									workingPrev.distance[i] = camera.distance[i];
-									break;
-								case 1:
-									workingPrev.repeats[i] = camera.repeats[i];
-									break;	
-								case 2:
-									workingPrev.shutter[i] = camera.shutter[i];
-									break;
-								case 3:
-									workingPrev.delay[i] = camera.delay[i];
-									break;
-							}
-						}
-						lcd.clearDisplay();
-						photoMenu.indexActive = true;
-						selector.index = 0;
-					}
-					if (controller.B)
-					{
-						mainMenu.indexActive = false;
-						lcd.clearDisplay();
-					}
-				}
-				else 
-				{
-					if (right)
-						selector.index + 1 > 3 ? selector.index = 0 : selector.index++;
-					if (left)
-						selector.index - 1 < 0 ? selector.index = 3 : selector.index--;
-					switch (photoMenu.index)
-					{
-						case 0:
-							if (up)
-								camera.distance[selector.index] + 1 > 9 ? camera.distance[selector.index] = 0 : camera.distance[selector.index] ++;
-							if (down)
-								camera.distance[selector.index] - 1 < 0 ? camera.distance[selector.index] = 9 : camera.distance[selector.index] --;
-							if (controller.B)
-								for (int i = 0; i < 4; i++)
-									camera.distance[i] = workingPrev.distance[i];
-							break;
-						case 1:
-							if (up)
-								camera.repeats[selector.index] + 1 > 9 ? camera.repeats[selector.index] = 0 : camera.repeats[selector.index] ++;
-							if (down)
-								camera.repeats[selector.index] - 1 < 0 ? camera.repeats[selector.index] = 9 : camera.repeats[selector.index] --;
-							if (controller.B)
-								for (int i = 0; i < 4; i++)
-									camera.repeats[i] = workingPrev.repeats[i];
-							break;
-						case 2:
-							if (up)
-								camera.shutter[selector.index] + 1 > 9 ? camera.shutter[selector.index] = 0 : camera.shutter[selector.index] ++;
-							if (down)
-								camera.shutter[selector.index] - 1 < 0 ? camera.shutter[selector.index] = 9 : camera.shutter[selector.index] --;
-							if (controller.B)
-								for (int i = 0; i < 4; i++)
-									camera.shutter[i] = workingPrev.shutter[i];
-							break;
-						case 3:
-							if (up)
-								camera.delay[selector.index] + 1 > 9 ? camera.delay[selector.index] = 0 : camera.delay[selector.index] ++;
-							if (down)
-								camera.delay[selector.index] - 1 < 0 ? camera.delay[selector.index] = 9 : camera.delay[selector.index] --;
-							if (controller.B)
-								for (int i = 0; i < 4; i++)
-									camera.delay[i] = workingPrev.delay[i];
-							break;
-						case 4: 
-							run();
-							controller.B = true;
-							break;
-					}
-
-					if (controller.A || controller.B)
-					{
-						photoMenu.indexActive = false;
-						lcd.clearDisplay();
-					}
-				}
-				*/
 				break;
 			// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 			// MANUAL MENU
@@ -427,13 +327,6 @@ boolean setMenu()
 				break;
 		}
 	}
-
-	// Check if all data are valid:
-	/*
-	if (arrayToInt(camera.distance) > arrayToInt(slider.length))
-		for (byte i = 0; i < 4; i++)
-			camera.distance[i] = slider.length[i];
-	*/
 
 	// Print menu only when something has been changed
 	while (controller.X < -75 || controller.X > 75 || controller.Y < -75 || controller.Y > 75 || controller.Z || controller.A || controller.B)

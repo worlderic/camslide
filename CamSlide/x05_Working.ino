@@ -11,17 +11,6 @@ void run()
 	step.delay = 2000; // µs
 
 	gotoZero(true);
-	/*
-	// Place turner at starting position
-	turner.position1 > 0 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
-	for (int i = 0; i < abs(turner.position1); i++)
-	{
-		PORTD |= _BV(PORTD7); // HIGH
-	    delayMicroseconds(motor.delay);
-	    PORTD &= ~_BV(PORTD7); // LOW
-	    delayMicroseconds(3000);
-	}
-	*/
 
 	// Prepare for working routine
 	amount = arrayToInt(camera.amount); // 1

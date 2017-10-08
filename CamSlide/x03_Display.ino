@@ -48,7 +48,9 @@ void printMenu()
 				switch (photoMenu.index)
 				{
 					case 0: // Select zero
+						lcd.setFont(1); // Bold
 						printString(lcdPhotoMenuZero00, 2, 0);
+						lcd.setFont(0); // Regular
 						printString(lcdPhotoMenuZero01, 0, 2);
 						printString(lcdPhotoMenuZero02, 0, 3);
 						printString(lcdPhotoMenuZero03, 0, 4);
@@ -56,51 +58,71 @@ void printMenu()
 						printString(lcdPhotoMenuZero05, 0, 6);
 						break;
 					case 1: // Goto zero
+						lcd.setFont(1); // Bold
 						printString(lcdPhotoMenuZero10, 1, 0);
+						lcd.setFont(0); // Regular
 						printString(lcdPhotoMenuZero11, 0, 2);
 						printString(lcdPhotoMenuZero12, 0, 3);
 						printString(lcdPhotoMenuZero13, 0, 4);
 						printString(lcdPhotoMenuZero14, 0, 5);
 						break;
 					case 2: // Select start angle
+						lcd.setFont(1); // Bold
 						printString(lcdPhotoMenuAngle00, 1, 0);
+						lcd.setFont(0); // Regular
 						printString(lcdTextCurrentPosition, 0, 2);
 						printString(lcdUnitDegree, 10, 5);
 						break;
 					case 3: // Select length
+						lcd.setFont(1); // Bold
 						printString(lcdPhotoMenuLength00, 1, 0);
+						lcd.setFont(0); // Regular
 						printString(lcdTextCurrentPosition, 0, 2);
 						printString(lcdUnitMillimeter, 10, 5);
 						break;
 					case 4: // Select end angle
+						lcd.setFont(1); // Bold
 						printString(lcdPhotoMenuAngle10, 1, 0);
+						lcd.setFont(0); // Regular
 						printString(lcdTextCurrentPosition, 0, 2);
 						printString(lcdUnitDegree, 10, 5);
 						break;
 					case 5: // Amount of shots
+						lcd.setFont(1); // Bold
 						printString(lcdPhotoMenuAmount00, 3, 0);
+						lcd.setFont(0); // Regular
 						printHorizontalSelector(camera.amount, selector.index, 3, 4, 3);
 						printBuffer((int)camera.distancePerShot, 4, 7, true);
 						printString(lcdUnitMillimeterPerShot, 10, 7);
 						break;
 					case 6: // Repeats of shots
+						lcd.setFont(1); // Bold
 						printString(lcdPhotoMenuRepeats00, 2, 0);
+						lcd.setFont(0); // Regular
 						printHorizontalSelector(camera.repeats, selector.index, 3, 4, 3);
 						break;
 					case 7: // Set shutter speed
+						lcd.setFont(1); // Bold
 						printString(lcdPhotoMenuShutterSpeed00, 2, 0);
+						lcd.setFont(0); // Regular
 						printHorizontalSelector(camera.shutter, selector.index, 3, 4, 3);
 						break;
 					case 8: // Set delay
+						lcd.setFont(1); // Bold
 						printString(lcdPhotoMenuDelay00, 3, 0);
+						lcd.setFont(0); // Regular
 						printHorizontalSelector(camera.delay, selector.index, 3, 4, 3);						
 						break;
 					case 9: // Set speed
+						lcd.setFont(1); // Bold
 						printString(lcdPhotoMenuSpeed00, 3, 0);
+						lcd.setFont(0); // Regular
 						camera.speed = printTextSelector(selector.index, 4, 4);
 						break;
 					default:
+						lcd.setFont(1); // Bold
 						printString(lcdRun00, 3, 0);
+						lcd.setFont(0); // Regular
 						printString(lcdRun01, 0, 2);
 						printBuffer(slider.runtime, 2, 4, false);
 						printString(lcdUnitSecond, 8, 4);
@@ -155,12 +177,16 @@ void printMenu()
 							// Nothing to do here
 							break;
 						case 3:
+							lcd.setFont(1);
 							printString(lcdSettingsMenuLength, 4, 0);
+							lcd.setFont(0);
 							printHorizontalSelector(slider.length, selector.index, 3, 2, 3);
 							printString(lcdUnitMillimeter, 11, 3);
 							break;
 						case 4:
+							lcd.setFont(1);
 							printString(lcdSettingsMenuReset00, 4, 0);
+							lcd.setFont(0);
 							printString(lcdSettingsMenuReset01, 0, 2);
 							printString(lcdSettingsMenuReset02, 0, 3);
 							printString(lcdSettingsMenuReset03, 0, 4);

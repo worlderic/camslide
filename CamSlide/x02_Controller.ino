@@ -29,7 +29,7 @@ void getControllerData(boolean mapData)
 
 void calibrateController()
 {
-	lcd.clearDisplay();
+	lcd.clear();
 	printString(lcdCalibrateDisplay01, 0, 0);
 	printString(lcdCalibrateDisplay02, 0, 1);
 	printString(lcdCalibrateDisplay03, 0, 2);
@@ -68,7 +68,7 @@ void calibrateController()
 	EEPROM.write(EEPROM_MSB_ctrlMaxY, (controller.YMax >> 8) & 0xFF);
 	EEPROM.write(EEPROM_LSB_ctrlMaxY, controller.YMax & 0xFF);
 
-	lcd.clearDisplay();
+	lcd.clear();
 	printString(lcdCalibrateDisplay07, 0, 0);
 	printString(lcdCalibrateDisplay08, 0, 1);
 	printString(lcdCalibrateDisplay09, 0, 2);

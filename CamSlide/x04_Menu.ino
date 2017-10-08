@@ -44,7 +44,7 @@ boolean setMenu()
 		{
 			mainMenu.indexActive = true;
 			photoMenu.index = 0;
-			lcd.clearDisplay();
+			lcd.clear();
 		}
 	}
 	else 
@@ -64,13 +64,13 @@ boolean setMenu()
 						{
 							left ? slider.zeroIsLeft = true : slider.zeroIsLeft = false;
 							photoMenu.index++;
-							lcd.clearDisplay();
+							lcd.clear();
 						}
 						break;
 					case 1: // Goto zero
 						gotoZero(false);
 						photoMenu.index++;
-						lcd.clearDisplay();
+						lcd.clear();
 						printMenu();
 						break;
 					case 2: // Set angle 1
@@ -103,7 +103,7 @@ boolean setMenu()
 						turner.absPos = turner.position1;
 						if (controller.A || controller.B)
 						{
-							lcd.clearDisplay();
+							lcd.clear();
 							controller.A ? photoMenu.index++ : photoMenu.index = 0;
 						}
 						break;
@@ -203,14 +203,14 @@ boolean setMenu()
 							run();
 							mainMenu.indexActive = false;
 							photoMenu.index = 0;
-							lcd.clearDisplay();
+							lcd.clear();
 							printMenu();
 							lcd.setDisplayOn();
 						}
 						else if (controller.B)
 						{
 							photoMenu.index--;
-							lcd.clearDisplay();
+							lcd.clear();
 						}
 				}
 				break;
@@ -266,14 +266,14 @@ boolean setMenu()
 								// Nothing to do here
 								break;	
 						}
-						lcd.clearDisplay();
+						lcd.clear();
 						settingsMenu.indexActive = true;
 						selector.index = 0;
 					}
 					if (controller.B)
 					{
 						mainMenu.indexActive = false;
-						lcd.clearDisplay();
+						lcd.clear();
 					}
 				}
 				else 
@@ -321,7 +321,7 @@ boolean setMenu()
 					if (controller.A || controller.B)
 					{
 						settingsMenu.indexActive = false;
-						lcd.clearDisplay();
+						lcd.clear();
 					}
 				}
 				break;
@@ -368,7 +368,7 @@ void standardOnControllerAB()
 {
 	if (controller.A || controller.B)
 	{
-		lcd.clearDisplay();
+		lcd.clear();
 		controller.A ? photoMenu.index++ : photoMenu.index--;
 	}
 }

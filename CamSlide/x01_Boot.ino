@@ -6,7 +6,7 @@ void boot()
 	slider.transmission = 0.005;
 	turner.transmission = 0.0225;
 
-	lcd.initialize();
+	lcd.init(true);
 	lcd.rotateDisplay180();
 	//lcd.drawBitmap(bootscreen, 0, 0, 16, 8);
 	printString(lcdStartup00, 7, 2);

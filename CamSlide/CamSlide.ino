@@ -64,45 +64,47 @@
 #include <Wire.h>
 
 // Define software
-#define MOTOR_DELAY		250
+#define MOTOR_DELAY 250
 #define MOTOR_MIN_DELAY	1500
-#define MOTOR_MAX_DELAY	4000
+#define MOTOR_MAX_DELAY	3500
+#define MOTOR_ACCEL_STEP 100
+#define MOTOR_DECEL_STEP 100
 
 // Define hardware
-#define DRV8825_A_ENBL	2
-#define DRV8825_A_DIR	3
-#define DRV8825_A_STEP	4
-#define DRV8825_B_ENBL	5
-#define DRV8825_B_DIR	6
-#define DRV8825_B_STEP	7
+#define DRV8825_A_ENBL 2
+#define DRV8825_A_DIR 3
+#define DRV8825_A_STEP 4
+#define DRV8825_B_ENBL 5
+#define DRV8825_B_DIR 6
+#define DRV8825_B_STEP 7
 
-#define Sensor 			8
+#define Sensor 8
 
-#define Controller_A	9
-#define Controller_B	10
-#define Controller_X	A1
-#define Controller_Y	A2
-#define Controller_Z	A0
+#define Controller_A 9
+#define Controller_B 10
+#define Controller_X A1
+#define Controller_Y A2
+#define Controller_Z A0
 
-#define Camera_Focus	11
-#define Camera_Trigger	12
+#define Camera_Focus 11
+#define Camera_Trigger 12
 
 // Better reading
-#define zeroIsAllowed	false
-#define zeroNotAllowed	true
+#define zeroIsAllowed false
+#define zeroNotAllowed true
 
 // DEFINE EEPROM
-#define EEPROM_fail				0x00
-#define EEPROM_pos 				1
-#define EEPROM_length 			5
-#define EEPROM_MSB_ctrlMinX		0x0A
-#define EEPROM_LSB_ctrlMinX		0x0B
-#define EEPROM_MSB_ctrlMaxX		0x0C
-#define EEPROM_LSB_ctrlMaxX		0x0D
-#define EEPROM_MSB_ctrlMinY 	0x0E
-#define EEPROM_LSB_ctrlMinY		0x0F
-#define EEPROM_MSB_ctrlMaxY 	0x10
-#define EEPROM_LSB_ctrlMaxY		0x11
+#define EEPROM_fail	0x00
+#define EEPROM_pos 1
+#define EEPROM_length 5
+#define EEPROM_MSB_ctrlMinX	0x0A
+#define EEPROM_LSB_ctrlMinX	0x0B
+#define EEPROM_MSB_ctrlMaxX	0x0C
+#define EEPROM_LSB_ctrlMaxX	0x0D
+#define EEPROM_MSB_ctrlMinY 0x0E
+#define EEPROM_LSB_ctrlMinY	0x0F
+#define EEPROM_MSB_ctrlMaxY 0x10
+#define EEPROM_LSB_ctrlMaxY	0x11
 
 struct inputData
 {

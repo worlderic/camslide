@@ -5,10 +5,12 @@ void run()
 {
 	lcd.setDisplayOff();
 
-	long amount, distance, repeats, shutter, d3lay, stepsBetweenShots, stepsBetweenShotsLinear, stepsBetweenShotsAngular,
-		 driveTimeBetweenShots, turnTimeBetweenShots, timeInMovement;
+	long amount, distance, repeats, shutter, d3lay, stepsBetweenShots, stepsLinear, stepsAngular,
+		 driveTimeBetweenShots, turnTimeBetweenShots, timeInMovement, accelStepsLinear, accelStepsAngular, 
+		 decelStepsLinear, decelStepsAngular, minStepsLinear, minStepsAngular;
+
 	motor.delay = 250; // µs
-	step.delay = 2000; // µs
+	step.delay = MOTOR_MIN_DELAY + (((MOTOR_MAX_DELAY - MOTOR_MIN_DELAY) / 5 ) * camera.speed); // µs
 
 	gotoZero(true);
 
@@ -19,18 +21,53 @@ void run()
 	d3lay = arrayToInt(camera.delay) * 1000; // ms
 	
 	// Calc. delay time
-	stepsBetweenShotsLinear = slider.totalSteps / amount;
-	driveTimeBetweenShots = 1.25 * stepsBetweenShotsLinear; // ms               Step-Constant not correct yet
-	turnTimeBetweenShots = 1.25 * stepsBetweenShotsAngular; // ms 				Step-Constant not correct yet
+	stepsLinear = slider.totalSteps / amount;
+	driveTimeBetweenShots = 1.25 * stepsLinear; // ms               Step-Constant not correct yet
+	turnTimeBetweenShots = 1.25 * stepsAngular; // ms 				Step-Constant not correct yet
 	timeInMovement = driveTimeBetweenShots > turnTimeBetweenShots ? driveTimeBetweenShots : turnTimeBetweenShots; // ms
 
 	// Calc steps on turner
-	stepsBetweenShotsAngular = turner.totalSteps / amount;
-	stepsBetweenShots = stepsBetweenShotsLinear > stepsBetweenShotsAngular ? stepsBetweenShotsLinear : stepsBetweenShotsAngular;
+	stepsAngular = turner.totalSteps / amount;
+	stepsBetweenShots = stepsLinear > stepsAngular ? stepsLinear : stepsAngular;	
+
+	// Calc ramp
+	if (step.delay < MOTOR_MIN_DELAY)
+		step.delay = MOTOR_MIN_DELAY;
+	if (step.delay > MOTOR_MAX_DELAY)
+		step.delay = MOTOR_MAX_DELAY;
+
+	accelStepsLinear = (MOTOR_MAX_DELAY - step.delay) / MOTOR_ACCEL_STEP;
+	decelStepsLinear = (MOTOR_MAX_DELAY - step.delay) / MOTOR_DECEL_STEP;
+	accelStepsAngular = (MOTOR_MAX_DELAY - step.delay) / MOTOR_ACCEL_STEP;
+	decelStepsAngular = (MOTOR_MAX_DELAY - step.delay) / MOTOR_DECEL_STEP;
+
+	minStepsLinear = accelStepsLinear + decelStepsLinear;
+	minStepsAngular = accelStepsAngular + decelStepsAngular;
+
+	if (stepsBetweenShots - minStepsLinear < 0)
+	{
+		accelStepsLinear = decelStepsLinear = 0;
+		step.delay = MOTOR_MAX_DELAY;
+	}
+	else 
+	{
+		stepsBetweenShots -= minStepsLinear;
+	}
+
+	if (stepsBetweenShots - minStepsAngular < 0)
+	{
+		accelStepsAngular = decelStepsAngular = 0;
+		step.delay = MOTOR_MAX_DELAY;
+	}
+	else 
+	{
+		stepsBetweenShots -= minStepsAngular;
+	}
 
 	// And finally start
 	slider.zeroIsLeft ? PORTD &= ~_BV(PORTD3) : PORTD |= _BV(PORTD3);
 	turner.position1 > turner.position2 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
+
 	for (int j = 0; j < amount + 1; j++)
 	{
 		// Trigger camera
@@ -46,9 +83,17 @@ void run()
 		{
 			for (int i = 0; i < stepsBetweenShots; i++) 
 			{
-			    if (i < stepsBetweenShotsLinear)
+			    
+
+
+
+
+
+
+
+			    if (i < stepsLinear)
 				    PORTD |= _BV(PORTD4); // Linear HIGH
-				if (i < stepsBetweenShotsAngular)
+				if (i < stepsAngular)
 					PORTD |= _BV(PORTD7); // Angular HIGH
 				delayMicroseconds(motor.delay);
 			    PORTD &= ~_BV(PORTD4); // Linear LOW

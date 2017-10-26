@@ -79,6 +79,7 @@ void run()
 			delay(i + 1 == repeats ? 100 : d3lay);
 		}
 		// Drive & turn
+		enableMotors();
 		if (j < amount)
 		{
 			for (int i = 0; i < stepsBetweenShots; i++) 
@@ -105,10 +106,8 @@ void run()
 			else 
 				delay(500);
 		}
+		motor.locked ? enableMotors() : disableMotors();
 	}
-	disableMotors();
-	delay(50);
-	enableMotors();
 }
 
 void manualRun()
@@ -228,6 +227,7 @@ void enableMotors()
     PORTD &= ~_BV(PORTD4); // Step LOW
 	PORTD &= ~_BV(PORTD7); // Step LOW
 	motor.enabled = true;
+	delay(10);
 }
 
 void disableMotors()
@@ -235,4 +235,5 @@ void disableMotors()
 	PORTD &= ~_BV(PORTD2);
 	PORTD &= ~_BV(PORTD5);
 	motor.enabled = false;
+	delay(10);
 }

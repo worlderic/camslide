@@ -117,7 +117,7 @@ void printMenu()
 						lcd.setFont(1); // Bold
 						printString(lcdPhotoMenuSpeed00, 3, 0);
 						lcd.setFont(0); // Regular
-						camera.speed = printTextSelector(selector.index, 4, 4);
+						camera.speed = printSpeedSelector(selector.index, 4, 4);
 						break;
 					default:
 						lcd.setFont(1); // Bold
@@ -160,6 +160,7 @@ void printMenu()
 					printString(lcdUnitMillimeter, 13, 5);
 
 					printString(lcdSettingsMenu05, 0, 6);
+					motor.locked ? printString(lcdMenuOn, 12, 6) : printString(lcdMenuOff, 12, 6);
 
 					printVerticalSelector(settingsMenu.index, 0, 2, 6);
 				}
@@ -184,13 +185,7 @@ void printMenu()
 							printString(lcdUnitMillimeter, 11, 3);
 							break;
 						case 4:
-							lcd.setFont(1);
-							printString(lcdSettingsMenuReset00, 4, 0);
-							lcd.setFont(0);
-							printString(lcdSettingsMenuReset01, 0, 2);
-							printString(lcdSettingsMenuReset02, 0, 3);
-							printString(lcdSettingsMenuReset03, 0, 4);
-							printString(lcdSettingsMenuReset04, 4, 5);
+							// Nothing to do here
 							break;
 					}
 				}
@@ -216,7 +211,7 @@ void printVerticalSelector(int index, int lcdX, int lcdY, int blanc) // default 
 	index == blanc ? lcd.printChar('>', lcdX, lcdY + index + 1) : lcd.printChar('>', lcdX, lcdY + index);
 }
 
-int printTextSelector(int index, int lcdX, int lcdY)
+int printSpeedSelector(int index, int lcdX, int lcdY)
 {
 	switch (index) 
 	{

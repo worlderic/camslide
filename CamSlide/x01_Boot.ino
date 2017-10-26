@@ -67,6 +67,7 @@ void boot()
 	camera.autoFocus = false;
 
 	motor.enabled = false;
+	motor.locked = true;
 	motor.delay = MOTOR_DELAY; // µs
 
 	step.minDelay = MOTOR_MIN_DELAY; // µs

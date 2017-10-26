@@ -127,7 +127,7 @@ struct sliderData
 
 struct motorData
 {
-	boolean enabled;
+	boolean enabled, locked;
 	int delay, maxDelay, minDelay;
 } motor, step;
 

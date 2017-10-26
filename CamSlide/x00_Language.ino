@@ -80,13 +80,8 @@ PROGMEM const char lcdSettingsMenu01[] = " Enable";
 PROGMEM const char lcdSettingsMenu02[] = " Mir. Loc.";
 PROGMEM const char lcdSettingsMenu03[] = " Autofocus";
 PROGMEM const char lcdSettingsMenu04[] = " Length";
-PROGMEM const char lcdSettingsMenu05[] = " Reset";
+PROGMEM const char lcdSettingsMenu05[] = " Locked";
 PROGMEM const char lcdSettingsMenuLength[] = "LENGTH";
-PROGMEM const char lcdSettingsMenuReset00[] = "RESET";
-PROGMEM const char lcdSettingsMenuReset01[] = "Press A to";
-PROGMEM const char lcdSettingsMenuReset02[] = "reset all.";
-PROGMEM const char lcdSettingsMenuReset03[] = "Press B to";
-PROGMEM const char lcdSettingsMenuReset04[] = "cancel.";
 
 PROGMEM const char lcdRun00[] = "LAST CHECK";
 PROGMEM const char lcdRun01[] = "Est. run time:";

@@ -262,8 +262,10 @@ boolean setMenu()
 								for (int i = 0; i < 4; i++)
 									sliderPrev.length[i] = slider.length[i];
 								break;
-							case 4: // Reset
-								// Nothing to do here
+							case 4: // Lock
+								motor.locked = !motor.locked;
+								delay(200);
+								return(true);
 								break;	
 						}
 						lcd.clear();
@@ -305,16 +307,8 @@ boolean setMenu()
 								for (int i = 0; i < 4; i++)
 									slider.length[i] = sliderPrev.length[i];
 							break;
-						case 4: // Reset
-							if (controller.A)
-							{
-								EEPROM.write(EEPROM_fail, 0);
-								for (int i = 0; i < 4; i++)
-								{
-									//EEPROM.write(i + EEPROM_pos, 0);
-									EEPROM.write(i + EEPROM_length, 0);
-								}
-							}
+						case 4: // Locked
+							// Nothing to do here
 							break;
 					}
 

@@ -79,6 +79,7 @@ void run()
 			delay(i + 1 == repeats ? 100 : d3lay);
 		}
 		// Drive & turn
+		// Note: Angular turn doesn't need an acceleration ramps, due to its slow speed
 		enableMotors();
 		if (j < amount)
 		{
@@ -152,15 +153,16 @@ void manualRun()
 			PORTD &= ~_BV(PORTD7); // LOW
 			delayMicroseconds(map(abs(controller.X), 5, 100, step.maxDelay, step.minDelay));
 		}
-		else if (controller.Z)
+		// else if (controller.Z)
+		// {
+		// 	linearSelected = !linearSelected;
+		// }
+		else if (controller.A)
 		{
+			// PORTB |= _BV(PORTB4);
+			// delay(100);
+			// PORTB &= ~_BV(PORTB4);
 			linearSelected = !linearSelected;
-		}
-		else if (controller.A) // Take a photo
-		{
-			PORTB |= _BV(PORTB4);
-			delay(100);
-			PORTB &= ~_BV(PORTB4);
 		}
 	}
 }

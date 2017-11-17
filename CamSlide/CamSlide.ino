@@ -65,7 +65,7 @@
 
 // Define software
 #define MOTOR_DELAY 250
-#define MOTOR_MIN_DELAY	1500
+#define MOTOR_MIN_DELAY	1200
 #define MOTOR_MAX_DELAY	3500
 #define MOTOR_ACCEL_STEP 100
 #define MOTOR_DECEL_STEP 100

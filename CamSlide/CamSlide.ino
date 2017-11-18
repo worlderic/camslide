@@ -66,9 +66,9 @@
 // Define software
 #define MOTOR_DELAY 250
 #define MOTOR_MIN_DELAY	1200
-#define MOTOR_MAX_DELAY	4500
-#define MOTOR_ACCEL_STEP 200
-#define MOTOR_DECEL_STEP 200
+#define MOTOR_MAX_DELAY	5000
+#define MOTOR_ACCEL_STEP 100
+#define MOTOR_DECEL_STEP 100
 
 // Define hardware
 #define DRV8825_A_ENBL 2

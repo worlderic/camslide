@@ -7,10 +7,10 @@ void run()
 
 	long amount, distance, repeats, shutter, d3lay, stepsBetweenShots, stepsLinear, stepsAngular,
 		 driveTimeBetweenShots, turnTimeBetweenShots, timeInMovement, accelStepsLinear, accelStepsAngular, 
-		 decelStepsLinear, decelStepsAngular, minStepsLinear, minStepsAngular;
+		 decelStepsLinear, decelStepsAngular, minStepsLinear, minStepsAngular, runtime;
 
 	motor.delay = 250; // µs
-	step.delay = MOTOR_MIN_DELAY + (((MOTOR_MAX_DELAY - MOTOR_MIN_DELAY) / 5 ) * camera.speed); // µs
+	step.delay = MOTOR_MIN_DELAY + (((MOTOR_MAX_DELAY - MOTOR_MIN_DELAY) / 5 ) * (5 - camera.speed)); // µs
 
 	gotoZero(true);
 
@@ -65,7 +65,7 @@ void run()
 	}
 
 	// And finally start
-	slider.zeroIsLeft ? PORTD &= ~_BV(PORTD3) : PORTD |= _BV(PORTD3);
+	slider.zeroIsLeft ? PORTD |= _BV(PORTD3) : PORTD &= ~_BV(PORTD3);
 	turner.position1 > turner.position2 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
 
 	for (int j = 0; j < amount + 1; j++)
@@ -73,37 +73,84 @@ void run()
 		// Trigger camera
 		for (int i = 0; i < repeats; i++)
 		{
+			if (camera.mirrorLockup)
+			{
+				PORTB |= _BV(PORTB4);
+				delay(100);
+				PORTB &= ~_BV(PORTB4);
+				delay(1900);
+			}
 			PORTB |= _BV(PORTB4);
 			shutter == 0 ? delay(100) : delay(shutter);
 			PORTB &= ~_BV(PORTB4);
 			delay(i + 1 == repeats ? 100 : d3lay);
 		}
 		// Drive & turn
-		// Note: Angular turn doesn't need an acceleration ramps, due to its slow speed
+		// Note: Angular turn doesn't need an acceleration ramp due to its slow speed
 		enableMotors();
 		if (j < amount)
 		{
+			runtime = millis();
+			// for (int i = 0; i < accelStepsLinear; i++) 
+			// {
+			// 	PORTD |= _BV(PORTD4);
+			// 	if (i < stepsAngular)
+			// 		PORTD |= _BV(PORTD7);
+			// 	delayMicroseconds(motor.delay);
+			// 	PORTD &= ~_BV(PORTD4);
+			// 	PORTD &= ~_BV(PORTD7);
+			// 	delayMicroseconds(MOTOR_MAX_DELAY - (i * MOTOR_ACCEL_STEP));
+			// }
+			// for (int i = 0; i < stepsLinear; i++) 
+			// {
+			// 	PORTD |= _BV(PORTD4);
+			// 	if (i + accelStepsLinear < stepsAngular)
+			// 		PORTD |= _BV(PORTD7);
+			// 	delayMicroseconds(motor.delay);
+			// 	PORTD &= ~_BV(PORTD4);
+			// 	PORTD &= ~_BV(PORTD7);
+			// 	delayMicroseconds(step.delay);
+			// }
+			// for (int i = 0; i < decelStepsLinear; i++) 
+			// {
+			// 	PORTD |= _BV(PORTD4);
+			// 	if (i + accelStepsLinear + stepsLinear < stepsAngular)
+			// 		PORTD |= _BV(PORTD7);
+			// 	delayMicroseconds(motor.delay);
+			// 	PORTD &= ~_BV(PORTD4);
+			// 	PORTD &= ~_BV(PORTD7);
+			// 	delayMicroseconds(step.delay + (i * MOTOR_DECEL_STEP));
+			// }
+			// for (int i = 0; i < accelStepsLinear + stepsLinear + decelStepsLinear - stepsAngular)
+			// {
+			// 	PORTD |= _BV(PORTD7);
+			// 	delayMicroseconds(motor.delay);
+			// 	PORTD &= ~_BV(PORTD7);
+			// 	delayMicroseconds(step.delay);
+			// }
+
 			for (int i = 0; i < stepsBetweenShots; i++) 
 			{
-			    
-
-
-
-
-
-
-
 			    if (i < stepsLinear)
 				    PORTD |= _BV(PORTD4); // Linear HIGH
 				if (i < stepsAngular)
 					PORTD |= _BV(PORTD7); // Angular HIGH
 				delayMicroseconds(motor.delay);
-			    PORTD &= ~_BV(PORTD4); // Linear LOW
+				PORTD &= ~_BV(PORTD4); // Linear LOW
 				PORTD &= ~_BV(PORTD7); // Angular LOW
 				delayMicroseconds(step.delay);
 			}
-			if (d3lay - timeInMovement > 500)
-				delay(d3lay - timeInMovement);
+
+			// if (d3lay - timeInMovement > 500)
+			// 	delay(d3lay - timeInMovement);
+			// else 
+			// 	delay(500);
+
+			motor.locked ? enableMotors() : disableMotors();
+
+			runtime = millis() - runtime;
+			if (d3lay - runtime > 500)
+				delay(d3lay - runtime);
 			else 
 				delay(500);
 		}
@@ -122,13 +169,13 @@ void manualRun()
 		{
 			selDirR = true;
 			PORTD |= _BV(PORTD3);
-			PORTD |= _BV(PORTD6);
+			PORTD &= ~_BV(PORTD6);
 		}
 		else 
 		{
 			selDirR = false;
 			PORTD &= ~_BV(PORTD3);
-			PORTD &= ~_BV(PORTD6);
+			PORTD |= _BV(PORTD6);
 		}
 
 		if (!digitalRead(Sensor))
@@ -165,13 +212,14 @@ void manualRun()
 			linearSelected = !linearSelected;
 		}
 	}
+	motor.locked ? enableMotors() : disableMotors();
 }
 
 void gotoZero(boolean turnerToStartPos)
 {
 	int turnerTicks = 0;
 	enableMotors();
-	slider.zeroIsLeft ? PORTD |= _BV(PORTD3) : PORTD &= ~_BV(PORTD3);
+	slider.zeroIsLeft ? PORTD &= ~_BV(PORTD3) : PORTD |= _BV(PORTD3);
 	if (turnerToStartPos)
 	{
 		turner.absPos > turner.position1 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
@@ -199,7 +247,7 @@ void gotoZero(boolean turnerToStartPos)
 		delayMicroseconds(step.minDelay);
 	}
 	delay(100);
-	slider.zeroIsLeft ? PORTD &= ~_BV(PORTD3) : PORTD |= _BV(PORTD3);
+	slider.zeroIsLeft ? PORTD |= _BV(PORTD3) : PORTD &= ~_BV(PORTD3);
 	while (!digitalRead(Sensor))
 	{
 	    PORTD |= _BV(PORTD4); // HIGH
@@ -210,6 +258,7 @@ void gotoZero(boolean turnerToStartPos)
 	delay(100);
 	slider.position1 = 0;
 	slider.position2 = 0;
+	motor.locked ? enableMotors() : disableMotors();
 }
 
 float stepsToMillimeter(int steps)

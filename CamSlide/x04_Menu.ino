@@ -75,6 +75,7 @@ boolean setMenu()
 						break;
 					case 2: // Set angle 1
 						turner.position1 = turner.absPos;
+						PORTD |= _BV(PORTD5);
 						while (!controller.A && !controller.B)
 						{
 							getControllerData(true);
@@ -82,12 +83,12 @@ boolean setMenu()
 							{
 								if (controller.X > 0)
 								{
-									PORTD |= _BV(PORTD6);
+									PORTD &= ~_BV(PORTD6);
 									turner.position1++;
 								}
 								else 
 								{
-									PORTD &= ~_BV(PORTD6);
+									PORTD |= _BV(PORTD6);
 									turner.position1--;	
 								}
 								PORTD |= _BV(PORTD7); // HIGH
@@ -105,22 +106,24 @@ boolean setMenu()
 						{
 							lcd.clear();
 							controller.A ? photoMenu.index++ : photoMenu.index = 0;
+							motor.locked ? enableMotors() : disableMotors();
 						}
 						break;
 					case 3: // Set length
+						PORTD |= _BV(PORTD2);
 						while (!controller.A && !controller.B)
 						{
 							getControllerData(true);
 							if (abs(controller.X) > 5)
 							{
 								if (controller.X > 0)
-								{
-									PORTD &= ~_BV(PORTD3);									
+								{								
+									PORTD |= _BV(PORTD3);
 									slider.zeroIsLeft ? slider.position2++ : slider.position2--;
 								}
 								else 
 								{
-									PORTD |= _BV(PORTD3);
+									PORTD &= ~_BV(PORTD3);	
 									slider.zeroIsLeft ? slider.position2-- : slider.position2++;	
 								}
 								PORTD |= _BV(PORTD4); // HIGH
@@ -140,6 +143,7 @@ boolean setMenu()
 						break;
 					case 4: // Set angle 2
 						turner.position2 = turner.absPos;
+						PORTD |= _BV(PORTD5);
 						while (!controller.A && !controller.B)
 						{
 							getControllerData(true);
@@ -147,12 +151,12 @@ boolean setMenu()
 							{
 								if (controller.X > 0)
 								{
-									PORTD |= _BV(PORTD6);
+									PORTD &= ~_BV(PORTD6);
 									turner.position2++;
 								}
 								else 
 								{
-									PORTD &= ~_BV(PORTD6);
+									PORTD |= _BV(PORTD6);
 									turner.position2--;	
 								}
 								PORTD |= _BV(PORTD7); // HIGH
@@ -364,6 +368,7 @@ void standardOnControllerAB()
 	{
 		lcd.clear();
 		controller.A ? photoMenu.index++ : photoMenu.index--;
+		motor.locked ? enableMotors() : disableMotors();
 	}
 }
 

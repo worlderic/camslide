@@ -67,6 +67,7 @@ void run()
 	// And finally start
 	slider.zeroIsLeft ? PORTD |= _BV(PORTD3) : PORTD &= ~_BV(PORTD3);
 	turner.position1 > turner.position2 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
+	turner.absPos = turner.position2;
 
 	for (int j = 0; j < amount + 1; j++)
 	{
@@ -88,6 +89,7 @@ void run()
 		// Drive & turn
 		// Note: Angular turn doesn't need an acceleration ramp due to its slow speed
 		enableMotors();
+		delay(50);
 		if (j < amount)
 		{
 			runtime = millis();

@@ -37,6 +37,13 @@ PROGMEM const char lcdPhotoMenuZero04[] = "either to the";
 PROGMEM const char lcdPhotoMenuZero05[] = "left or to the";
 PROGMEM const char lcdPhotoMenuZero06[] = "right side.";
 
+PROGMEM const char lcdSensorError00[] = "Sensor is not";
+PROGMEM const char lcdSensorError01[] = "responding.";
+PROGMEM const char lcdSensorError02[] = "Do not start";
+PROGMEM const char lcdSensorError03[] = "a run or you";
+PROGMEM const char lcdSensorError04[] = "may damage the";
+PROGMEM const char lcdSensorError05[] = "slider!";
+
 PROGMEM const char lcdPhotoMenuZero10[] = "GOING TO ZERO";
 PROGMEM const char lcdPhotoMenuZero11[] = "Please wait";
 PROGMEM const char lcdPhotoMenuZero12[] = "while the slider";
@@ -45,6 +52,9 @@ PROGMEM const char lcdPhotoMenuZero14[] = "start position.";
 
 PROGMEM const char lcdPhotoMenuAngle00[] = "SELECT ANGLE 1";
 PROGMEM const char lcdPhotoMenuLength00[] = "SELECT LENGTH";
+PROGMEM const char lcdPhotoMenuLength01[] = "Calculating the";
+PROGMEM const char lcdPhotoMenuLength02[] = "steps per";
+PROGMEM const char lcdPhotoMenuLength03[] = "millimeter ...";
 PROGMEM const char lcdPhotoMenuAngle10[] = "SELECT ANGLE 2";
 PROGMEM const char lcdPhotoMenuAmount00[] = "SET AMOUNT";
 PROGMEM const char lcdPhotoMenuRepeats00[] = "SET REPEATS";

@@ -105,6 +105,11 @@
 #define EEPROM_LSB_ctrlMinY	0x0F
 #define EEPROM_MSB_ctrlMaxY 0x10
 #define EEPROM_LSB_ctrlMaxY	0x11
+#define EEPROM_MSB_transmission 0x12
+#define EEPROM_LSB_transmission 0x13
+#define EEPROM_mirrorLockup 0x14
+#define EEPROM_autoFocus 0x15
+#define EEPROM_motorLocked 0x16
 
 struct inputData
 {

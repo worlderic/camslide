@@ -3,9 +3,6 @@
 // #####################################################################################################################
 void boot()
 {
-	slider.transmission = 0.005;
-	turner.transmission = 0.0225;
-
 	lcd.init(true);
 	lcd.rotateDisplay180();
 	//lcd.drawBitmap(bootscreen, 0, 0, 16, 8);
@@ -51,10 +48,13 @@ void boot()
 		camera.shutter[i] = 0;
 		camera.delay[i] = 0;
 	}
+
+	slider.transmission = ((EEPROM.read(EEPROM_MSB_transmission) << 8) | EEPROM.read(EEPROM_LSB_transmission)) / 100; // steps/mm
 	slider.position1 = -1; // -1 means the position is unclear
 	slider.position2 = 0;
 	slider.zeroIsLeft = true;
 
+	turner.transmission = 38.25; // steps/deg    13772
 	turner.position1 = 0;
 	turner.position2 = 0;
 	turner.absPos = 0;
@@ -63,11 +63,11 @@ void boot()
 	camera.repeats[3] = 1;
 	camera.travelDistance = 0;
 	camera.distancePerShot = 0;
-	camera.mirrorLockup = false;
-	camera.autoFocus = false;
+	camera.mirrorLockup = EEPROM.read(EEPROM_mirrorLockup) == 1 ? true : false;
+	camera.autoFocus = EEPROM.read(EEPROM_autoFocus) == 1 ? true : false;
 
 	motor.enabled = false;
-	motor.locked = true;
+	motor.locked = EEPROM.read(EEPROM_motorLocked) == 1 ? true : false;
 	motor.delay = MOTOR_DELAY; // µs
 
 	step.minDelay = MOTOR_MIN_DELAY; // µs
@@ -76,6 +76,19 @@ void boot()
 	mainMenu.maxIndex = 2;
 	photoMenu.maxIndex = 0; // Irellevant
 	settingsMenu.maxIndex = 4;
+
+	// Check sensor
+	if (!digitalRead(Sensor))
+	{
+		lcd.clear();
+		printString(lcdSensorError00, 0, 0);
+		printString(lcdSensorError01, 0, 1);
+		printString(lcdSensorError02, 0, 3);
+		printString(lcdSensorError03, 0, 4);
+		printString(lcdSensorError04, 0, 5);
+		printString(lcdSensorError05, 0, 6);
+		delay(6000);
+	}
 
 	unactiveAll();
 	printMenu();

@@ -68,7 +68,7 @@ boolean setMenu()
 						}
 						break;
 					case 1: // Goto zero
-						gotoZero(false);
+						gotoZero(false, 2);
 						photoMenu.index++;
 						lcd.clear();
 						printMenu();
@@ -254,11 +254,13 @@ boolean setMenu()
 								return(true);
 							case 1: // Mirror lockup
 								camera.mirrorLockup = !camera.mirrorLockup;
+								EEPROM.write(EEPROM_mirrorLockup, camera.mirrorLockup ? byte(1) : byte(0));
 								delay(200);
 								return(true);
 								break;
 							case 2: // Autofocus
 								camera.autoFocus = !camera.autoFocus;
+								EEPROM.write(EEPROM_autoFocus, camera.autoFocus ? 1 : 0);
 								delay(200);
 								return(true);
 								break;
@@ -268,6 +270,7 @@ boolean setMenu()
 								break;
 							case 4: // Lock
 								motor.locked = !motor.locked;
+								EEPROM.write(EEPROM_motorLocked, motor.locked ? 1 : 0);
 								delay(200);
 								return(true);
 								break;	
@@ -291,13 +294,10 @@ boolean setMenu()
 					switch (settingsMenu.index)
 					{
 						case 0: // En/Disable Stepper
-							// Nothing to do here
 							break;
-						case 1: // Mirror lockup
-							// Nothing to do here
+						case 1: // Mirror lockup								
 							break;
-						case 2: // Autofocus
-							// Nothing to do here
+						case 2: // Autofocus								
 							break;
 						case 3: // Set length
 							if (up)
@@ -305,14 +305,44 @@ boolean setMenu()
 							if (down)
 								slider.length[selector.index] - 1 < 0 ? slider.length[selector.index] = 9 : slider.length[selector.index] --;
 							if (controller.A)
+							{
+								lcd.clear();
+								lcd.setFont(1);
+								printString(lcdPhotoMenuLength00, 1, 0);
+								lcd.setFont(0);
+								printString(lcdPhotoMenuLength01, 0, 2);
+								printString(lcdPhotoMenuLength02, 0, 3);
+								printString(lcdPhotoMenuLength03, 0, 4);
+								// Now go from zero A to zero B to get the amount of steps per mm
+								unsigned long ticks = 0;
+								slider.zeroIsLeft = true;
+								gotoZero(false, 1);
+								PORTD |= _BV(PORTD2);
+								PORTD |= _BV(PORTD3);
+								while (digitalRead(Sensor))
+								{
+									PORTD |= _BV(PORTD4);
+									delayMicroseconds(motor.delay);
+									PORTD &= ~_BV(PORTD4);
+									delayMicroseconds(step.minDelay);
+									ticks++;
+								}
+								slider.zeroIsLeft = false;
+								gotoZero(false, 1);
+								disableMotors();
+
+								slider.transmission = ticks / arrayToInt(slider.length); // steps/mm
+
+								EEPROM.write(EEPROM_MSB_transmission, (int(slider.transmission * 100) >> 8) & 0xFF);
+								EEPROM.write(EEPROM_LSB_transmission, (int(slider.transmission * 100)) & 0xFF);
 								for (int i = 0; i < 4; i++)
 									EEPROM.write(i + EEPROM_length, slider.length[i]);
+							}
 							if (controller.B)
 								for (int i = 0; i < 4; i++)
 									slider.length[i] = sliderPrev.length[i];
 							break;
 						case 4: // Locked
-							// Nothing to do here
 							break;
 					}
 
@@ -390,6 +420,4 @@ void zeroAll()
 		camera.shutter[i] = 0;
 		camera.delay[i] = 0;
 	}
-	camera.mirrorLockup = false;
-	camera.autoFocus = false;
 }

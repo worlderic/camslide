@@ -12,7 +12,7 @@ void run()
 	motor.delay = 250; // µs
 	step.delay = MOTOR_MIN_DELAY + (((MOTOR_MAX_DELAY - MOTOR_MIN_DELAY) / 5 ) * (5 - camera.speed)); // µs
 
-	gotoZero(true);
+	gotoZero(true, 2);
 
 	// Prepare for working routine
 	amount = arrayToInt(camera.amount); // 1
@@ -212,7 +212,7 @@ void manualRun()
 	motor.locked ? enableMotors() : disableMotors();
 }
 
-void gotoZero(boolean turnerToStartPos)
+void gotoZero(boolean turnerToStartPos, byte multiplicator)
 {
 	int turnerTicks = 0;
 	enableMotors();
@@ -241,7 +241,7 @@ void gotoZero(boolean turnerToStartPos)
 		delayMicroseconds(motor.delay);
 		PORTD &= ~_BV(PORTD4); // LOW
 		PORTD &= ~_BV(PORTD7); // LOW
-		delayMicroseconds(step.minDelay * 2);
+		delayMicroseconds(step.minDelay * multiplicator);
 	}
 	delay(100);
 	slider.zeroIsLeft ? PORTD |= _BV(PORTD3) : PORTD &= ~_BV(PORTD3);
@@ -260,12 +260,12 @@ void gotoZero(boolean turnerToStartPos)
 
 float stepsToMillimeter(int steps)
 {
-	return (steps * slider.transmission);
+	return (steps / slider.transmission);
 }
 
 float stepsToDegrees(int steps)
 {
-	return (steps * turner.transmission);
+	return (steps / turner.transmission);
 }
 
 void enableMotors()

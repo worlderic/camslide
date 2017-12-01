@@ -38,11 +38,11 @@ void run()
 
 	accelStepsLinear = (MOTOR_MAX_DELAY - step.delay) / MOTOR_ACCEL_STEP;
 	decelStepsLinear = (MOTOR_MAX_DELAY - step.delay) / MOTOR_DECEL_STEP;
-	accelStepsAngular = (MOTOR_MAX_DELAY - step.delay) / MOTOR_ACCEL_STEP;
-	decelStepsAngular = (MOTOR_MAX_DELAY - step.delay) / MOTOR_DECEL_STEP;
+	// accelStepsAngular = (MOTOR_MAX_DELAY - step.delay) / MOTOR_ACCEL_STEP;
+	// decelStepsAngular = (MOTOR_MAX_DELAY - step.delay) / MOTOR_DECEL_STEP;
 
 	minStepsLinear = accelStepsLinear + decelStepsLinear;
-	minStepsAngular = accelStepsAngular + decelStepsAngular;
+	//minStepsAngular = accelStepsAngular + decelStepsAngular;
 
 	if (stepsBetweenShots - minStepsLinear < 0)
 	{
@@ -54,22 +54,27 @@ void run()
 		stepsBetweenShots -= minStepsLinear;
 	}
 
-	if (stepsBetweenShots - minStepsAngular < 0)
-	{
-		accelStepsAngular = decelStepsAngular = 0;
-		step.delay = MOTOR_MAX_DELAY;
-	}
-	else 
-	{
-		stepsBetweenShots -= minStepsAngular;
-	}
+	// if (stepsBetweenShots - minStepsAngular < 0)
+	// {
+	// 	accelStepsAngular = decelStepsAngular = 0;
+	// 	step.delay = MOTOR_MAX_DELAY;
+	// }
+	// else 
+	// {
+	// 	stepsBetweenShots -= minStepsAngular;
+	// }
+
+	Serial.print("Total steps: ");
+	Serial.println(slider.totalSteps);
+	Serial.print("Total steps calc: ");
+	Serial.println(int((stepsBetweenShots + accelStepsLinear + decelStepsLinear) * amount));
 
 	// And finally start
 	slider.zeroIsLeft ? PORTD |= _BV(PORTD3) : PORTD &= ~_BV(PORTD3);
 	turner.position1 > turner.position2 ? PORTD |= _BV(PORTD6) : PORTD &= ~_BV(PORTD6);
 	turner.absPos = turner.position2;
 
-	for (int j = 0; j < amount + 1; j++)
+	for (int j = 0; j < amount; j++)
 	{
 		// Trigger camera
 		for (int i = 0; i < repeats; i++)
@@ -261,6 +266,11 @@ void gotoZero(boolean turnerToStartPos, byte multiplicator)
 float stepsToMillimeter(int steps)
 {
 	return (steps / slider.transmission);
+}
+
+float millimeterToSteps(int millimeter)
+{
+	return (millimeter * slider.transmission);
 }
 
 float stepsToDegrees(int steps)

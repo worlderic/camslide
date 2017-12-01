@@ -117,28 +117,28 @@ boolean setMenu()
 							if (abs(controller.X) > 5)
 							{
 								if (controller.X > 0)
-								{								
+								{
 									PORTD |= _BV(PORTD3);
 									slider.zeroIsLeft ? slider.position2++ : slider.position2--;
 								}
 								else 
 								{
 									PORTD &= ~_BV(PORTD3);	
-									slider.zeroIsLeft ? slider.position2-- : slider.position2++;	
+									slider.zeroIsLeft ? slider.position2-- : slider.position2++;
 								}
 								PORTD |= _BV(PORTD4); // HIGH
 							    delayMicroseconds(motor.delay);
 							    PORTD &= ~_BV(PORTD4); // LOW
-							    delayMicroseconds(map(abs(controller.X), 5, 100, 3000, 1500));
+							    delayMicroseconds(map(abs(controller.X), 5, 100, MOTOR_MAX_DELAY, MOTOR_MIN_DELAY));
 							}
 							else
 							{
 								printBuffer((int)stepsToMillimeter(slider.position2), 4, 5, true);
 							}
 						}
-						slider.totalSteps = abs(slider.position2 - slider.position1);
+						slider.totalSteps = abs(slider.position2); //abs(slider.position2 - slider.position1);
 						camera.travelDistance = stepsToMillimeter(slider.totalSteps);
-						camera.distancePerShot = (camera.travelDistance / arrayToInt(camera.amount));
+						//camera.distancePerShot = (camera.travelDistance / arrayToInt(camera.amount));
 						standardOnControllerAB();
 						break;
 					case 4: // Set angle 2

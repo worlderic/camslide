@@ -108,7 +108,7 @@ void run()
 				PORTD &= ~_BV(PORTD7);
 				delayMicroseconds(MOTOR_MAX_DELAY - (i * MOTOR_ACCEL_STEP));
 			}
-			for (int i = 0; i < stepsLinear; i++) 
+			for (int i = 0; i < (stepsLinear - accelStepsLinear - decelStepsLinear); i++) 
 			{
 				PORTD |= _BV(PORTD4);
 				if (i + accelStepsLinear < stepsAngular)
@@ -234,10 +234,14 @@ void gotoZero(boolean turnerToStartPos, byte multiplicator)
 		turnerTicks = abs(turner.absPos);
 		turner.absPos = 0;
 	}
+	slider.totalSteps = 0;
 	while (digitalRead(Sensor) || turnerTicks > 0)
 	{
 		if (digitalRead(Sensor))
+		{
+			slider.totalSteps++;
 			PORTD |= _BV(PORTD4); // HIGH
+		}
 		if (turnerTicks > 0)
 		{
 			PORTD |= _BV(PORTD7); // HIGH
